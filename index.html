@@ -162,6 +162,135 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-后端开发前你需要了解的JavaSe知识-01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/12/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%89%8D%E4%BD%A0%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84JavaSe%E7%9F%A5%E8%AF%86-01/">JavaSe-01</a>
+    </h1>
+  
+
+        
+        <a href="/2021/01/12/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%89%8D%E4%BD%A0%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84JavaSe%E7%9F%A5%E8%AF%86-01/" class="archive-article-date">
+  	<time datetime="2021-01-12T06:58:46.743Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="后端开发前你需要了解的JavaSe知识-01"><a href="#后端开发前你需要了解的JavaSe知识-01" class="headerlink" title="后端开发前你需要了解的JavaSe知识-01"></a>后端开发前你需要了解的JavaSe知识-01</h1><p><del>首先配置JDK和下载idea</del></p>
+<p>大家不要太学了,给大家推荐个视频:</p>
+<iframe src="//player.bilibili.com/player.html?aid=582774580&bvid=BV1n64y1T7Wc&cid=178495636&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+<h2 id="面向对象的思想"><a href="#面向对象的思想" class="headerlink" title="面向对象的思想:"></a>面向对象的思想:</h2><h3 id="1、面向对象"><a href="#1、面向对象" class="headerlink" title="1、面向对象"></a>1、面向对象</h3><p><strong>EveryThing Is Object。</strong><br>面向对象是一种程序设计思想，计算机程序的设计实质上就是将现实中的一些事物的特征抽离出来描述成一些计算机事件的过程，这种抽象的过程中，我们把具体的事物封装成一个一个的整体进行描述，使被描述的对象具备一些系统性、整体性的的行为和特征，我们把这种设计思想称为面向对象。</p>
+<h2 id="2、面向对象与面向过程"><a href="#2、面向对象与面向过程" class="headerlink" title="2、面向对象与面向过程"></a>2、面向对象与面向过程</h2><p>2.1、面向过程是早期的程序语言设计思想，该思想强调事物的行为细节，即程序的设计不需要封装成一个个的整体，而是将整个程序描述成一个行为，所有行为细节都按照固定方式一步一步的执行，执行程序就是执行某一行为的过程。<br>2.2、面向对象和面向过程都是一种思想，面向对象是相对于面向过程而言的，<br>面向过程强调的是具体的功能行为，而面向对象将功能封装进对象，强调具备了功能的对象，面向对象是基于面向过程的，但面向对象思想更接近于现实场景。</p>
+<p>示例代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> wizzWinterCamp;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> liqiqi_tql</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2021/1/12 -13:08</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">man</span> </span>&#123;</span><br><span class="line"><span class="comment">//    名字</span></span><br><span class="line">    String name;</span><br><span class="line"><span class="comment">//    血量</span></span><br><span class="line">    <span class="keyword">float</span> hp;</span><br><span class="line"><span class="comment">//    身高</span></span><br><span class="line">    <span class="keyword">float</span> stature;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">study</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;冬令营疯狂学习中...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面,man就是这个类的名称,name,hp,stature是类的属性,属性可以是基本类型,例如int,float…也可以是类类型,例如String.</p>
+<p>man在上面有一个自己的方法,就是study.</p>
+<h2 id="关于变量是什么"><a href="#关于变量是什么" class="headerlink" title="关于变量是什么"></a>关于变量是什么</h2><p>变量的定义是： 用来命名一个数据的标识符</p>
+<p>int year =2002</p>
+<p>//year就是一个变量,表示2002这个值</p>
+<p>这八种基本类型分别是：<br>整型 （4种）<br>字符型 （1种）<br>浮点型 （2种）<br>布尔型（1种）</p>
+<p>具体Google.</p>
+<p>一些小例子:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> wizzwintercamp</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> liqiqi_tql</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2021/1/12 -13:27</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorld</span></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">      <span class="keyword">byte</span> b = <span class="number">1</span>;</span><br><span class="line">      <span class="keyword">short</span> s = <span class="number">200</span>;</span><br><span class="line">      <span class="keyword">int</span> i = <span class="number">300</span>;</span><br><span class="line">      <span class="keyword">long</span> l = <span class="number">400</span>;</span><br><span class="line"></span><br><span class="line">      <span class="comment">/*如果试图给byte类型的变量赋予超出其范围的值，就会产生编译错误 同理 char类型只能存一位字符,两位则会造成编译错误*/</span></span><br><span class="line">      <span class="keyword">byte</span> b2 = <span class="number">200</span>;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="STRING"><a href="#STRING" class="headerlink" title="STRING"></a>STRING</h2><p>String类型其实<strong>并不是基本类型</strong>，但是它是如此广泛的被使用，常常被误以为是一种基本类型。<br>String类型是Immutable的，一旦创建就不能够被改变.</p>
+<p>一些变量的命名,希望大家可以使用驼峰命名的方式,这样非常简单易懂.</p>
+<h2 id="变量的作用域"><a href="#变量的作用域" class="headerlink" title="变量的作用域"></a>变量的作用域</h2><p>当一个变量被声明在类下面<br>变量就叫做<strong>字段</strong> 或者<strong>属性</strong>、<strong>成员变量</strong>、<strong>Field</strong><br>比如变量i,就是一个属性。<br>那么从第2行这个变量声明的位置开始，整个类都可以访问得到<br>所以其作用域就是从其声明的位置开始的整个类</p>
+<p>就比如上面man这个类</p>
+<p>我们定义了一些属性之后直接可以写几个方法来访问他们:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">myHp</span><span class="params">()</span></span>&#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;我还有多少血啊~~~ &quot;</span>+hp); <span class="comment">//myHp里可以访问hp</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>方法的参数:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public void paramMethod(int i)&#123;</span><br><span class="line">    System.out.println(&quot;我随便输了个i~~~ &quot;+i); &#x2F;&#x2F;这个方法可以访问i,但是出了这个方法的作用域就不能访问了.</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="FINAL"><a href="#FINAL" class="headerlink" title="FINAL:"></a>FINAL:</h3><p>final 修饰一个变量，有很多种说法，比如不能改变等等<br>准确的描述是 当一个变量被final修饰的时候，该变量<strong>只有一次赋值的机会</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">final int i&#x3D;5;</span><br><span class="line"></span><br><span class="line">i&#x3D;4;&#x2F;&#x2F;这里再赋值会编译错误</span><br></pre></td></tr></table></figure>
+<h2 id="控制流程"><a href="#控制流程" class="headerlink" title="控制流程:"></a>控制流程:</h2><p>总之大家学C的时候使用if switch while for continue break 肯定十分熟练,这里再把C的形式换成JAVA的即可.</p>
+<p>po一发switch的 太久没用:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span>(day)&#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        System.out.println(<span class="string">&quot;星期一&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        System.out.println(<span class="string">&quot;星期二&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">        System.out.println(<span class="string">&quot;星期三&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">        System.out.println(<span class="string">&quot;星期四&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">        System.out.println(<span class="string">&quot;星期五&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">6</span>:</span><br><span class="line">        System.out.println(<span class="string">&quot;星期六&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">7</span>:</span><br><span class="line">        System.out.println(<span class="string">&quot;星期天&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">        System.out.println(<span class="string">&quot;这个是什么鬼？&quot;</span>);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="接口"><a href="#接口" class="headerlink" title="接口:"></a>接口:</h2><p>这一部分在开发阶段就很重要了,大家<del>没事的时候</del>想管理好项目的一些方法的时候都会写很多接口来实现.</p>
+<p>我们经常听到:”啊 我那个项目用了#{某大厂}的接口”</p>
+<p>这种话 都会觉得不明觉厉 然后开始orz那个人</p>
+<p>但是其实那个接口应该更准确来讲是叫API 这部分要讲的接口是interface</p>
+<p><strong>接口就像是一种约定</strong>，我们约定某个人是卑微后端，那么他们就一定只能是后端。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> charactor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Backender</span> </span>&#123;</span><br><span class="line">        <span class="comment">//只能写后端了</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onlyBE</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后当一个类去实现这个接口的时候,就可以override这个接口的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> charactor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Yxr</span> <span class="keyword">implements</span> <span class="title">Backender</span></span>&#123;</span><br><span class="line"><span class="comment">//最好加上这个注解,表示实现了这个接口里面的某个方法</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onlyBE</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;这个人只会后端&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然,现实生活中往往有大佬可以做到fullStack,我们为之就有一位@czr 大家可以去发现哪一个人是他然后去<del>和他贴贴</del>和他交流他怎么这么大佬.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> charactor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Frontender</span> </span>&#123;</span><br><span class="line">        <span class="comment">//只能写前端了</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onlyFE</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当我们都是czr时,我们的技能树就可以这样点:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> charactor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">czr</span> <span class="keyword">implements</span> <span class="title">Backender</span>,<span class="title">Frontender</span></span>&#123;</span><br><span class="line"><span class="comment">//最好加上这个注解,表示实现了这个接口里面的某个方法</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onlyBE</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;这个人只会后端&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onlyBE</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;这个人只会前端&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是现实是残酷的,czr已经开始广泛涉猎图形学以及算法相关的知识了…快去和他<del>贴贴</del></p>
+<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><p>操作符的多态<br>+ 可以作为算数运算，也可以作为字符串连接</p>
+<p>类的多态<br>父类引用指向子类对象</p>
+<h2 id="面试的一个考点-向下转型和向上转型"><a href="#面试的一个考点-向下转型和向上转型" class="headerlink" title="面试的一个考点:向下转型和向上转型"></a>面试的一个考点:向下转型和向上转型</h2><p>老知乎人推荐你们看一篇:</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34026164">关于转型</a></p>
+<p><strong>总结：</strong></p>
+<p><strong>1。父类引用指向子类对象，而子类引用不能指向父类对象。</strong></p>
+<p><strong>2。把子类对象直接赋给父类引用叫upcasting向上转型，向上转型不用强制转换。</strong></p>
+<p><strong>如：Father f1 = new Son();</strong></p>
+<p><strong>3。把指向子类对象的父类引用赋给子类引用叫向下转型(downcasting)，要强制转换。</strong></p>
+<p><strong>如：f1 就是一个指向子类对象的父类引用。把f1赋给子类引用s1即 Son s1 = (Son)f1；</strong></p>
+<p><strong>其中f1前面的(Son)必须加上，进行强制转换。</strong></p>
+<h3 id="一些比较折磨人的点"><a href="#一些比较折磨人的点" class="headerlink" title="一些比较折磨人的点:"></a>一些比较折磨人的点:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class HelloWord &#123;   </span><br><span class="line"></span><br><span class="line"> *&#x2F;&#x2F;执行结果是？*   </span><br><span class="line"></span><br><span class="line"> public static void main(String[] args)&#123;    </span><br><span class="line"></span><br><span class="line">   short a &#x3D;1;    </span><br><span class="line"></span><br><span class="line">​    a &#x3D; a+1; </span><br><span class="line"></span><br><span class="line">​      System.out.print(a);    </span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>以上code会编译错误,因为第9行 a=a+1 1是整形类型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWord</span> </span>&#123;   </span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;    </span><br><span class="line"></span><br><span class="line">   <span class="keyword">short</span> a =<span class="number">1</span>;    </span><br><span class="line"></span><br><span class="line">   <span class="keyword">short</span> b =<span class="number">1</span>; </span><br><span class="line"></span><br><span class="line">   <span class="keyword">short</span> c = a+b;      </span><br><span class="line"></span><br><span class="line"> System.out.print(c);   </span><br><span class="line"></span><br><span class="line"> &#125; </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上code依旧会报错 </p>
+<p><strong>精度小于int的数值运算的时候都回被自动转换为int后进行计算;</strong></p>
+<p>正确写法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWord</span> </span>&#123;   </span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;       </span><br><span class="line"></span><br><span class="line"><span class="keyword">short</span> a =<span class="number">1</span>;   </span><br><span class="line"></span><br><span class="line"><span class="keyword">short</span> b =<span class="number">1</span>;    </span><br><span class="line"></span><br><span class="line"> <span class="keyword">short</span> c = (<span class="keyword">short</span>)(a+b);   </span><br><span class="line"></span><br><span class="line"> System.out.print(c);    &#125; </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/javahr/p/8320566.html">关于更多类型转换,可以看看这篇文章</a></p>
+<h2 id="END"><a href="#END" class="headerlink" title="END"></a>END</h2><p>se部分的01就写到这里,相信再没几个篇章就可以去看看spring家族了.</p>
+<p>se这部分身为基础还是很重要的,写一写这些知识对大家有用的话就很不错啦!</p>
+<p>web开发还需要一些网络相关的知识,学有余力的同学可以提前看看.</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/01/12/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%89%8D%E4%BD%A0%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84JavaSe%E7%9F%A5%E8%AF%86-01/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-为之2021后端冬令营前言" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
