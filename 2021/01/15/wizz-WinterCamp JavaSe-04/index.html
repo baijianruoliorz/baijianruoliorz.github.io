@@ -6,15 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives: 2021 | Blog-WIZZBEWINTERCAMP</title>
+  <title>JavaSe-04 | Blog-WIZZBEWINTERCAMP</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="just a gopher">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Blog-WIZZBEWINTERCAMP">
-<meta property="og:url" content="http://example.com/archives/2021/index.html">
+  <meta name="description" content="JavaSe-04文章写多了发现这个theme有点不太好找之前的文章 所以现在点击左侧的所有文章就可以看到文章的归档啦 真的是毫无用处的小更新 我说年轻人先别着急开始今天的学习 不如先看一段宅舞吧!    HashMapHashMap可以说是面试的常客了 同理它的升级版CurrentHashMap也需要重点当做突击面试的对象 HashMap的储值方式-键值对 1234567891011121314">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaSe-04">
+<meta property="og:url" content="http://example.com/2021/01/15/wizz-WinterCamp%20JavaSe-04/index.html">
 <meta property="og:site_name" content="Blog-WIZZBEWINTERCAMP">
-<meta property="og:description" content="just a gopher">
+<meta property="og:description" content="JavaSe-04文章写多了发现这个theme有点不太好找之前的文章 所以现在点击左侧的所有文章就可以看到文章的归档啦 真的是毫无用处的小更新 我说年轻人先别着急开始今天的学习 不如先看一段宅舞吧!    HashMapHashMap可以说是面试的常客了 同理它的升级版CurrentHashMap也需要重点当做突击面试的对象 HashMap的储值方式-键值对 1234567891011121314">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-15T05:48:09.817Z">
+<meta property="article:modified_time" content="2021-01-15T05:48:40.253Z">
 <meta property="article:author" content="baijianruoliorz">
 <meta property="article:tag" content="Vue">
 <meta property="article:tag" content="github">
@@ -160,184 +162,217 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-wizz-WinterCamp JavaSe-04" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      JavaSe-04
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/15/wizz-WinterCamp%20JavaSe-04/" class="archive-article-date">
+
+        
+        <a href="/2021/01/15/wizz-WinterCamp%20JavaSe-04/" class="archive-article-date">
   	<time datetime="2021-01-15T05:48:09.817Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-15</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/15/wizz-WinterCamp%20JavaSe-04/">JavaSe-04</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="JavaSe-04"><a href="#JavaSe-04" class="headerlink" title="JavaSe-04"></a>JavaSe-04</h1><p>文章写多了发现这个theme有点不太好找之前的文章</p>
+<p><del>所以现在点击左侧的<strong>所有文章</strong>就可以看到文章的归档啦 真的是毫无用处的小更新</del></p>
+<p>我说年轻人先别着急开始今天的学习</p>
+<p>不如先看一段宅舞吧!</p>
+<iframe src="//player.bilibili.com/player.html?aid=928033894&bvid=BV1MT4y1M7eJ&cid=263276861&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
 
-        <div class="article-info info-on-right">
-          
-          
+<h1 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h1><p>HashMap可以说是面试的常客了 同理它的升级版CurrentHashMap也需要重点当做突击面试的对象</p>
+<p>HashMap的储值方式-键值对</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> collection;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestCollection</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        HashMap&lt;String,String&gt; dictionary = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        dictionary.put(<span class="string">&quot;czr&quot;</span>, <span class="string">&quot;全栈&quot;</span>);</span><br><span class="line">        dictionary.put(<span class="string">&quot;qht&quot;</span>, <span class="string">&quot;后端&quot;</span>);</span><br><span class="line">        dictionary.put(<span class="string">&quot;yxr&quot;</span>, <span class="string">&quot;fw&quot;</span>);</span><br><span class="line">        </span><br><span class="line">        System.out.println(dictionary.get(<span class="string">&quot;t&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>HashMap的值可以重复 但是键不能重复 后来的会覆盖之前的</p>
+<p>对于HashMap而言，key是唯一的，不可以重复的。<br>所以，以相同的key 把不同的value插入到 Map中会导致旧元素被覆盖，只留下最后插入的元素。<br>不过，同一个对象可以作为值插入到map中，只要对应的key不一样</p>
+<p>关于更多HashMap的知识我们开发中 暂时 用不到 但是面试有很多问点 比如随着JDK的升级hashmap的寻值方式也有所不同 以及hashmap会遇到什么样的并发问题等等…正由于hashmap的资料太多了,这些在国内一些主流技术交流网站都有大佬进行了很全面的总结,gayhub也有很多很多的面经</p>
+<h1 id="HashSet"><a href="#HashSet" class="headerlink" title="HashSet"></a>HashSet</h1><p>HashSet中的元素不能重复</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> collection;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashSet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestCollection</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">    	HashSet&lt;String&gt; names = <span class="keyword">new</span> HashSet&lt;String&gt;();</span><br><span class="line">    	</span><br><span class="line">    	names.add(<span class="string">&quot;czr&quot;</span>);</span><br><span class="line">    	</span><br><span class="line">    	System.out.println(names);</span><br><span class="line">    	</span><br><span class="line">    	<span class="comment">//第二次插入同样的数据，是插不进去的，容器中只会保留一个</span></span><br><span class="line">    	names.add(<span class="string">&quot;czr&quot;</span>);</span><br><span class="line">    	System.out.println(names);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="HashSet没有顺序"><a href="#HashSet没有顺序" class="headerlink" title="HashSet没有顺序??"></a>HashSet没有顺序??</h3><p>Set中的元素，没有顺序。<br>严格的说，是没有按照元素的插入顺序排列</p>
+<p>HashSet的具体顺序，既不是按照插入顺序，也不是按照hashcode的顺序。</p>
+<p>啊哈 又有一个新名词hashcode 它的中文名词可能会有更多人知道:哈希码</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/dolphin0520/p/3681042.html">hashcode的讲解文章</a></p>
+<p>以下是<strong>HashSet源代码</strong>中的部分注释</p>
+<p>/**</p>
+<p> * It makes no guarantees as to the iteration order of the set; </p>
+<p> * in particular, it does not guarantee that the order will remain constant over time. </p>
+<p>*/</p>
+<p>不保证Set的迭代顺序; 确切的说，在不同条件下，元素的顺序都有可能不一样</p>
+<h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><p>不保证Set的迭代顺序; 确切的说，在不同条件下，元素的顺序都有可能不一样</p>
+<p> Set不提供get()来获取指定位置的元素<br>所以遍历需要用到迭代器，或者增强型for循环</p>
+<h3 id="HaseSet与HashMap的关系"><a href="#HaseSet与HashMap的关系" class="headerlink" title="HaseSet与HashMap的关系"></a>HaseSet与HashMap的关系</h3><p>可以发现HashSet自身并没有独立的实现，而是在里面封装了一个Map.<br>HashSet是作为Map的key而存在的<br>而value是一个命名为PRESENT的static的Object对象，因为是一个类属性，所以只会有一个。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> collection;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.AbstractSet;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HashSet</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">extends</span> <span class="title">AbstractSet</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">Set</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">//HashSet里封装了一个HashMap</span></span><br><span class="line">	<span class="keyword">private</span>  HashMap&lt;E,Object&gt; map;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object PRESENT = <span class="keyword">new</span> Object();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//HashSet的构造方法初始化这个HashMap</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HashSet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    	map = <span class="keyword">new</span> HashMap&lt;E,Object&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//向HashSet中增加元素，其实就是把该元素作为key，增加到Map中</span></span><br><span class="line">    <span class="comment">//value是PRESENT，静态，final的对象，所有的HashSet都使用这么同一个对象</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    	<span class="keyword">return</span> map.put(e, PRESENT)==<span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//HashSet的size就是map的size</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    	<span class="keyword">return</span> map.size();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//清空Set就是清空Map</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    	map.clear();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//迭代Set,就是把Map的键拿出来迭代</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Iterator&lt;E&gt; <span class="title">iterator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    	<span class="keyword">return</span> map.keySet().iterator();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>更详细的区别已经有前辈总结的很好了 我在这里就不班门弄斧了 当然厉害的大佬建议直接去sof看国外前辈们的总结</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/huanghanqian/article/details/73920394">贴个国内网站的</a></p>
+<h1 id="Collection"><a href="#Collection" class="headerlink" title="Collection"></a>Collection</h1><p>Collection是一个接口</p>
+<p>Collection是 Set List Queue和 Deque的接口<br>Queue: 先进先出队列<br>Deque: 双向链表</p>
+<p><strong>注：</strong>Collection和Map之间没有关系，Collection是放一个一个对象的，Map 是放键值对的<br><strong>注：</strong>Deque 继承 Queue,间接的继承了 Collection</p>
+<h2 id="Collections"><a href="#Collections" class="headerlink" title="Collections"></a>Collections</h2><p>Collections是一个类，容器的工具类,就如同Arrays是数组的工具类</p>
+<p>说到这里 Arrays这个工具类也可以谈一谈</p>
+<p>罗列一些大家需要自己动手查找的keyWord:</p>
+<p>Collections:</p>
+<p>reverse shuffle sory swap rotate synchronizedList</p>
+<p>Arrays:</p>
+<p>Arrays是针对数组的工具类，可以进行 排序，查找，复制填充等功能。 大大提高了开发人员的工作效率。</p>
+<p>copyOfRange toString sort binarySearch equals fill</p>
+<h1 id="一些区别比较"><a href="#一些区别比较" class="headerlink" title="一些区别比较"></a>一些区别比较</h1><h3 id="ArrayList-HashSet"><a href="#ArrayList-HashSet" class="headerlink" title="ArrayList - HashSet"></a>ArrayList - HashSet</h3><p>1.顺序</p>
+<p>ArrayList: 有顺序<br>HashSet: 无顺序</p>
+<p>HashSet的具体顺序，既不是按照插入顺序，也不是按照hashcode的顺序。</p>
+<p>换句话说，同样是插入0-9到HashSet中， 在JVM的不同版本中，看到的顺序都是不一样的。 所以在开发的时候，不能依赖于某种<strong>臆测的顺序</strong>，这个顺序本身是<strong>不稳定的</strong></p>
+<p>2.重复</p>
+<p>List中的数据可以重复<br>Set中的数据不能够重复<br>重复判断标准是:<br>首先看hashcode是否相同<br>如果hashcode不同，则认为是不同数据<br>如果hashcode相同，再比较equals，如果equals相同，则是相同数据，否则是不同数据</p>
+<h3 id="Arraylist-Linkedlist"><a href="#Arraylist-Linkedlist" class="headerlink" title="Arraylist - Linkedlist"></a>Arraylist - Linkedlist</h3><p>ArrayList <strong>插入，删除数据慢</strong><br>LinkedList， <strong>插入，删除数据快</strong><br>ArrayList是顺序结构，所以<strong>定位很快</strong>，指哪找哪。 就像电影院位置一样，有了电影票，一下就找到位置了。<br>LinkedList 是链表结构，就像手里的一串佛珠，要找出第99个佛珠，必须得一个一个的数过去，所以<strong>定位慢</strong></p>
+<p>作业: 比较ArrayList与LinkedList的插入 以及 定位速度</p>
+<p>code :先自己设计看看可不可以做出来再看code</p>
+<p>插入比较:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> collection;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestCollection</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		List&lt;Integer&gt; l;</span><br><span class="line">		l = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">		insertFirst(l, <span class="string">&quot;ArrayList&quot;</span>);</span><br><span class="line"></span><br><span class="line">		l = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">		insertFirst(l, <span class="string">&quot;LinkedList&quot;</span>);</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">insertFirst</span><span class="params">(List&lt;Integer&gt; l, String type)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> total = <span class="number">1000</span> * <span class="number">100</span>;</span><br><span class="line">		<span class="keyword">final</span> <span class="keyword">int</span> number = <span class="number">5</span>;</span><br><span class="line">		<span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; total; i++) &#123;</span><br><span class="line">			l.add(<span class="number">0</span>, number);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">long</span> end = System.currentTimeMillis();</span><br><span class="line">		System.out.printf(<span class="string">&quot;在%s 最前面插入%d条数据，总共耗时 %d 毫秒 %n&quot;</span>, type, total, end - start);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>定位比较:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> collection;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestCollection</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		List&lt;Integer&gt; l;</span><br><span class="line">		l = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">		modify(l, <span class="string">&quot;ArrayList&quot;</span>);</span><br><span class="line"></span><br><span class="line">		l = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">		modify(l, <span class="string">&quot;LinkedList&quot;</span>);</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">modify</span><span class="params">(List&lt;Integer&gt; l, String type)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> total = <span class="number">100</span> * <span class="number">1000</span>;</span><br><span class="line">		<span class="keyword">int</span> index = total/<span class="number">2</span>;</span><br><span class="line">		<span class="keyword">final</span> <span class="keyword">int</span> number = <span class="number">5</span>;</span><br><span class="line">		<span class="comment">//初始化</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; total; i++) &#123;</span><br><span class="line">			l.add(number);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">	</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; total; i++) &#123;</span><br><span class="line">			 <span class="keyword">int</span> n = l.get(index);</span><br><span class="line">			 n++;</span><br><span class="line">			 l.set(index, n);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">long</span> end = System.currentTimeMillis();</span><br><span class="line">		System.out.printf(<span class="string">&quot;%s总长度是%d，定位到第%d个数据，取出来，加1，再放回去%n 重复%d遍，总共耗时 %d 毫秒 %n&quot;</span>, type,total, index,total, end - start);</span><br><span class="line">		System.out.println();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>HashMap - HashTable</p>
+<p>HashMap和Hashtable都实现了Map接口，都是键值对保存数据的方式<br>区别1：<br>HashMap可以存放 null<br>Hashtable不能存放null<br>区别2：<br>HashMap不是线程安全的类<br>Hashtable是线程安全的类</p>
+<h3 id="Set家族"><a href="#Set家族" class="headerlink" title="Set家族"></a>Set家族</h3><p>当做作业交给大家自己完成 具体为以下类的区别:</p>
+<p>HashSet LinkedHashSet TreeSet</p>
+<h1 id="END"><a href="#END" class="headerlink" title="END"></a>END</h1><p>本篇写完java的集合框架就被我们梳理的差不多了</p>
+<p>推荐几个keyword大家再课下查询一下</p>
+<p>HashCode Comparator Comparable</p>
+<p>欧克克 下周二再见~</p>
 
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/01/15/wizz-WinterCamp%20JavaSe-04/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/14/wizz-WinterCamp%20JavaSe-03/" class="archive-article-date">
-  	<time datetime="2021-01-14T15:52:40.065Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-14</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/01/14/wizz-WinterCamp%20JavaSe-03/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JavaSe-03</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/14/wizz-WinterCamp%20JavaSe-03/">JavaSe-03</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/13/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%89%8D%E4%BD%A0%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84JavaSe%E7%9F%A5%E8%AF%86-02/" class="archive-article-date">
-  	<time datetime="2021-01-13T15:27:43.224Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/13/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%89%8D%E4%BD%A0%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84JavaSe%E7%9F%A5%E8%AF%86-02/">JavaSe-02</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/12/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%89%8D%E4%BD%A0%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84JavaSe%E7%9F%A5%E8%AF%86-01/" class="archive-article-date">
-  	<time datetime="2021-01-12T06:58:46.743Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/12/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%89%8D%E4%BD%A0%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84JavaSe%E7%9F%A5%E8%AF%86-01/">JavaSe-01</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/11/%E4%B8%BA%E4%B9%8B2021%E5%90%8E%E7%AB%AF%E5%86%AC%E4%BB%A4%E8%90%A5%E5%89%8D%E8%A8%80/" class="archive-article-date">
-  	<time datetime="2021-01-11T13:05:05.827Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/11/%E4%B8%BA%E4%B9%8B2021%E5%90%8E%E7%AB%AF%E5%86%AC%E4%BB%A4%E8%90%A5%E5%89%8D%E8%A8%80/">2021WIZZ BE冬令营前言</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/11/hello-world/" class="archive-article-date">
-  	<time datetime="2021-01-11T13:00:12.506Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/11/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -360,8 +395,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
