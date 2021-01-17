@@ -162,6 +162,155 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-mysql-02" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/17/mysql-02/">MYSQL-02</a>
+    </h1>
+  
+
+        
+        <a href="/2021/01/17/mysql-02/" class="archive-article-date">
+  	<time datetime="2021-01-17T03:29:26.728Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>MYSQL-02</p>
+<h1 id="多表查询-JOIN"><a href="#多表查询-JOIN" class="headerlink" title="多表查询-JOIN"></a>多表查询-JOIN</h1><p>JOIN 按照功能大致分为如下三类：</p>
+<ul>
+<li><strong>INNER JOIN（内连接,或等值连接）</strong>：获取两个表中字段匹配关系的记录。</li>
+<li><strong>LEFT JOIN（左连接）：</strong>获取左表所有记录，即使右表没有对应匹配的记录。</li>
+<li><strong>RIGHT JOIN（右连接）：</strong> 与 LEFT JOIN 相反，用于获取右表所有记录，即使左表没有对应匹配的记录。</li>
+</ul>
+<h2 id="inner-join"><a href="#inner-join" class="headerlink" title="inner join"></a>inner join</h2><p>比如我们现在数据库有两张表  czr01 czr02</p>
+<p>这时候查询量表的数据 比如使用内连接可以这样写:</p>
+<p>select a.czr_id,a.czr_name,b.czr_id,b.czr_name from  czr01 a <strong>inner join</strong> czr02 b <strong>on</strong> a.czr_id=b.czr_id</p>
+<p>上述查询语句应该非常好理解 特别留意一下我加粗的这两组关键字</p>
+<p>on可以等效为where 所以以上查询语句还可以写成下面这样</p>
+<p>select a.czr_id,a.czr_name,b.czr_id,b.czr_name from czr01 a,czr02 b where a.czr_id=b.czr_id</p>
+<p>上述两个例子可以看到 inner join没有什么特别的功能 甚至可以省</p>
+<p>略成只含有where子句的查询语句</p>
+<p>把inner join比作集合 那么就是两表数据的<strong>交集</strong></p>
+<h2 id="left-join"><a href="#left-join" class="headerlink" title="left join"></a>left join</h2><p>正如其名 left join侧重 left侧的数据 所以一定会查询左边表的全部数据 即使右边表没有相对应的数据</p>
+<p>我们以czr01为左表 czr02为右表</p>
+<p>其实把上面 inner join查询语句稍微改一改即可</p>
+<p>select a.czr_id,a.czr_name,b.czr_id b.czr_name from czr01 a left join czr02 b on a.czr_id=b.czr_id</p>
+<p>这里面会查询出所有 a.czr_id 如果相对的那行数据没有b的id  就会在b那部分显示为null </p>
+<p>left join可以想象成 两个集合的交集加上左边集合的全部</p>
+<p>那么right join完全可以按照left join来理解 相信米娜有比我更棒的理解能力 我在这里就不多啰嗦了<del>主要是懒</del> ~</p>
+<h1 id="了解一下MYSQL事务"><a href="#了解一下MYSQL事务" class="headerlink" title="了解一下MYSQL事务"></a>了解一下MYSQL事务</h1><p>面试的时候常说 MYSQL的ACID是个嘛 这时候萌新(比如我)可能就会开始<del>色色</del>发抖</p>
+<p>比如我昨天在b站就看到个视频:阿里面试官让我说出MYSQL的ACID深层原理….</p>
+<p>事务 说起来就是MYSQL语句 CUD这些操作统称为事务</p>
+<p>有一些小知识我直接放上来:</p>
+<ul>
+<li>在 MySQL 中只有使用了 Innodb 数据库引擎的数据库或表才支持事务。</li>
+<li>事务处理可以用来维护数据库的完整性，保证成批的 SQL 语句要么全部执行，要么全部不执行。</li>
+<li>事务用来管理 insert,update,delete 语句</li>
+</ul>
+<p>重点在第二条  全部执行或全部不执行</p>
+<p>也就是说 要么全部成功 要么全部失败 没有成功一半的说法</p>
+<p>事务是必须满足4个条件（ACID）：：原子性（<strong>A</strong>tomicity，或称不可分割性）、一致性（<strong>C</strong>onsistency）、隔离性（<strong>I</strong>solation，又称独立性）、持久性（<strong>D</strong>urability）。</p>
+<ul>
+<li><strong>原子性：</strong>一个事务（transaction）中的所有操作，要么全部完成，要么全部不完成，不会结束在中间某个环节。事务在执行过程中发生错误，会被回滚（Rollback）到事务开始前的状态，就像这个事务从来没有执行过一样。</li>
+<li><strong>一致性：</strong>在事务开始之前和事务结束以后，数据库的完整性没有被破坏。这表示写入的资料必须完全符合所有的预设规则，这包含资料的精确度、串联性以及后续数据库可以自发性地完成预定的工作。</li>
+<li><strong>隔离性：</strong>数据库允许多个并发事务同时对其数据进行读写和修改的能力，隔离性可以防止多个事务并发执行时由于交叉执行而导致数据的不一致。事务隔离分为不同级别，包括读未提交（Read uncommitted）、读提交（read committed）、可重复读（repeatable read）和串行化（Serializable）。</li>
+<li><strong>持久性：</strong>事务处理结束后，对数据的修改就是永久的，即便系统故障也不会丢失。</li>
+</ul>
+<p>其实上面说的就是原子性</p>
+<p>当我们接触更多需要高并发高容错的项目之后 就会觉得原子性相当重要</p>
+<p>比如我买手机 微信端支付成功了 但是订单端却因为网络原因显示支付失败 这样很容易影响消费者的心态(应该说是非常影响)</p>
+<p>有兴趣的同学可以了解一下阿里的seata 这是一个非常好用的分布式事务处理手段 使用也十分简单.</p>
+<h3 id="MYSQL-事务处理主要有两种方法："><a href="#MYSQL-事务处理主要有两种方法：" class="headerlink" title="MYSQL 事务处理主要有两种方法："></a>MYSQL 事务处理主要有两种方法：</h3><p>1、用 BEGIN, ROLLBACK, COMMIT来实现</p>
+<ul>
+<li><strong>BEGIN</strong> 开始一个事务</li>
+<li><strong>ROLLBACK</strong> 事务回滚</li>
+<li><strong>COMMIT</strong> 事务确认</li>
+</ul>
+<p>上面这些语句可以在命令行试一试 反正我觉得开发基本没用过</p>
+<h1 id="修改表的语句-ALTER"><a href="#修改表的语句-ALTER" class="headerlink" title="修改表的语句:ALTER"></a>修改表的语句:ALTER</h1><p>我们有时候要修改数据表的表名或者字段名</p>
+<p>这时候就需要alter这个语句</p>
+<p>比如我们创建了一张表 :</p>
+<p>create table czrOrzyxr</p>
+<p>创建之后我们发现这样显然是不对的 因为czr不可能orz yxr</p>
+<p>所以只能改成yxrorzczr 这时候 我们就需要alter 的rename子句</p>
+<p>alter table czrorzyxr rename to yxrorzczr</p>
+<p>这样 就舒♂服了</p>
+<p>我们<strong>删除czr01中的 yxr字段</strong></p>
+<p>alter table czr01 drop yxr</p>
+<p>如果表中只剩下yxr一个字段则无法删除</p>
+<p><strong>添加一个 girl字段</strong> 用来表示czr撩到girl的数量</p>
+<p>alter table czr01 add girl int;</p>
+<p><del>int会不会溢出呢</del></p>
+<p><strong>修改字段类型:</strong></p>
+<p>如果需要修改字段类型及名称, 你可以在ALTER命令中使用 MODIFY 或 CHANGE 子句 。</p>
+<p>alter table czr01 modify  girl bigint</p>
+<p>这样我们就解决了int可能溢出的问题 换成了bigint</p>
+<h1 id="MySQL-索引"><a href="#MySQL-索引" class="headerlink" title="MySQL 索引"></a>MySQL 索引</h1><p>MySQL索引的建立对于MySQL的高效运行是很重要的，索引可以大大提高MySQL的检索速度。</p>
+<p>打个比方，如果合理的设计且使用索引的MySQL是一辆兰博基尼的话，那么没有设计和使用索引的MySQL就是一个人力三轮车。</p>
+<p>拿汉语字典的目录页（索引）打比方，我们可以按拼音、笔画、偏旁部首等排序的目录（索引）快速查找到需要的字。</p>
+<p>索引分单列索引和组合索引。单列索引，即一个索引只包含单个列，一个表可以有多个单列索引，但这不是组合索引。组合索引，即一个索引包含多个列。</p>
+<p>创建索引时，你需要确保该索引是应用在 SQL 查询语句的条件(一般作为 WHERE 子句的条件)。</p>
+<p>实际上，索引也是一张表，该表保存了主键与索引字段，并指向实体表的记录。</p>
+<p>上面都在说使用索引的好处，但过多的使用索引将会造成滥用。因此索引也会有它的缺点：虽然索引大大提高了查询速度，同时却会降低更新表的速度，如对表进行INSERT、UPDATE和DELETE。因为更新表时，MySQL不仅要保存数据，还要保存一下索引文件。</p>
+<p>建立索引会占用磁盘空间的索引文件。</p>
+<p>创建索引</p>
+<p>create index indexName on tableName (columnName)</p>
+<p>修改表结构</p>
+<p>alter table tableName add index indexName(columnName)</p>
+<h1 id="END"><a href="#END" class="headerlink" title="END"></a>END</h1><p>那么MYSQL的内容至此就全部结束了</p>
+<p>留给大家两个任务 :</p>
+<p>查询一下MYSQL注入是什么东西?如何解决?</p>
+<p>查询MYSQL<strong>常用</strong>函数</p>
+<p>最近打算写一下Java进程的相关知识 顺便可以引入一下操作系统进程线程的内容~</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/01/17/mysql-02/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-MYSQL语法初探" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
