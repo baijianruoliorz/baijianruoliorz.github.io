@@ -385,23 +385,30 @@
   
 
   
+  
+
+  <div id="gitalk-container" style="padding: 0px 30px 0px 30px;"></div> 
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+
+if(true){
+	var gitalk = new Gitalk({
+  	clientID: 'cfddc77ae887330d8ee1',
+  	clientSecret: '92b203d0a5537b91fa82e3b67c882d0c2bdd1743',
+  	repo: 'baijianruoliorz.github.io',
+  	owner: 'baijianruoliorz',
+  	admin: ['baijianruoliorz'],
+  	id: 'Tue Jan 12 2021 14:58:46 GMT+0800',
+  	distractionFreeMode: 'true'
+})
+gitalk.render('gitalk-container') 
+}
+</script>
+  
 
   
-  <div id="gitment-ctn"></div> 
-<link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
-<script src="https://jjeejj.github.io/js/gitment.js"></script>
-<script>
-var gitment = new Gitment({
-  id: 'Tue Jan 12 2021 14:58:46 GMT+0800',
-  owner: 'baijianruoliorz',
-  repo: 'baijianruoliorz.github.io',
-  oauth: {
-    client_id: 'cfddc77ae887330d8ee1',
-    client_secret: '92b203d0a5537b91fa82e3b67c882d0c2bdd1743',
-  },
-})
-gitment.render('gitment-ctn')
-</script>
   
 
 
