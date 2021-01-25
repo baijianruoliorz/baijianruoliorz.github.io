@@ -6,15 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives: 2021/1 | Blog-WIZZBEWINTERCAMP</title>
+  <title>Blog-WIZZBEWINTERCAMP</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="just a gopher">
-<meta property="og:type" content="website">
+  <meta name="description" content="对于MP的扩展功能 本人根据自己的经验给出了几个开发中常用的 如果有想继续学习的同学 可以直接搜索 MP扩展 或者来官方文档进行学习! 逻辑删除说明: 只对自动注入的sql起效:  插入: 不作限制 查找: 追加where条件过滤掉已删除数据,且使用 wrapper.entity 生成的where条件会忽略该字段 更新: 追加where条件防止更新到已删除数据,且使用 wrapper.entity">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Blog-WIZZBEWINTERCAMP">
-<meta property="og:url" content="http://example.com/archives/2021/01/page/2/index.html">
+<meta property="og:url" content="http://example.com/2021/01/25/%E9%80%BB%E8%BE%91%E5%88%A0%E9%99%A4/index.html">
 <meta property="og:site_name" content="Blog-WIZZBEWINTERCAMP">
-<meta property="og:description" content="just a gopher">
+<meta property="og:description" content="对于MP的扩展功能 本人根据自己的经验给出了几个开发中常用的 如果有想继续学习的同学 可以直接搜索 MP扩展 或者来官方文档进行学习! 逻辑删除说明: 只对自动注入的sql起效:  插入: 不作限制 查找: 追加where条件过滤掉已删除数据,且使用 wrapper.entity 生成的where条件会忽略该字段 更新: 追加where条件防止更新到已删除数据,且使用 wrapper.entity">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-25T02:50:08.818Z">
+<meta property="article:modified_time" content="2021-01-25T15:13:33.304Z">
 <meta property="article:author" content="baijianruoliorz">
 <meta property="article:tag" content="Vue">
 <meta property="article:tag" content="github">
@@ -160,188 +162,296 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-逻辑删除" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>对于MP的扩展功能 本人根据自己的经验给出了几个开发中常用的</p>
+<p>如果有想继续学习的同学 可以直接搜索 MP扩展 或者来官方文档进行学习!</p>
+<h1 id="逻辑删除"><a href="#逻辑删除" class="headerlink" title="逻辑删除"></a>逻辑删除</h1><p>说明:</p>
+<p>只对自动注入的sql起效:</p>
+<ul>
+<li>插入: 不作限制</li>
+<li>查找: 追加where条件过滤掉已删除数据,且使用 wrapper.entity 生成的where条件会忽略该字段</li>
+<li>更新: 追加where条件防止更新到已删除数据,且使用 wrapper.entity 生成的where条件会忽略该字段</li>
+<li>删除: 转变为 更新</li>
+</ul>
+<p>例如:</p>
+<ul>
+<li>删除: <code>update user set deleted=1 where id = 1 and deleted=0</code></li>
+<li>查找: <code>select id,name,deleted from user where deleted=0</code></li>
+</ul>
+<p>字段类型支持说明:</p>
+<ul>
+<li>支持所有数据类型(推荐使用 <code>Integer</code>,<code>Boolean</code>,<code>LocalDateTime</code>)</li>
+<li>如果数据库字段使用<code>datetime</code>,逻辑未删除值和已删除值支持配置为字符串<code>null</code>,另一个值支持配置为函数来获取值如<code>now()</code></li>
+</ul>
+<p>附录:</p>
+<ul>
+<li>逻辑删除是为了方便数据恢复和保护数据本身价值等等的一种方案，但实际就是删除。</li>
+<li>如果你需要频繁查出来看就不应使用逻辑删除，而是以一个状态去表示。</li>
+</ul>
+<h2 id="使用方法："><a href="#使用方法：" class="headerlink" title="使用方法："></a>使用方法：</h2><h3 id="步骤1-配置com-baomidou-mybatisplus-core-config-GlobalConfig-DbConfig"><a href="#步骤1-配置com-baomidou-mybatisplus-core-config-GlobalConfig-DbConfig" class="headerlink" title="步骤1: 配置com.baomidou.mybatisplus.core.config.GlobalConfig$DbConfig"></a>步骤1: 配置<code>com.baomidou.mybatisplus.core.config.GlobalConfig$DbConfig</code></h3><ul>
+<li>例: application.yml</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mybatis-plus:</span></span><br><span class="line">  <span class="attr">global-config:</span></span><br><span class="line">    <span class="attr">db-config:</span></span><br><span class="line">      <span class="attr">logic-delete-field:</span> <span class="string">flag</span>  <span class="comment"># 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)</span></span><br><span class="line">      <span class="attr">logic-delete-value:</span> <span class="number">1</span> <span class="comment"># 逻辑已删除值(默认为 1)</span></span><br><span class="line">      <span class="attr">logic-not-delete-value:</span> <span class="number">0</span> <span class="comment"># 逻辑未删除值(默认为 0)</span></span><br></pre></td></tr></table></figure>
+<h3 id="步骤2-实体类字段上加上-TableLogic注解"><a href="#步骤2-实体类字段上加上-TableLogic注解" class="headerlink" title="步骤2: 实体类字段上加上@TableLogic注解"></a>步骤2: 实体类字段上加上<code>@TableLogic</code>注解</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@TableLogic</span></span><br><span class="line"><span class="keyword">private</span> Integer deleted;</span><br></pre></td></tr></table></figure>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题:"></a>常见问题:</h2><h4 id="1-如何-insert"><a href="#1-如何-insert" class="headerlink" title="1. 如何 insert ?"></a>1. 如何 insert ?</h4><blockquote>
+<ol>
+<li>字段在数据库定义默认值(推荐)</li>
+<li>insert 前自己 set 值</li>
+<li>使用自动填充功能</li>
+</ol>
+</blockquote>
+<h4 id="2-删除接口自动填充功能失效"><a href="#2-删除接口自动填充功能失效" class="headerlink" title="2. 删除接口自动填充功能失效"></a>2. 删除接口自动填充功能失效</h4><blockquote>
+<ol>
+<li>使用 <code>update</code> 方法并: <code>UpdateWrapper.set(column, value)</code>(推荐)</li>
+<li>使用 <code>update</code> 方法并: <code>UpdateWrapper.setSql(&quot;column=value&quot;)</code></li>
+<li>使用<a target="_blank" rel="noopener" href="https://baomidou.com/guide/sql-injector.html">Sql注入器</a>注入<code>com.baomidou.mybatisplus.extension.injector.methods.LogicDeleteByIdWithFill</code>并使用(推荐)</li>
+</ol>
+</blockquote>
+<h1 id="自动填充功能"><a href="#自动填充功能" class="headerlink" title="自动填充功能"></a>自动填充功能</h1><p>示例工程：</p>
+<p>👉 <a target="_blank" rel="noopener" href="https://gitee.com/baomidou/mybatis-plus-samples/tree/master/mybatis-plus-sample-auto-fill-metainfo">mybatis-plus-sample-auto-fill-metainfo(opens new window)</a></p>
+<p>原理:</p>
+<ul>
+<li>实现元对象处理器接口：com.baomidou.mybatisplus.core.handlers.MetaObjectHandler</li>
+<li>注解填充字段 <code>@TableField(.. fill = FieldFill.INSERT)</code> 生成器策略部分也可以配置！</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 注意！这里需要标记为填充字段</span></span><br><span class="line">    <span class="meta">@TableField(.. fill = FieldFill.INSERT)</span></span><br><span class="line">    <span class="keyword">private</span> String fillField;</span><br><span class="line"></span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>自定义实现类 MyMetaObjectHandler</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyMetaObjectHandler</span> <span class="keyword">implements</span> <span class="title">MetaObjectHandler</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insertFill</span><span class="params">(MetaObject metaObject)</span> </span>&#123;</span><br><span class="line">        log.info(<span class="string">&quot;start insert fill ....&quot;</span>);</span><br><span class="line">        <span class="keyword">this</span>.strictInsertFill(metaObject, <span class="string">&quot;createTime&quot;</span>, LocalDateTime.class, LocalDateTime.now()); <span class="comment">// 起始版本 3.3.0(推荐使用)</span></span><br><span class="line">        <span class="comment">// 或者</span></span><br><span class="line">        <span class="keyword">this</span>.strictUpdateFill(metaObject, <span class="string">&quot;createTime&quot;</span>, () -&gt; LocalDateTime.now(), LocalDateTime.class); <span class="comment">// 起始版本 3.3.3(推荐)</span></span><br><span class="line">        <span class="comment">// 或者</span></span><br><span class="line">        <span class="keyword">this</span>.fillStrategy(metaObject, <span class="string">&quot;createTime&quot;</span>, LocalDateTime.now()); <span class="comment">// 也可以使用(3.3.0 该方法有bug)</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateFill</span><span class="params">(MetaObject metaObject)</span> </span>&#123;</span><br><span class="line">        log.info(<span class="string">&quot;start update fill ....&quot;</span>);</span><br><span class="line">        <span class="keyword">this</span>.strictUpdateFill(metaObject, <span class="string">&quot;updateTime&quot;</span>, LocalDateTime.class, LocalDateTime.now()); <span class="comment">// 起始版本 3.3.0(推荐)</span></span><br><span class="line">        <span class="comment">// 或者</span></span><br><span class="line">        <span class="keyword">this</span>.strictUpdateFill(metaObject, <span class="string">&quot;updateTime&quot;</span>, () -&gt; LocalDateTime.now(), LocalDateTime.class); <span class="comment">// 起始版本 3.3.3(推荐)</span></span><br><span class="line">        <span class="comment">// 或者</span></span><br><span class="line">        <span class="keyword">this</span>.fillStrategy(metaObject, <span class="string">&quot;updateTime&quot;</span>, LocalDateTime.now()); <span class="comment">// 也可以使用(3.3.0 该方法有bug)</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意事项：</p>
+<ul>
+<li>填充原理是直接给<code>entity</code>的属性设置值!!!</li>
+<li>注解则是指定该属性在对应情况下必有值,如果无值则入库会是<code>null</code></li>
+<li><code>MetaObjectHandler</code>提供的默认方法的策略均为:如果属性有值则不覆盖,如果填充值为<code>null</code>则不填充</li>
+<li>字段必须声明<code>TableField</code>注解,属性<code>fill</code>选择对应策略,该声明告知<code>Mybatis-Plus</code>需要预留注入<code>SQL</code>字段</li>
+<li>填充处理器<code>MyMetaObjectHandler</code>在 Spring Boot 中需要声明<code>@Component</code>或<code>@Bean</code>注入</li>
+<li>要想根据注解<code>FieldFill.xxx</code>和<code>字段名</code>以及<code>字段类型</code>来区分必须使用父类的<code>strictInsertFill</code>或者<code>strictUpdateFill</code>方法</li>
+<li>不需要根据任何来区分可以使用父类的<code>fillStrategy</code>方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">FieldFill</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 默认不处理</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    DEFAULT,</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 插入填充字段</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    INSERT,</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 更新填充字段</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    UPDATE,</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 插入和更新填充字段</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    INSERT_UPDATE</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="插件主体-必看-since-3-4-0"><a href="#插件主体-必看-since-3-4-0" class="headerlink" title="插件主体(必看!)(since 3.4.0)"></a>插件主体(必看!)(since 3.4.0)</h1><h2 id="MybatisPlusInterceptor"><a href="#MybatisPlusInterceptor" class="headerlink" title="MybatisPlusInterceptor"></a>MybatisPlusInterceptor</h2><p>该插件是核心插件,目前代理了 <code>Executor#query</code> 和 <code>Executor#update</code> 和 <code>StatementHandler#prepare</code> 方法</p>
+<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private List&lt;InnerInterceptor&gt; interceptors &#x3D; new ArrayList&lt;&gt;();</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="InnerInterceptor"><a href="#InnerInterceptor" class="headerlink" title="InnerInterceptor"></a>InnerInterceptor</h3><p>我们提供的插件都将基于此接口来实现功能</p>
+<p>目前已有的功能:</p>
+<ul>
+<li>自动分页: PaginationInnerInterceptor</li>
+<li>多租户: TenantLineInnerInterceptor</li>
+<li>动态表名: DynamicTableNameInnerInterceptor</li>
+<li>乐观锁: OptimisticLockerInnerInterceptor</li>
+<li>sql性能规范: IllegalSQLInnerInterceptor</li>
+<li>防止全表更新与删除: BlockAttackInnerInterceptor</li>
+</ul>
+<p>注意:</p>
+<p>使用多个功能需要注意顺序关系,建议使用如下顺序</p>
+<ul>
+<li>多租户,动态表名</li>
+<li>分页,乐观锁</li>
+<li>sql性能规范,防止全表更新与删除</li>
+</ul>
+<p>总结: 对sql进行单次改造的优先放入,不对sql进行改造的最后放入</p>
+<h2 id="使用方式-以分页插件举例"><a href="#使用方式-以分页插件举例" class="headerlink" title="使用方式(以分页插件举例)"></a>使用方式(以分页插件举例)</h2><h3 id="spring-mvc"><a href="#spring-mvc" class="headerlink" title="spring-mvc"></a>spring-mvc</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;sqlSessionFactory&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 其他属性 略 --&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;configuration&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;configuration&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;plugins&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ref</span> <span class="attr">bean</span>=<span class="string">&quot;mybatisPlusInterceptor&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;configuration&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.baomidou.mybatisplus.core.MybatisConfiguration&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 需配置该值为false,避免1或2级缓存可能出现问题,该属性会在旧插件移除后一同移除 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;useDeprecatedExecutor&quot;</span> <span class="attr">value</span>=<span class="string">&quot;false&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;mybatisPlusInterceptor&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;interceptors&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ref</span> <span class="attr">bean</span>=<span class="string">&quot;paginationInnerInterceptor&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;paginationInnerInterceptor&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 对于单一数据库类型来说,都建议配置该值,避免每次分页都去抓取数据库类型 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">name</span>=<span class="string">&quot;dbType&quot;</span> <span class="attr">value</span>=<span class="string">&quot;H2&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="spring-boot"><a href="#spring-boot" class="headerlink" title="spring-boot"></a>spring-boot</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@MapperScan(&quot;scan.your.mapper.package&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MybatisPlusConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 新的分页插件,一缓和二缓遵循mybatis的规则,需要设置 MybatisConfiguration#useDeprecatedExecutor = false 避免缓存出现问题(该属性会在旧插件移除后一同移除)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> MybatisPlusInterceptor <span class="title">mybatisPlusInterceptor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        MybatisPlusInterceptor interceptor = <span class="keyword">new</span> MybatisPlusInterceptor();</span><br><span class="line">        interceptor.addInnerInterceptor(<span class="keyword">new</span> PaginationInnerInterceptor(DbType.H2));</span><br><span class="line">        <span class="keyword">return</span> interceptor;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ConfigurationCustomizer <span class="title">configurationCustomizer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> configuration -&gt; configuration.setUseDeprecatedExecutor(<span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="mybatis-config-xml"><a href="#mybatis-config-xml" class="headerlink" title="mybatis-config.xml"></a>mybatis-config.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">plugin</span> <span class="attr">interceptor</span>=<span class="string">&quot;com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;@page&quot;</span> <span class="attr">value</span>=<span class="string">&quot;com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;page:dbType&quot;</span> <span class="attr">value</span>=<span class="string">&quot;h2&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>property 的配置说明详见 <code>MybatisPlusInterceptor#setProperties</code> 的源码方法注释</p>
+</blockquote>
+<h2 id="拦截忽略注解-InterceptorIgnore"><a href="#拦截忽略注解-InterceptorIgnore" class="headerlink" title="拦截忽略注解 @InterceptorIgnore"></a>拦截忽略注解 @InterceptorIgnore</h2><table>
+<thead>
+<tr>
+<th align="center">属性名</th>
+<th align="center">类型</th>
+<th align="center">默认值</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">tenantLine</td>
+<td align="center">String</td>
+<td align="center">“”</td>
+<td align="center">行级租户</td>
+</tr>
+<tr>
+<td align="center">dynamicTableName</td>
+<td align="center">String</td>
+<td align="center">“”</td>
+<td align="center">动态表名</td>
+</tr>
+<tr>
+<td align="center">blockAttack</td>
+<td align="center">String</td>
+<td align="center">“”</td>
+<td align="center">攻击 SQL 阻断解析器,防止全表更新与删除</td>
+</tr>
+<tr>
+<td align="center">illegalSql</td>
+<td align="center">String</td>
+<td align="center">“”</td>
+<td align="center">垃圾SQL拦截</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>该注解作用于 xxMapper.java 方法之上 各属性代表对应的插件 各属性不给值则默认为 false 设置为 true 忽略拦截 更多说明详见源码注释</p>
+</blockquote>
+<h1 id="END"><a href="#END" class="headerlink" title="END"></a>END</h1>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/15/wizz-WinterCamp%20JavaSe-04/" class="archive-article-date">
-  	<time datetime="2021-01-15T05:48:09.817Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/15/wizz-WinterCamp%20JavaSe-04/">JavaSe-04</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/01/25/%E9%80%BB%E8%BE%91%E5%88%A0%E9%99%A4/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/14/wizz-WinterCamp%20JavaSe-03/" class="archive-article-date">
-  	<time datetime="2021-01-14T15:52:40.065Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-14</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/01/24/Mybatisplus-02/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MybatisPlus-02</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/14/wizz-WinterCamp%20JavaSe-03/">JavaSe-03</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/13/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%89%8D%E4%BD%A0%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84JavaSe%E7%9F%A5%E8%AF%86-02/" class="archive-article-date">
-  	<time datetime="2021-01-13T15:27:43.224Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/13/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%89%8D%E4%BD%A0%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84JavaSe%E7%9F%A5%E8%AF%86-02/">JavaSe-02</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/12/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%89%8D%E4%BD%A0%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84JavaSe%E7%9F%A5%E8%AF%86-01/" class="archive-article-date">
-  	<time datetime="2021-01-12T06:58:46.743Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/12/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E5%89%8D%E4%BD%A0%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84JavaSe%E7%9F%A5%E8%AF%86-01/">JavaSe-01</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
+  <div id="gitalk-container" style="padding: 0px 30px 0px 30px;"></div> 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/11/%E4%B8%BA%E4%B9%8B2021%E5%90%8E%E7%AB%AF%E5%86%AC%E4%BB%A4%E8%90%A5%E5%89%8D%E8%A8%80/" class="archive-article-date">
-  	<time datetime="2021-01-11T13:05:05.827Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/11/%E4%B8%BA%E4%B9%8B2021%E5%90%8E%E7%AB%AF%E5%86%AC%E4%BB%A4%E8%90%A5%E5%89%8D%E8%A8%80/">2021WIZZ BE冬令营前言</a>
-    </h1>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+
+if(true){
+	var gitalk = new Gitalk({
+  	clientID: 'cfddc77ae887330d8ee1',
+  	clientSecret: '92b203d0a5537b91fa82e3b67c882d0c2bdd1743',
+  	repo: 'baijianruoliorz.github.io',
+  	owner: 'baijianruoliorz',
+  	admin: ['baijianruoliorz'],
+  	id: 'Mon Jan 25 2021 10:50:08 GMT+0800',
+  	distractionFreeMode: 'true'
+})
+gitalk.render('gitalk-container') 
+}
+</script>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/11/hello-world/" class="archive-article-date">
-  	<time datetime="2021-01-11T13:00:12.506Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/11/hello-world/">Hello World</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2021/01/">&amp;laquo; Prev</a><a class="page-number" href="/archives/2021/01/">1</a><span class="page-number current">2</span>
-    </nav>
-  
 
 
           </div>
@@ -364,8 +474,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
