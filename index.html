@@ -162,6 +162,119 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-补充小知识 http与https" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/26/%E8%A1%A5%E5%85%85%E5%B0%8F%E7%9F%A5%E8%AF%86%20http%E4%B8%8Ehttps/">补充小知识 http与https</a>
+    </h1>
+  
+
+        
+        <a href="/2021/01/26/%E8%A1%A5%E5%85%85%E5%B0%8F%E7%9F%A5%E8%AF%86%20http%E4%B8%8Ehttps/" class="archive-article-date">
+  	<time datetime="2021-01-26T02:50:49.433Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="补充小知识-http与https"><a href="#补充小知识-http与https" class="headerlink" title="补充小知识 http与https"></a>补充小知识 http与https</h1><p><strong>http协议</strong></p>
+<p>HTTP 超文本传输协议 <strong>H</strong>yper <strong>T</strong>ext <strong>T</strong>ransfer <strong>P</strong>rotocol</p>
+<p>当我们在浏览器的地址栏输入一个地址的时候，就能够访问服务器的某个页面</p>
+<p>这个过程本身就是两个应用程序之间的交互，一个应用程序是浏览器，另一个应用程序是服务器。</p>
+<p><strong>协议是什么？</strong> 协议就是不同的应用程序之间按照事先做好的约定进行的通信。 这样就能互相<strong>读懂</strong>对方的意思。</p>
+<p>浏览器和WEB服务器之间，使用的就是一种叫做HTTP的协议。 这样是BS (Browser Server )架构模型的基础</p>
+<p>HTTP协议由请求和响应两种类型组成</p>
+<p>调试工具可以选用chrome浏览器</p>
+<h1 id="http请求协议"><a href="#http请求协议" class="headerlink" title="http请求协议"></a>http请求协议</h1><p>请求消息 由 请求行，请求头部，空行和请求数据4部分组成</p>
+<p>请求行</p>
+<p>打开网页  输入 yangxiangrui.site</p>
+<p><img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-b1ebbd3c-ca49-405b-957b-effe60782276/cd09fa0c-6bd7-4c21-b05e-c295b3d376e2.png" alt="image-20210126103748422"></p>
+<p>在chrome按F12查询network就会显示上面的信息</p>
+<h2 id="请求行"><a href="#请求行" class="headerlink" title="请求行"></a>请求行</h2><p>在这里  <a target="_blank" rel="noopener" href="https://yangxiangrui.site/">https://yangxiangrui.site</a> 就是<strong>请求行</strong></p>
+<h2 id="请求头"><a href="#请求头" class="headerlink" title="请求头"></a>请求头</h2><p>请求头部信息提供了如下信息:</p>
+<p>:authority: yangxiangrui.site<br>:method: GET<br>:path: /<br>:scheme: https<br>accept: text<img src="file:///C:\Users\LIQIQI~1\AppData\Local\Temp@IR3P(8S$C$Z$TY~5I{QEPC.gif" alt="img">ml,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,<em>/</em>;q=0.8,application/signed-exchange;v=b3;q=0.9<br>accept-encoding: gzip, deflate, br<br>accept-language: zh-CN,zh;q=0.9,ja;q=0.8<br>cache-control: max-age=0<br>if-modified-since: Mon, 04 Jan 2021 08:47:21 GMT<br>if-none-match: W/“5ff2d619-a741”<br>sec-fetch-dest: document<br>sec-fetch-mode: navigate<br>sec-fetch-site: none<br>sec-fetch-user: ?1<br>upgrade-insecure-requests: 1<br>user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36</p>
+<p>不同浏览器似乎有些不同  有兴趣的可以拿firefox重做一下上面的实验</p>
+<h2 id="请求数据"><a href="#请求数据" class="headerlink" title="请求数据"></a>请求数据</h2><p>chrome浏览器按下F12打开开发者工具<br>点击Network，找到过滤器<br>筛选XHR，Method那一列会显示POST GET；</p>
+<p>如果是firefox 点击params即可查看参数</p>
+<h2 id="空行"><a href="#空行" class="headerlink" title="空行"></a>空行</h2><p>就是用来分割请求头部和请求数据的一个空行，为了让代码的可读性更高，没什么别的作用</p>
+<h1 id="http响应协议"><a href="#http响应协议" class="headerlink" title="http响应协议"></a>http响应协议</h1><p>响应信息由状态行，消息报头，响应正文组成</p>
+<h2 id="状态行"><a href="#状态行" class="headerlink" title="状态行"></a>状态行</h2><p>即上图中的status code:304</p>
+<h2 id="消息报头"><a href="#消息报头" class="headerlink" title="消息报头"></a>消息报头</h2><p>access-control-allow-origin: *<br>access-control-expose-headers: ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, Deprecation, Sunset<br>cache-control: public, max-age=60, s-maxage=60<br>content-encoding: gzip<br>content-security-policy: default-src ‘none’<br>content-type: application/json; charset=utf-8<br>date: Tue, 26 Jan 2021 02:43:40 GMT<br>etag: W/“c7340e60358dad2cd2ad65e18507edea2289a7da7668d915368d9ae2423d111a”<br>referrer-policy: origin-when-cross-origin, strict-origin-when-cross-origin<br>server: <img src="file:///C:\Users\LIQIQI~1\AppData\Local\Temp%W@GJ$ACOF(TYDYECOKVDYB.png" alt="img">GitHub.com<br>status: 200 OK<br>strict-transport-security: max-age=31536000; includeSubdomains; preload<br>vary: Accept<br>vary: Accept-Encoding, Accept, X-Requested-With<br>vary: Accept-Encoding<br>x-content-type-options: nosniff<br>x-frame-options: deny<br>x-github-media-type: github.v3; param=full; format=json<br>x-github-request-id: 1D01:418C:2FB72:37D77:600F81DB<br>x-ratelimit-limit: 5000<br>x-ratelimit-remaining: 4998<br>x-ratelimit-reset: 1611632619<br>x-ratelimit-used: 2<br>x-xss-protection: 1; mode=block<br>:authority: <img src="file:///C:\Users\LIQIQI~1\AppData\Local\Temp%W@GJ$ACOF(TYDYECOKVDYB.png" alt="img">api.github.com<br>:method: GET<br>:path: /repos/baijianruoliorz/<img src="file:///C:\Users\LIQIQI~1\AppData\Local\Temp%W@GJ$ACOF(TYDYECOKVDYB.png" alt="img">liqiqi.github.io/issues/24/comments?per_page=10&amp;page=1<br>:scheme: https<br>accept: application/vnd.github.v3.full+json<br>accept-encoding: gzip, deflate, br<br>accept-language: zh-CN,zh;q=0.9,ja;q=0.8<br>authorization: Basic YWE5NmY3NmE2ZmQ1OTRlOTM2ZDI6MDIzYjdkNzU3ODZkODExYzJiOTI5OTU2NTYzMzUwN2Y4YjBhNDlkMg==<br>origin: <img src="file:///C:\Users\LIQIQI~1\AppData\Local\Temp%W@GJ$ACOF(TYDYECOKVDYB.png" alt="img"><a target="_blank" rel="noopener" href="https://yangxiangrui.site/">https://yangxiangrui.site</a><br>referer: <img src="file:///C:\Users\LIQIQI~1\AppData\Local\Temp%W@GJ$ACOF(TYDYECOKVDYB.png" alt="img"><a target="_blank" rel="noopener" href="https://yangxiangrui.site/">https://yangxiangrui.site/</a><br>sec-fetch-dest: empty<br>sec-fetch-mode: cors<br>sec-fetch-site: cross-site<br>user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36</p>
+<p>消息报头中提供如下信息：<br>Content-Length: 表示长度<br>Content-Type: 内容格式<br>Date: 日期<br>Server: 服务器类型</p>
+<h2 id="响应正文"><a href="#响应正文" class="headerlink" title="响应正文"></a>响应正文</h2><p>仍然可以通过network 查看response得到:</p>
+<p>[<br>  {<br>    “url”: “<a target="_blank" rel="noopener" href="https://api.github.com/repos/baijianruoliorz/liqiqi.github.io/issues/comments/747424488&quot;">https://api.github.com/repos/baijianruoliorz/liqiqi.github.io/issues/comments/747424488&quot;</a>,<br>    “html_url”: “<a target="_blank" rel="noopener" href="https://github.com/baijianruoliorz/liqiqi.github.io/issues/24#issuecomment-747424488&quot;">https://github.com/baijianruoliorz/liqiqi.github.io/issues/24#issuecomment-747424488&quot;</a>,<br>    “issue_url”: “<a target="_blank" rel="noopener" href="https://api.github.com/repos/baijianruoliorz/liqiqi.github.io/issues/24&quot;">https://api.github.com/repos/baijianruoliorz/liqiqi.github.io/issues/24&quot;</a>,<br>    “id”: 747424488,<br>    “node_id”: “MDEyOklzc3VlQ29tbWVudDc0NzQyNDQ4OA==”,<br>    “user”: {<br>      “login”: “baijianruoliorz”,<br>      “id”: 61620491,<br>      “node_id”: “MDQ6VXNlcjYxNjIwNDkx”,<br>      “avatar_url”: “<a target="_blank" rel="noopener" href="https://avatars.githubusercontent.com/u/61620491?v=4&quot;">https://avatars.githubusercontent.com/u/61620491?v=4&quot;</a>,<br>      “gravatar_id”: “”,<br>      “url”: “<a target="_blank" rel="noopener" href="https://api.github.com/users/baijianruoliorz&quot;">https://api.github.com/users/baijianruoliorz&quot;</a>,<br>      “html_url”: “<a target="_blank" rel="noopener" href="https://github.com/baijianruoliorz&quot;">https://github.com/baijianruoliorz&quot;</a>,<br>      “followers_url”: “<a target="_blank" rel="noopener" href="https://api.github.com/users/baijianruoliorz/followers&quot;">https://api.github.com/users/baijianruoliorz/followers&quot;</a>,<br>      “following_url”: “<a target="_blank" rel="noopener" href="https://api.github.com/users/baijianruoliorz/following%7B/other_user%7D&quot;">https://api.github.com/users/baijianruoliorz/following{/other_user}&quot;</a>,<br>      “gists_url”: “<a target="_blank" rel="noopener" href="https://api.github.com/users/baijianruoliorz/gists%7B/gist_id%7D&quot;">https://api.github.com/users/baijianruoliorz/gists{/gist_id}&quot;</a>,<br>      “starred_url”: “<a target="_blank" rel="noopener" href="https://api.github.com/users/baijianruoliorz/starred%7B/owner%7D%7B/repo%7D&quot;">https://api.github.com/users/baijianruoliorz/starred{/owner}{/repo}&quot;</a>,<br>      “subscriptions_url”: “<a target="_blank" rel="noopener" href="https://api.github.com/users/baijianruoliorz/subscriptions&quot;">https://api.github.com/users/baijianruoliorz/subscriptions&quot;</a>,<br>      “organizations_url”: “<a target="_blank" rel="noopener" href="https://api.github.com/users/baijianruoliorz/orgs&quot;">https://api.github.com/users/baijianruoliorz/orgs&quot;</a>,<br>      “repos_url”: “<a target="_blank" rel="noopener" href="https://api.github.com/users/baijianruoliorz/repos&quot;">https://api.github.com/users/baijianruoliorz/repos&quot;</a>,<br>      “events_url”: “<a target="_blank" rel="noopener" href="https://api.github.com/users/baijianruoliorz/events%7B/privacy%7D&quot;">https://api.github.com/users/baijianruoliorz/events{/privacy}&quot;</a>,<br>      “received_events_url”: “<a target="_blank" rel="noopener" href="https://api.github.com/users/baijianruoliorz/received_events&quot;">https://api.github.com/users/baijianruoliorz/received_events&quot;</a>,<br>      “type”: “User”,<br>      “site_admin”: false<br>    },<br>    “created_at”: “2020-12-17T12:59:48Z”,<br>    “updated_at”: “2020-12-17T12:59:48Z”,<br>    “author_association”: “OWNER”,<br>    “body_html”: “<p>kkkkk</p>“,<br>    “body_text”: “kkkkk”,<br>    “body”: “kkkkk”,<br>    “performed_via_github_app”: null<br>  }<br>]</p>
+<p>当然访问不同的页面，就不一定是html，有可能是css, js,甚至图片了。</p>
+<h1 id="一些常用的状态码"><a href="#一些常用的状态码" class="headerlink" title="一些常用的状态码"></a>一些常用的状态码</h1><p>身为一名合格的后端开发 我们不应该只知道404是个啥…</p>
+<p>这样就和嘛都不知道其实是一样的…</p>
+<p>200 表示响应成功了，比如打开页面, 就会看到200响应码</p>
+<p>301 表示客户端跳转，永久性的跳转</p>
+<p>302 客户端跳转，临时性的跳转</p>
+<p>304 表示资源未被修改。</p>
+<p>当不是第一次访问一个静态页面或者图片的时候，就会得到这么一个提示。这是服务端提示浏览器，这个<strong>资源没有发生改变</strong>，你直接使用上一次下载的就行了，不需要重新下载。 这样就节约了带宽，并且浏览器的加载速度也更快。</p>
+<p>404表示访问的页面不存在</p>
+<p>这是一个不存在的页面，就会得到404响应码<br>这表示一个浏览器的错误，就是服务端没提供这个服务，但是你却去访问。 这个锅要算到浏览器头上，不能算在服务器头上。</p>
+<p>500 表示服务端的错误</p>
+<p>更多…:</p>
+<p><img src="https://stepimagewm.how2j.cn/7019.png" alt="更多代码一一览。。。"></p>
+<h1 id="一道面试题"><a href="#一道面试题" class="headerlink" title="一道面试题"></a>一道面试题</h1><p>你说你的网站现在用的是https协议,那么说一说http与https的区别</p>
+<h2 id="与试题无关的内容"><a href="#与试题无关的内容" class="headerlink" title="与试题无关的内容:"></a>与试题无关的内容:</h2><p>http要变成https就得上ssl证书</p>
+<p>要能够相对安全地上路驾驶，就必须要有驾驶证，这个证书最好是被广泛认可的权威机构颁发的，这样大家才信任它。</p>
+<p>同样地道理：</p>
+<p>要进行ssl 认证，就需要 ssl 证书。 这个证书最好是被广泛认可的权威机构颁发的，这样大家才信任它。</p>
+<p>ssl 证书就是这么个意思~</p>
+<p><del>当然像我这种非常贫穷的人一般都是去阿里云申请免费证书</del></p>
+<h2 id="与试题有关的内容"><a href="#与试题有关的内容" class="headerlink" title="与试题有关的内容:"></a>与试题有关的内容:</h2><p>1、https协议需要到ca申请证书，一般免费证书较少，因而需要一定费用。</p>
+<p>2、http是超文本传输协议，信息是明文传输，https则是具有安全性的ssl加密传输协议。</p>
+<p>3、http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</p>
+<p>4、http的连接很简单，是无状态的；HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，比http协议安全。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/01/26/%E8%A1%A5%E5%85%85%E5%B0%8F%E7%9F%A5%E8%AF%86%20http%E4%B8%8Ehttps/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
     <article id="post-逻辑删除" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1591,177 +1704,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2021/01/17/mysql-02/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-MYSQL语法初探" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/16/MYSQL%E8%AF%AD%E6%B3%95%E5%88%9D%E6%8E%A2/">MYSQL-01</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/16/MYSQL%E8%AF%AD%E6%B3%95%E5%88%9D%E6%8E%A2/" class="archive-article-date">
-  	<time datetime="2021-01-16T15:34:59.734Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="MYSQL语法初探"><a href="#MYSQL语法初探" class="headerlink" title="MYSQL语法初探"></a>MYSQL语法初探</h1><p>不会有人看到标题不是JavaSe就以为Se部分完结了吧?</p>
-<p>其实是博主更麻了 想换换方向 </p>
-<p>所以今天我们来康康开发crud的直接对象 mysql的一些语法</p>
-<p>默认你已经安装了mysql 推荐一下最好是5.7版本的</p>
-<p>如果没有 正好又可以锻炼你上网查阅资料的能力<del>太懒了</del></p>
-<p>为什么呢 只能说血的教训</p>
-<p>我当初学习的时候恰逢8.15版本出</p>
-<p>心想肯定得用新的 当时很快啊 安装了8版本的mysql</p>
-<p>结果mysql8用几天都得重新调一下时区</p>
-<p>有时候就离谱到上午可以跑的项目下午不能跑了(因为那天下午™正好要演示 我直</p>
-<p>接现场debug)</p>
-<p>诶换了5.7之后啊 没上面那么多事了 一直平安的用到了现在</p>
-<p>而且 5.7是5的最新版本 官方还有在做补丁迭代  适配了8的jar包 何乐而不为呢!</p>
-<p>没想到到这里已经BB这么多了</p>
-<p>那么现在开始进入真正的学习</p>
-<p>对了 <del>不会有人想学原生的JDBC吧</del> 如果真的很想很想 请自己Google</p>
-<p>想写全一些 如果大家以后有需要的语法突然忘记了 能够想到去我们冬令营这里查</p>
-<p>查资料就是我最大的荣幸了</p>
-<p>注意:mysql语法不区分大小写的</p>
-<p>命令行登录到mysql: mysql -u root -p</p>
-<p>Enter password:yourPassword</p>
-<h2 id="操作数据库"><a href="#操作数据库" class="headerlink" title="操作数据库:"></a>操作数据库:</h2><p>创建数据库: create datebase yourDataBaseName;</p>
-<p>删除数据库: drop database yourDataBaseName;</p>
-<h2 id="操作数据表"><a href="#操作数据表" class="headerlink" title="操作数据表:"></a>操作数据表:</h2><p>创建表:create table tableName(columnName columnType);</p>
-<p>虽然现在很多工具都可以自动创建出生成表的语句了</p>
-<p>但是为了学习性 我们这里还是举例了一个:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE IF NOT EXISTS &#96;czrnbTb&#96;(</span><br><span class="line">   &#96;czr_id&#96; INT UNSIGNED AUTO_INCREMENT,</span><br><span class="line">   &#96;czr_title&#96; VARCHAR(100) NOT NULL,</span><br><span class="line">   &#96;czr_author&#96; VARCHAR(40) NOT NULL,</span><br><span class="line">   &#96;czr_date&#96; DATE,</span><br><span class="line">   PRIMARY KEY ( &#96;czr_id&#96; )</span><br><span class="line">)ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8;</span><br></pre></td></tr></table></figure>
-<p>删除表: drop table tableName</p>
-<h2 id="CRUD"><a href="#CRUD" class="headerlink" title="CRUD:"></a>CRUD:</h2><p>C:insert into tableName(field1,field2…) values(value1,value2…)</p>
-<p>如果省略了 field这部分括号的内容 那么默认是全部字段都要传值</p>
-<p>R:select columnName1,columnName2 from tableName</p>
-<ul>
-<li>查询语句中你可以使用一个或者多个表，表之间使用逗号(,)分割，并使用WHERE语句来设定查询条件。</li>
-<li>SELECT 命令可以读取一条或者多条记录。</li>
-<li>你可以使用星号（*）来代替其他字段，SELECT语句会返回表的所有字段数据</li>
-<li>你可以使用 WHERE 语句来包含任何条件。</li>
-<li>你可以使用 LIMIT 属性来设定返回的记录数。</li>
-<li>你可以通过OFFSET指定SELECT语句开始查询的数据偏移量。默认情况下偏移量为0。</li>
-</ul>
-<p>以上常用的有where子句:select columnName1,columnName2 from tableName where condition1 and/or condition2 (不加and/or的话表示单条件查询)</p>
-<table>
-<thead>
-<tr>
-<th>=</th>
-<th>等号，检测两个值是否相等，如果相等返回true</th>
-<th>(A = B) 返回false。</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>&lt;&gt;, !=</td>
-<td>不等于，检测两个值是否相等，如果不相等返回true</td>
-<td>(A != B) 返回 true。</td>
-</tr>
-<tr>
-<td>&gt;</td>
-<td>大于号，检测左边的值是否大于右边的值, 如果左边的值大于右边的值返回true</td>
-<td>(A &gt; B) 返回false。</td>
-</tr>
-<tr>
-<td>&lt;</td>
-<td>小于号，检测左边的值是否小于右边的值, 如果左边的值小于右边的值返回true</td>
-<td>(A &lt; B) 返回 true。</td>
-</tr>
-<tr>
-<td>&gt;=</td>
-<td>大于等于号，检测左边的值是否大于或等于右边的值, 如果左边的值大于或等于右边的值返回true</td>
-<td>(A &gt;= B) 返回false。</td>
-</tr>
-<tr>
-<td>&lt;=</td>
-<td>小于等于号，检测左边的值是否小于或等于右边的值, 如果左边的值小于或等于右边的值返回true</td>
-<td>(A &lt;= B) 返回 true。</td>
-</tr>
-</tbody></table>
-<p>U:update tableName set field1=newValue1,field2=newValue2 where…</p>
-<p>D:delete from tableName where…</p>
-<p>Like子句:</p>
-<p>SQL LIKE 子句中使用百分号 *<em>%<strong>字符来表示任意字符，类似于UNIX或正则表达式中的星号 **</strong></em>。</p>
-<p>如果没有使用百分号 <strong>%</strong>, LIKE 子句与等号 <strong>=</strong> 的效果是一样的。</p>
-<p>这个语句其实文字没代码好说明</p>
-<p>下面之间上代码大家肯定就会用了</p>
-<p>select * from tableName where field1 like ‘%czr%’; 查询所有field1带czr的</p>
-<p>select * from tableName where field2 like ‘%czr’; 查询以czr结尾的</p>
-<p>select * from tableName where field3 like ‘czr%’; 查询以czr开头的</p>
-<p>union操作符:</p>
-<p>这个语句我用的不是很多 但是根据网上来的例子可以</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT country FROM Websites</span><br><span class="line">UNION</span><br><span class="line">SELECT country FROM apps</span><br><span class="line">ORDER BY country;</span><br></pre></td></tr></table></figure>
-<p>这样可以获取两表中不同的country值 比如一个表有多个CN(China) 查出来的时候只会打印一个</p>
-<p>如果想要答应多个 将union改为 union all 即可.</p>
-<p>带有where的union all</p>
-<p>下面的 SQL 语句使用 UNION ALL 从 “Websites” 和 “apps” 表中选取<strong>所有的</strong>中国(CN)的数据（也有重复的值）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT country, name FROM Websites</span><br><span class="line">WHERE country&#x3D;&#39;CN&#39;</span><br><span class="line">UNION ALL</span><br><span class="line">SELECT country, app_name FROM apps</span><br><span class="line">WHERE country&#x3D;&#39;CN&#39;</span><br><span class="line">ORDER BY country;</span><br></pre></td></tr></table></figure>
-<p>order by 排序语句</p>
-<ul>
-<li>你可以使用任何字段来作为排序的条件，从而返回排序后的查询结果。</li>
-<li>你可以设定多个字段来排序。</li>
-<li>你可以使用 ASC 或 DESC 关键字来设置查询结果是按升序或降序排列。 默认情况下，它是按升序排列。</li>
-<li>你可以添加 WHERE…LIKE 子句来设置条件。</li>
-</ul>
-<p>默认asc升序排序 当然你也可以加上asc desc是降序排列</p>
-<p>select * from czrTb order by czr_id <del>asc</del></p>
-<p>select * from czrTb order by czr_id desc  –&gt;降序</p>
-<p>group by 分组语句:</p>
-<p>GROUP BY 语句根据一个或多个列对结果集进行分组。</p>
-<p>在分组的列上我们可以使用 COUNT, SUM, AVG,等函数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT column_name, function(column_name)</span><br><span class="line">FROM table_name</span><br><span class="line">WHERE column_name operator value</span><br><span class="line">GROUP BY column_name;</span><br></pre></td></tr></table></figure>
-<h1 id="END"><a href="#END" class="headerlink" title="END"></a>END</h1><p>太困了 我决定睡觉</p>
-<p>明天继续把后面的语句更完…</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/16/MYSQL%E8%AF%AD%E6%B3%95%E5%88%9D%E6%8E%A2/">展开全文 >></a>
         </p>
       
 
