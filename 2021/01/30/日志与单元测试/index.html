@@ -6,15 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives: 2021/1 | Blog-WIZZBEWINTERCAMP</title>
+  <title>日志与单元测试 | Blog-WIZZBEWINTERCAMP</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="just a gopher">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Blog-WIZZBEWINTERCAMP">
-<meta property="og:url" content="http://example.com/archives/2021/01/index.html">
+  <meta name="description" content="日志与单元测试今天讲一讲开发中常用的两个小功能 日志以及单元测试 关于完成这两个功能开源的工具有很多 我们这里选用 log4j 以及junit来完成即可! 当然选用slf4j也可以同样完成输出 我们这里不展开讨论 Log4j通常，我们写代码的过程中，免不了要输出各种调试信息。在没有使用任何日志工具之前，都会使用 System.out.println 来做到。 这么做直观有效，但是有一系列的缺点：\">
+<meta property="og:type" content="article">
+<meta property="og:title" content="日志与单元测试">
+<meta property="og:url" content="http://example.com/2021/01/30/%E6%97%A5%E5%BF%97%E4%B8%8E%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/index.html">
 <meta property="og:site_name" content="Blog-WIZZBEWINTERCAMP">
-<meta property="og:description" content="just a gopher">
+<meta property="og:description" content="日志与单元测试今天讲一讲开发中常用的两个小功能 日志以及单元测试 关于完成这两个功能开源的工具有很多 我们这里选用 log4j 以及junit来完成即可! 当然选用slf4j也可以同样完成输出 我们这里不展开讨论 Log4j通常，我们写代码的过程中，免不了要输出各种调试信息。在没有使用任何日志工具之前，都会使用 System.out.println 来做到。 这么做直观有效，但是有一系列的缺点：\">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-30T05:00:15.241Z">
+<meta property="article:modified_time" content="2021-01-30T05:15:21.826Z">
 <meta property="article:author" content="baijianruoliorz">
 <meta property="article:tag" content="Vue">
 <meta property="article:tag" content="github">
@@ -160,296 +162,220 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-日志与单元测试" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      日志与单元测试
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/30/%E6%97%A5%E5%BF%97%E4%B8%8E%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" class="archive-article-date">
+
+        
+        <a href="/2021/01/30/%E6%97%A5%E5%BF%97%E4%B8%8E%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" class="archive-article-date">
   	<time datetime="2021-01-30T05:00:15.241Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-30</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/30/%E6%97%A5%E5%BF%97%E4%B8%8E%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">日志与单元测试</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="日志与单元测试"><a href="#日志与单元测试" class="headerlink" title="日志与单元测试"></a>日志与单元测试</h1><p>今天讲一讲开发中常用的两个小功能</p>
+<p>日志以及单元测试</p>
+<p>关于完成这两个功能开源的工具有很多 我们这里选用 log4j 以及junit来完成即可!</p>
+<p>当然选用slf4j也可以同样完成输出 我们这里不展开讨论</p>
+<h1 id="Log4j"><a href="#Log4j" class="headerlink" title="Log4j"></a>Log4j</h1><p>通常，我们写代码的过程中，免不了要输出各种调试信息。在没有使用任何日志工具之前，都会使用 <strong>System.out.println</strong> 来做到。 这么做直观有效，但是有一系列的缺点：<br>\1. 不知道这句话是在哪个类，哪个线程里出来的<br>\2. 不知道什么时候前后两句输出间隔了多少时间<br>\3. 无法关闭调试信息，一旦System.out.println多了之后，到处都是输出，增加定位自己需要信息的难度</p>
+<p>所以 我们要使用Log4j来输出日志信息</p>
+<p>这里推荐一下idea的 rainbow插件</p>
+<p>它可以让你的控制台变得五颜六色 更容易识别不同级别的日志输出</p>
+<p>首先导入maven依赖</p>
+<p>直接去maven  repo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--日志 start--&gt;</span><br><span class="line"> &lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;log4j&lt;&#x2F;groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;log4j&lt;&#x2F;artifactId&gt;</span><br><span class="line">     &lt;version&gt;1.2.17&lt;&#x2F;version&gt;</span><br><span class="line"> &lt;&#x2F;dependency&gt;</span><br><span class="line"> &lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;org.slf4j&lt;&#x2F;groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;slf4j-api&lt;&#x2F;artifactId&gt;</span><br><span class="line">     &lt;version&gt;1.7.25&lt;&#x2F;version&gt;</span><br><span class="line"> &lt;&#x2F;dependency&gt;</span><br><span class="line"> &lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;org.slf4j&lt;&#x2F;groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;slf4j-log4j12&lt;&#x2F;artifactId&gt;</span><br><span class="line">     &lt;version&gt;1.7.25&lt;&#x2F;version&gt;</span><br><span class="line">     &lt;scope&gt;test&lt;&#x2F;scope&gt;</span><br><span class="line"> &lt;&#x2F;dependency&gt;</span><br><span class="line"> &lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;org.slf4j&lt;&#x2F;groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;slf4j-simple&lt;&#x2F;artifactId&gt;</span><br><span class="line">     &lt;version&gt;1.7.25&lt;&#x2F;version&gt;</span><br><span class="line">     &lt;scope&gt;test&lt;&#x2F;scope&gt;</span><br><span class="line"> &lt;&#x2F;dependency&gt;</span><br><span class="line"> &lt;!--日志end--&gt;</span><br></pre></td></tr></table></figure>
+<p>这里 日志抽象层使用slf4j,所以需要slf4j-api,而slf4j-api接口和log4j的接口不一致，所以需要一个适配层，也就是slf4j-log4j12，在pom中导入slf4j-log4j12适配包会自动导入log4j实现包。最后slf4j-simple包也相当于一个简单的日志实现包，这里可以不用导入。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> log4j;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.log4j.BasicConfigurator;</span><br><span class="line"><span class="keyword">import</span> org.apache.log4j.Level;</span><br><span class="line"><span class="keyword">import</span> org.apache.log4j.Logger;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestLog4j</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> Logger logger = Logger.getLogger(TestLog4j.class);</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">		BasicConfigurator.configure();</span><br><span class="line">		logger.setLevel(Level.DEBUG);</span><br><span class="line">		logger.trace(<span class="string">&quot;跟踪信息&quot;</span>);</span><br><span class="line">		logger.debug(<span class="string">&quot;调试信息&quot;</span>);</span><br><span class="line">		logger.info(<span class="string">&quot;输出信息&quot;</span>);</span><br><span class="line">		Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">		logger.warn(<span class="string">&quot;警告信息&quot;</span>);</span><br><span class="line">		logger.error(<span class="string">&quot;错误信息&quot;</span>);</span><br><span class="line">		logger.fatal(<span class="string">&quot;致命信息&quot;</span>);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码讲解</p>
+<p>\1. 基于类的名称获取日志对象</p>
+<p>static Logger logger = Logger.getLogger(TestLog4j.class);</p>
+<p>\2. 进行默认配置</p>
+<p>BasicConfigurator.configure();</p>
+<p>\3. 设置日志输出级别   一般这个可以在配置文件完成</p>
+<p>logger.setLevel(Level.DEBUG);</p>
+<p>\3. 进行不同级别的日志输出</p>
+<p>logger.trace(“跟踪信息”);</p>
+<p>logger.debug(“调试信息”);</p>
+<p>logger.info(“输出信息”);</p>
+<p>Thread.sleep(1000);</p>
+<p>logger.warn(“警告信息”);</p>
+<p>logger.error(“错误信息”);</p>
+<p>logger.fatal(“致命信息”);</p>
+<p> 关于如何使用配置文件配置</p>
+<p>大家可以在网上查询相关资料 找到一份最适合自己的</p>
+<h1 id="Junit"><a href="#Junit" class="headerlink" title="Junit"></a>Junit</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> junit;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SumUtil</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> result = sum1(<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line">		System.out.println(result);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">sum1</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> i+j;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过main方法来进行测试的问题是显而易见的。<br>比如新开发了一个方法，是对3个数求和，那么问题至少有两个：<br>\1. 要在原来测试的基础上修改，可能破坏原来的测试逻辑<br>\2. 测试成功了，还是i测试失败了，都不知道呀。。。只能通过肉眼进行观察，如果测试的量很大，是很难看的过来滴</p>
+<p>junit</p>
+<p>为了应付这种测试的需求，我们就需要使用 junit 测试框架来进行测试工作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;junit&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;junit&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;scope&gt;test&lt;&#x2F;scope&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSum1</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​    	<span class="keyword">int</span> result = SumUtil.sum1(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">​    	Assert.assertEquals(result, <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+<p>测试类</p>
+<p>\1. 需要加上2个注解：<br>@RunWith(SpringRunner.class)<br>@SpringBootTest(classes = Application.class)</p>
+<p>\2. 自动装配 CategoryDAO dao; 以便于使用</p>
+<p>\3. test 方法加上 @Test 注解，然后就可以使用dao来工作了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith(SpringRunner.class)</span></span><br><span class="line"><span class="meta">@SpringBootTest(classes = Application.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestJPA</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Autowired</span> CategoryDAO dao;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		List&lt;Category&gt; cs=  dao.findAll();</span><br><span class="line">		<span class="keyword">for</span> (Category c : cs) &#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;c.getName():&quot;</span>+ c.getName());</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="END"><a href="#END" class="headerlink" title="END"></a>END</h2>
+      
 
-        <div class="article-info info-on-right">
-          
-          
-
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/01/30/%E6%97%A5%E5%BF%97%E4%B8%8E%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/29/%E8%A1%A5%E5%AE%8C%E7%9A%84Java%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2021-01-29T02:57:45.570Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-29</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/01/29/%E8%A1%A5%E5%AE%8C%E7%9A%84Java%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">注解与hutool</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/29/%E8%A1%A5%E5%AE%8C%E7%9A%84Java%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3/">注解与hutool</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/28/%E8%BF%87%E6%B8%A1%E6%96%87%E7%AB%A0%E4%BA%8C/" class="archive-article-date">
-  	<time datetime="2021-01-28T15:34:12.352Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/28/%E8%BF%87%E6%B8%A1%E6%96%87%E7%AB%A0%E4%BA%8C/">过渡文章二</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/27/%E4%B8%80%E4%BA%9B%E8%BF%87%E6%B8%A1%E7%9F%A5%E8%AF%86(%E8%AF%B7%E7%9C%8B%E5%AE%8C%E5%86%8DSpringboot)/" class="archive-article-date">
-  	<time datetime="2021-01-27T12:39:58.307Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/27/%E4%B8%80%E4%BA%9B%E8%BF%87%E6%B8%A1%E7%9F%A5%E8%AF%86(%E8%AF%B7%E7%9C%8B%E5%AE%8C%E5%86%8DSpringboot)/">因为进度太快了所以过渡文章出现了-01!!!</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
+  <div id="gitalk-container" style="padding: 0px 30px 0px 30px;"></div> 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/26/%E8%A1%A5%E5%85%85%E5%B0%8F%E7%9F%A5%E8%AF%86%20http%E4%B8%8Ehttps/" class="archive-article-date">
-  	<time datetime="2021-01-26T02:50:49.433Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/26/%E8%A1%A5%E5%85%85%E5%B0%8F%E7%9F%A5%E8%AF%86%20http%E4%B8%8Ehttps/">补充小知识 http与https</a>
-    </h1>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+
+if(true){
+	var gitalk = new Gitalk({
+  	clientID: 'cfddc77ae887330d8ee1',
+  	clientSecret: '92b203d0a5537b91fa82e3b67c882d0c2bdd1743',
+  	repo: 'baijianruoliorz.github.io',
+  	owner: 'baijianruoliorz',
+  	admin: ['baijianruoliorz'],
+  	id: 'Sat Jan 30 2021 13:00:15 GMT+0800',
+  	distractionFreeMode: 'true'
+})
+gitalk.render('gitalk-container') 
+}
+</script>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/25/%E9%80%BB%E8%BE%91%E5%88%A0%E9%99%A4/" class="archive-article-date">
-  	<time datetime="2021-01-25T02:50:08.818Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/25/%E9%80%BB%E8%BE%91%E5%88%A0%E9%99%A4/">MybatisPlus-03</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/24/Mybatisplus-02/" class="archive-article-date">
-  	<time datetime="2021-01-24T15:16:07.420Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/24/Mybatisplus-02/">MybatisPlus-02</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/24/MyBatis-Plus/" class="archive-article-date">
-  	<time datetime="2021-01-24T13:55:33.663Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/24/MyBatis-Plus/">MybatisPlus-01</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/22/Spring/" class="archive-article-date">
-  	<time datetime="2021-01-22T12:46:44.347Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/22/Spring/">SpringBoot-01</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/21/%E5%92%95%E5%92%95%E9%B8%9F%E7%9A%84%E7%B3%96%E6%9E%9C%E9%92%9F/" class="archive-article-date">
-  	<time datetime="2021-01-21T15:36:01.484Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/21/%E5%92%95%E5%92%95%E9%B8%9F%E7%9A%84%E7%B3%96%E6%9E%9C%E9%92%9F/">咕咕鸟的糖果钟</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2021/01/page/2/">2</a><a class="page-number" href="/archives/2021/01/page/3/">3</a><a class="extend next" rel="next" href="/archives/2021/01/page/2/">Next &amp;raquo;</a>
-    </nav>
-  
 
 
           </div>
@@ -472,8 +398,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
