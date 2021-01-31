@@ -162,6 +162,124 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-@RequestParam，@PathParam，@PathVariable等注解区别" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/31/@RequestParam%EF%BC%8C@PathParam%EF%BC%8C@PathVariable%E7%AD%89%E6%B3%A8%E8%A7%A3%E5%8C%BA%E5%88%AB/">SpringBoot的开发细节总结-01</a>
+    </h1>
+  
+
+        
+        <a href="/2021/01/31/@RequestParam%EF%BC%8C@PathParam%EF%BC%8C@PathVariable%E7%AD%89%E6%B3%A8%E8%A7%A3%E5%8C%BA%E5%88%AB/" class="archive-article-date">
+  	<time datetime="2021-01-31T03:48:13.977Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>SpringBoot的开发细节总结-01</p>
+<h1 id="RequestParam，-PathParam，-PathVariable等注解区别"><a href="#RequestParam，-PathParam，-PathVariable等注解区别" class="headerlink" title="@RequestParam，@PathParam，@PathVariable等注解区别"></a>@RequestParam，@PathParam，@PathVariable等注解区别</h1><p><code>@RequestParam</code> 和 <code>@PathVariable</code> 注解是用于从request中接收请求的，两个都可以接收参数，关键点不同的是<code>@RequestParam</code> 是从request里面拿取值，而 <code>@PathVariable</code> 是从一个URI模板里面来填充</p>
+<h4 id="RequestParam"><a href="#RequestParam" class="headerlink" title="@RequestParam"></a>@RequestParam</h4><p>看下面一段代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;localhost:8080&#x2F;springmvc&#x2F;hello&#x2F;101?param1&#x3D;10&amp;param2&#x3D;20</span><br></pre></td></tr></table></figure>
+<p>根据上面的这个URL，你可以用这样的方式来进行获取</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getDetails</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="meta">@RequestParam(value=&quot;param1&quot;, required=true)</span> String param1,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="meta">@RequestParam(value=&quot;param2&quot;, required=false)</span> String param2)</span></span>&#123;</span><br><span class="line">...</span><br><span class="line">&#125;<span class="number">12345</span></span><br></pre></td></tr></table></figure>
+<p><code>@RequestParam</code> 支持下面四种参数</p>
+<ul>
+<li>defaultValue 如果本次请求没有携带这个参数，或者参数为空，那么就会启用默认值</li>
+<li>name 绑定本次参数的名称，要跟URL上面的一样</li>
+<li>required 这个参数是不是必须的</li>
+<li>value 跟name一样的作用，是name属性的一个别名</li>
+</ul>
+<h4 id="PathVariable"><a href="#PathVariable" class="headerlink" title="@PathVariable"></a>@PathVariable</h4><p>这个注解能够识别URL里面的一个模板，我们看下面的一个URL</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080/springmvc/hello/101?param1=10&amp;param2=201</span><br></pre></td></tr></table></figure>
+<p>上面的一个url你可以这样写：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/hello/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDetails</span><span class="params">(<span class="meta">@PathVariable(value=&quot;id&quot;)</span> String id,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="meta">@RequestParam(value=&quot;param1&quot;, required=true)</span> String param1,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="meta">@RequestParam(value=&quot;param2&quot;, required=false)</span> String param2)</span></span>&#123;</span><br><span class="line">.......</span><br><span class="line">&#125;<span class="number">123456</span></span><br></pre></td></tr></table></figure>
+<p>区别很明显了</p>
+<h4 id="PathParam"><a href="#PathParam" class="headerlink" title="@PathParam"></a>@PathParam</h4><p>这个注解是和spring的<code>pathVariable</code>是一样的，也是基于模板的，但是这个是jboss包下面的一个实现，上面的是spring的一个实现，都要导包</p>
+<h4 id="QueryParam"><a href="#QueryParam" class="headerlink" title="@QueryParam"></a>@QueryParam</h4><p><code>@QueryParam</code> 是 JAX-RS 本来就提供的，和Spring的RequestParam作用一致</p>
+<h4 id="ResponseBody"><a href="#ResponseBody" class="headerlink" title="@ResponseBody"></a>@ResponseBody</h4><p>responseBody表示服务器返回的时候以一种什么样的方式进行返回， 将内容或对象作为 HTTP 响应正文返回，值有很多，一般设定为json</p>
+<h4 id="RequestBody"><a href="#RequestBody" class="headerlink" title="@RequestBody"></a>@RequestBody</h4><p>一般是post请求的时候才会使用这个请求，把参数丢在requestbody里面</p>
+<h1 id="spring的-Value注解使用"><a href="#spring的-Value注解使用" class="headerlink" title="spring的@Value注解使用"></a>spring的@Value注解使用</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/woheniccc/article/details/79804600">请看这篇文章</a></p>
+<h1 id="lombok-Accessors用法"><a href="#lombok-Accessors用法" class="headerlink" title="lombok @Accessors用法"></a>lombok @Accessors用法</h1><h2 id="Accessors"><a href="#Accessors" class="headerlink" title="@Accessors"></a>@Accessors</h2><p>Accessor的中文含义是存取器，@Accessors用于配置getter和setter方法的生成结果，下面介绍三个属性</p>
+<h6 id="fluent"><a href="#fluent" class="headerlink" title="fluent"></a>fluent</h6><p>fluent的中文含义是流畅的，设置为true，则getter和setter方法的方法名都是基础属性名，且setter方法返回当前对象。如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Accessors(fluent = true)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 生成的getter和setter方法如下，方法体略</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Long <span class="title">id</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">id</span><span class="params">(Long id)</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">name</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">name</span><span class="params">(String name)</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="number">123456789101112</span></span><br></pre></td></tr></table></figure>
+<h6 id="chain"><a href="#chain" class="headerlink" title="chain"></a>chain</h6><p>chain的中文含义是链式的，设置为true，则setter方法返回当前对象。如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Accessors(chain = true)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 生成的setter方法如下，方法体略</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">setId</span><span class="params">(Long id)</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="number">12345678910</span></span><br></pre></td></tr></table></figure>
+<h6 id="prefix"><a href="#prefix" class="headerlink" title="prefix"></a>prefix</h6><p>prefix的中文含义是前缀，用于生成getter和setter方法的字段名会忽视指定前缀（遵守驼峰命名）。如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Accessors(prefix = &quot;p&quot;)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Long pId;</span><br><span class="line">	<span class="keyword">private</span> String pName;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 生成的getter和setter方法如下，方法体略</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Long <span class="title">getId</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(Long id)</span> </span>&#123;&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="RequestParam详解以及加与不加的区别"><a href="#RequestParam详解以及加与不加的区别" class="headerlink" title="@RequestParam详解以及加与不加的区别"></a>@RequestParam详解以及加与不加的区别</h1><p>下面我们来区分一下加与不加的区别</p>
+<p>这里有两种写法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/list&quot;)</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">(<span class="meta">@RequestParam</span>  Long parentId)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line"></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/list&quot;)</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">( Long parentId)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>第一种必须带有参数</strong>,也就是说你直接输入localhost:8080/list 会报错 不会执行方法 只能输入localhost:8080/list?parentId=? 才能执行相应的方法</p>
+<p><strong>第二种 可带参数也可不带参数</strong> 就是说你输入  localhost:8080/list  以及 localhost:8080/list?parentId=?  方法都能执行</p>
+<p>当然你也可以设置 @RequestParam 里面的required为false(默认为true 代表必须带参数) 这样就跟第二种是一样的了</p>
+<p>如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/list&quot;)</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">(<span class="meta">@RequestParam(required=false)</span>  Long parentId)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		.....</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+<p>当然你还可以设置里面的defaultValue的属性</p>
+<p>如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/list&quot;)</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">(<span class="meta">@RequestParam(defaultValue=&quot;0&quot;)</span>  Long parentId)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	...	</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br></pre></td></tr></table></figure>
+<p>这样在地址里面也可以不带参数，如果带了参数会接收，不带参数会默认为0</p>
+<p>里面还有一个value属性也讲一下， 前面所有的方法 传入的参数必须为parentId 才能接收到值</p>
+<p>但是如果你加了value属性</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/list&quot;)</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">(<span class="meta">@RequestParam(value=&quot;id&quot;)</span>  Long parentId)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		..</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+<p>这样会用id 代替parentId  也就是说你地址里面传入的参数名称为id　localhost:8080/list?id＝？　这种</p>
+<h1 id="END"><a href="#END" class="headerlink" title="END"></a>END</h1>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/01/31/@RequestParam%EF%BC%8C@PathParam%EF%BC%8C@PathVariable%E7%AD%89%E6%B3%A8%E8%A7%A3%E5%8C%BA%E5%88%AB/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
     <article id="post-Jsoup" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -169,7 +287,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/30/Jsoup/">Jsoup Json MVC</a>
+      <a class="article-title" href="/2021/01/30/Jsoup/">Jsoup-Json-MVC</a>
     </h1>
   
 
@@ -1609,138 +1727,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2021/01/24/MyBatis-Plus/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-Spring" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/22/Spring/">SpringBoot-01</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/22/Spring/" class="archive-article-date">
-  	<time datetime="2021-01-22T12:46:44.347Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h1><p>Spring是一个基于IOC和AOP的结构J2EE系统的框架<br>IOC 反转控制 是Spring的基础，Inversion Of Control<br>简单说就是创建对象由以前的程序员自己new 构造方法来调用，变成了交由Spring创建对象<br>DI 依赖注入 Dependency Inject. 简单地说就是拿到的对象的属性，已经被注入好相关值了，直接使用即可。</p>
-<h1 id="MAVEN"><a href="#MAVEN" class="headerlink" title="MAVEN"></a>MAVEN</h1><p>Maven 是专门用于构建和管理Java相关项目的工具。</p>
-<p>MAVEN环境变量配置:</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/pan_junbiao/article/details/104264644">try一下叭</a></p>
-<p>如果是萌新的话maven就够让你喝一壶了==</p>
-<p>这里只要配好了maven 以后这个东西就不用再担心了==</p>
-<p>(除了某些未开源的jar包需要你手动添加)</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Hello_World_QWP/article/details/79317163">手动添加jar到本地maven仓库</a></p>
-<p>啊 到这里已经贴两个很需要折腾的文章了</p>
-<p>不过没关系米娜桑 Java就是这么需要折腾~</p>
-<p>失败个几次也是理所当然的吧!</p>
-<p>如果是GO的gin的话大概go get即可 但是这毕竟是Java</p>
-<p>达卡拉 <strong>Java的生态是完爆GO的</strong> 有兴趣可以看看2020的冬令营</p>
-<p>浩天学长写的GO的入门到开发教程~</p>
-<p>如果你成功的配好了maven的环境 </p>
-<p>那么现在可以开始创建一个springboot项目le~</p>
-<h1 id="Hello-Wizz"><a href="#Hello-Wizz" class="headerlink" title="Hello Wizz!"></a>Hello Wizz!</h1><p>米娜知道我们学习每一门语言最开始的教程总是打印Hello World! 的原因吗~</p>
-<p>因为人们认为这会给程序yuan们带来GoodLuck</p>
-<p>所以我们先用SpringBoot 打印一手Hello Wizz! 为接下来的学习带来好运叭</p>
-<p><img src="https://edu-1014.oss-cn-beijing.aliyuncs.com/2021/image-20210122195228382.png"></p>
-<p>QAQ  </p>
-<p>Group 和 Artifact 都是maven里面的概念 大概可以称为 GAV</p>
-<p>你在这里可以把它们理解成你创建的包名</p>
-<p><img src="https://edu-1014.oss-cn-beijing.aliyuncs.com/2021/image-20210122195446879.png"></p>
-<p>ok 这个项目名就叫HelloWizz叭</p>
-<p><img src="https://edu-1014.oss-cn-beijing.aliyuncs.com/2021/image-20210122195648156.png"></p>
-<p>这里大概看一下我们创建出来的项目目录 是不是理解GAV分别对应啥包名了吧</p>
-<p>顺便注意一下红色箭头 点enable auto-import就可以自动导入你的maven依赖</p>
-<p>然后我自己的命名习惯是 com-companyName-yourName</p>
-<p>比如这里我就是 com.wizz.yxr    你可以是com.wizz.czr and so on….</p>
-<p>当然 你的G也可以带有三层 举个例子  com.xd.wizz.yxr</p>
-<p>但是我个人喜欢两层 总之没什么影响 看个人习惯叭!!!</p>
-<p>我们在上面目录的yxr层创建一个文件夹 controller</p>
-<p>文件夹里创建一个 WizzController类</p>
-<p><img src="https://edu-1014.oss-cn-beijing.aliyuncs.com/2021/image-20210122201556529.png"></p>
-<p>然后写上上面的code</p>
-<p>再去chrome请求行输入:</p>
-<p><img src="https://edu-1014.oss-cn-beijing.aliyuncs.com/2021/image-20210122201643116.png"></p>
-<p>完成这个入门demo后我们来细细分析一下</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WizzController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@GetMapping(&quot;/hello&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">helloWizz</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Hello Wizz!&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>首先是两个注解</p>
-<p>@RestController 以及@GetMapping</p>
-<p>如果有同学手滑把前者写成了@Controller 那么他访问那个地址将会无法看到正常输入而是SpringBoot的默认错误页面.</p>
-<p>在这里介绍一下两者区别:(这里你也可以从网上找一些晦涩的解释)</p>
-<p>首先 你可以默认这两个注解都必须注释在controller这个包下的类里面</p>
-<p>其次说白了 @RestController=@ResponseBody ＋ @Controller</p>
-<p>但是@Controller实际上是前后端不分离的产物</p>
-<p>如果你曾经不幸的接触过这种开发流程</p>
-<p>那么你一定是个优秀的<del>全栈</del></p>
-<p>大概就是@Controller返回的是你创建的一些前端页面</p>
-<p>比如return “index”  其实就是返回index.html</p>
-<p>而现在我们前后端分离开发已经不需要这个注解了</p>
-<p>所以放心的使用@RestController叭</p>
-<p>然后@GetMapping这个注解后面有”/hello”所以我们访问的请求行就是</p>
-<p>localhost:8080/hello</p>
-<p>再说白了 后面跟的嘛 你url就填嘛就行了!</p>
-<p>如果想深入了解 强烈建议阅读完本文后开始疯狂查询相关的知识!!!</p>
-<h1 id="我的项目爆红了怎么办"><a href="#我的项目爆红了怎么办" class="headerlink" title="我的项目爆红了怎么办"></a>我的项目爆红了怎么办</h1><p>我猜测肯定有人会问这个问题 说 啊yxr你怎么不爆红 对萌新一点都不友好呜呜</p>
-<p>这里你们项目如果创建出来爆红了</p>
-<p>那么十有八九是maven的锅 </p>
-<p>maven里面十有八九是下载不完依赖</p>
-<p>还有一二是你maven都配错了但是你以为你对了</p>
-<p>啊…一涉及到SpringBoot大家出错的原因会千奇百怪</p>
-<p>所以请回看一下我们的冬令营前言:</p>
-<p><strong>互联网时代正确使用搜索工具与否是人与其他动物的根本区别</strong></p>
-<p>米娜 加油!  不爱折腾的后端不是好后端</p>
-<h1 id="END"><a href="#END" class="headerlink" title="END"></a>END</h1><p>今天大家看完后建议积极找一些Springboot的资料</p>
-<p>有能力的同学可以看看spring的 IOC 以及 AOP 如何具体实现的</p>
-<p>总之 真正折腾的可以说刚刚开始啦~</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/22/Spring/">展开全文 >></a>
         </p>
       
 
