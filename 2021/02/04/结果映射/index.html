@@ -6,15 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Blog-WIZZBEWINTERCAMP</title>
+  <title>深入了解resultmap | Blog-WIZZBEWINTERCAMP</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="just a gopher">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Blog-WIZZBEWINTERCAMP">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="说说Mybatis的resultmap 有时候我们数据库的表设计的不是那么理所当然 我们就不能使用mybatis的默认映射规则 而是自己定制映射规则 结果映射resultMap 元素是 MyBatis 中最重要最强大的元素。它可以让你从 90% 的 JDBC ResultSets 数据提取代码中解放出来，并在一些情形下允许你进行一些 JDBC 不支持的操作。实际上，在为一些比如连接的复杂语句编写映">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入了解resultmap">
+<meta property="og:url" content="http://example.com/2021/02/04/%E7%BB%93%E6%9E%9C%E6%98%A0%E5%B0%84/index.html">
 <meta property="og:site_name" content="Blog-WIZZBEWINTERCAMP">
-<meta property="og:description" content="just a gopher">
+<meta property="og:description" content="说说Mybatis的resultmap 有时候我们数据库的表设计的不是那么理所当然 我们就不能使用mybatis的默认映射规则 而是自己定制映射规则 结果映射resultMap 元素是 MyBatis 中最重要最强大的元素。它可以让你从 90% 的 JDBC ResultSets 数据提取代码中解放出来，并在一些情形下允许你进行一些 JDBC 不支持的操作。实际上，在为一些比如连接的复杂语句编写映">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-02-04T15:16:06.525Z">
+<meta property="article:modified_time" content="2021-02-04T15:19:14.431Z">
 <meta property="article:author" content="baijianruoliorz">
 <meta property="article:tag" content="Vue">
 <meta property="article:tag" content="github">
@@ -160,16 +162,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-结果映射" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-结果映射" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/04/%E7%BB%93%E6%9E%9C%E6%98%A0%E5%B0%84/">深入了解resultmap</a>
+    <h1 class="article-title" itemprop="name">
+      深入了解resultmap
     </h1>
   
 
@@ -261,6 +261,27 @@
       
 
       
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
     </div>
     <div class="article-info article-info-index">
       
@@ -268,16 +289,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/02/04/%E7%BB%93%E6%9E%9C%E6%98%A0%E5%B0%84/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/02/04/%E7%BB%93%E6%9E%9C%E6%98%A0%E5%B0%84/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2021/02/04/%E4%B8%80%E3%80%81JWT%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">SpringBoot 整合JWT</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -297,936 +377,39 @@
 
 
 
-
-
   
-    <article id="post-一、JWT认证流程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/04/%E4%B8%80%E3%80%81JWT%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B/">SpringBoot 整合JWT</a>
-    </h1>
   
 
-        
-        <a href="/2021/02/04/%E4%B8%80%E3%80%81JWT%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2021-02-04T14:49:56.753Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>SpringBoot 整合JWT</p>
-<p>此篇文章转载至掘金博客 </p>
-<p>本人已验证可以实现==</p>
-<h3 id="一、JWT认证流程"><a href="#一、JWT认证流程" class="headerlink" title="一、JWT认证流程"></a>一、JWT认证流程</h3><p><img src="https://user-gold-cdn.xitu.io/2019/11/8/16e48ac6ceffe058?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="JWT认证流程"></p>
-<p>认证流程如下：</p>
-<ol>
-<li>用户使用账号和密码发出post请求；</li>
-<li>服务器使用私钥创建一个jwt；</li>
-<li>服务器返回这个jwt给浏览器；</li>
-<li>浏览器将该jwt串在请求头中像服务器发送请求；</li>
-<li>服务器验证该jwt；</li>
-<li>返回响应的资源给浏览器。</li>
-</ol>
-<h3 id="二、SpringBoot整合JWT"><a href="#二、SpringBoot整合JWT" class="headerlink" title="二、SpringBoot整合JWT"></a>二、SpringBoot整合JWT</h3><p>新建一个spring boot项目spring-boot-jwt，按照下面步骤操作。</p>
-<ol>
-<li>pom.xml引入jar包</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 引入jwt--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.auth0&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;java-jwt&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.8.2&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
-<ol>
-<li>新建Jwt工具类</li>
-</ol>
-<p>Jwt工具类进行token的生成和认证，工具类代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * @description: Jwt工具类，生成JWT和认证</span><br><span class="line"> * @author: Java碎碎念</span><br><span class="line"> *&#x2F;</span><br><span class="line">public class JwtUtil &#123;</span><br><span class="line"></span><br><span class="line">    private static final Logger logger &#x3D; LoggerFactory.getLogger(JwtUtil.class);</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 密钥</span><br><span class="line">     *&#x2F;</span><br><span class="line">    private static final String SECRET &#x3D; &quot;my_secret&quot;;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 过期时间</span><br><span class="line">     **&#x2F;</span><br><span class="line">    private static final long EXPIRATION &#x3D; 1800L;&#x2F;&#x2F;单位为秒</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 生成用户token,设置token超时时间</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public static String createToken(User user) &#123;</span><br><span class="line">        &#x2F;&#x2F;过期时间</span><br><span class="line">        Date expireDate &#x3D; new Date(System.currentTimeMillis() + EXPIRATION * 1000);</span><br><span class="line">        Map&lt;String, Object&gt; map &#x3D; new HashMap&lt;&gt;();</span><br><span class="line">        map.put(&quot;alg&quot;, &quot;HS256&quot;);</span><br><span class="line">        map.put(&quot;typ&quot;, &quot;JWT&quot;);</span><br><span class="line">        String token &#x3D; JWT.create()</span><br><span class="line">                .withHeader(map)&#x2F;&#x2F; 添加头部</span><br><span class="line">                &#x2F;&#x2F;可以将基本信息放到claims中</span><br><span class="line">                .withClaim(&quot;id&quot;, user.getId())&#x2F;&#x2F;userId</span><br><span class="line">                .withClaim(&quot;userName&quot;, user.getUserName())&#x2F;&#x2F;userName</span><br><span class="line">                .withClaim(&quot;name&quot;, user.getName())&#x2F;&#x2F;name</span><br><span class="line">                .withExpiresAt(expireDate) &#x2F;&#x2F;超时设置,设置过期的日期</span><br><span class="line">                .withIssuedAt(new Date()) &#x2F;&#x2F;签发时间</span><br><span class="line">                .sign(Algorithm.HMAC256(SECRET)); &#x2F;&#x2F;SECRET加密</span><br><span class="line">        return token;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 校验token并解析token</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public static Map&lt;String, Claim&gt; verifyToken(String token) &#123;</span><br><span class="line">        DecodedJWT jwt &#x3D; null;</span><br><span class="line">        try &#123;</span><br><span class="line">            JWTVerifier verifier &#x3D; JWT.require(Algorithm.HMAC256(SECRET)).build();</span><br><span class="line">            jwt &#x3D; verifier.verify(token);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            logger.error(e.getMessage());</span><br><span class="line">            logger.error(&quot;token解码异常&quot;);</span><br><span class="line">            &#x2F;&#x2F;解码异常则抛出异常</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        return jwt.getClaims();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
-<ol>
-<li>添加JWT过滤器</li>
-</ol>
-<p>JWT过滤器中进行token的校验和判断，，token不合法直接返回，合法则解密数据并把数据放到request中供后续使用。</p>
-<p>为了使过滤器生效，需要在启动类添加注解@ServletComponentScan(basePackages = “com.example.springbootjwt.filter”)。</p>
-<p>JWT过滤器代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * JWT过滤器，拦截 &#x2F;secure的请求</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Slf4j</span><br><span class="line">@WebFilter(filterName &#x3D; &quot;JwtFilter&quot;, urlPatterns &#x3D; &quot;&#x2F;secure&#x2F;*&quot;)</span><br><span class="line">public class JwtFilter implements Filter &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void init(FilterConfig filterConfig) throws ServletException &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException &#123;</span><br><span class="line">        final HttpServletRequest request &#x3D; (HttpServletRequest) req;</span><br><span class="line">        final HttpServletResponse response &#x3D; (HttpServletResponse) res;</span><br><span class="line"></span><br><span class="line">        response.setCharacterEncoding(&quot;UTF-8&quot;);</span><br><span class="line">        &#x2F;&#x2F;获取 header里的token</span><br><span class="line">        final String token &#x3D; request.getHeader(&quot;authorization&quot;);</span><br><span class="line"></span><br><span class="line">        if (&quot;OPTIONS&quot;.equals(request.getMethod())) &#123;</span><br><span class="line">            response.setStatus(HttpServletResponse.SC_OK);</span><br><span class="line">            chain.doFilter(request, response);</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F; Except OPTIONS, other request should be checked by JWT</span><br><span class="line">        else &#123;</span><br><span class="line"></span><br><span class="line">            if (token &#x3D;&#x3D; null) &#123;</span><br><span class="line">                response.getWriter().write(&quot;没有token！&quot;);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            Map&lt;String, Claim&gt; userData &#x3D; JwtUtil.verifyToken(token);</span><br><span class="line">            if (userData &#x3D;&#x3D; null) &#123;</span><br><span class="line">                response.getWriter().write(&quot;token不合法！&quot;);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            Integer id &#x3D; userData.get(&quot;id&quot;).asInt();</span><br><span class="line">            String name &#x3D; userData.get(&quot;name&quot;).asString();</span><br><span class="line">            String userName &#x3D; userData.get(&quot;userName&quot;).asString();</span><br><span class="line">            &#x2F;&#x2F;拦截器 拿到用户信息，放到request中</span><br><span class="line">            request.setAttribute(&quot;id&quot;, id);</span><br><span class="line">            request.setAttribute(&quot;name&quot;, name);</span><br><span class="line">            request.setAttribute(&quot;userName&quot;, userName);</span><br><span class="line">            chain.doFilter(req, res);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void destroy() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
-<ol>
-<li>添加登录Controller</li>
-</ol>
-<p>登录Controller进行登录操作，登录成功后生产token并返回。</p>
-<p>登录Controller代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 登录Controller</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Slf4j</span><br><span class="line">@RestController</span><br><span class="line">public class LoginController &#123;</span><br><span class="line"></span><br><span class="line">    static Map&lt;Integer, User&gt; userMap &#x3D; new HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    static &#123;</span><br><span class="line">        &#x2F;&#x2F;模拟数据库</span><br><span class="line">        User user1 &#x3D; new User(1, &quot;zhangsan&quot;, &quot;张三&quot;, &quot;123456&quot;);</span><br><span class="line">        userMap.put(1, user1);</span><br><span class="line">        User user2 &#x3D; new User(2, &quot;lisi&quot;, &quot;李四&quot;, &quot;123123&quot;);</span><br><span class="line">        userMap.put(2, user2);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 模拟用户 登录</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @RequestMapping(&quot;&#x2F;login&quot;)</span><br><span class="line">    public String login(User user) &#123;</span><br><span class="line">        for (User dbUser : userMap.values()) &#123;</span><br><span class="line">            if (dbUser.getUserName().equals(user.getUserName()) &amp;&amp; dbUser.getPassword().equals(user.getPassword())) &#123;</span><br><span class="line">                log.info(&quot;登录成功！生成token！&quot;);</span><br><span class="line">                String token &#x3D; JwtUtil.createToken(dbUser);</span><br><span class="line">                return token;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return &quot;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
-<ol>
-<li>添加SecureController</li>
-</ol>
-<p>SecureController中的请求会被JWT过滤器拦截，合法后才能访问。</p>
-<p>SecureController代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 需要登录后才能访问</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Slf4j</span><br><span class="line">@RestController</span><br><span class="line">public class SecureController &#123;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 查询 用户信息，登录后才能访问</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @RequestMapping(&quot;&#x2F;secure&#x2F;getUserInfo&quot;)</span><br><span class="line">    public String login(HttpServletRequest request) &#123;</span><br><span class="line">        Integer id &#x3D; (Integer) request.getAttribute(&quot;id&quot;);</span><br><span class="line">        String name &#x3D; request.getAttribute(&quot;name&quot;).toString();</span><br><span class="line">        String userName &#x3D; request.getAttribute(&quot;userName&quot;).toString();</span><br><span class="line">        return &quot;当前用户信息id&#x3D;&quot; + id + &quot;,name&#x3D;&quot; + name + &quot;,userName&#x3D;&quot; + userName;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
-<h3 id="三、测试"><a href="#三、测试" class="headerlink" title="三、测试"></a>三、测试</h3><p>测试分两步，首先访问登录接口，登录成功后获取token，然后拿着token在访问查询用户信息接口。</p>
-<p>1.访问登录接口</p>
-<p>打开PostMan，访问<a target="_blank" rel="noopener" href="http://localhost:8080/login?userName=zhangsan&amp;password=123456%EF%BC%8C%E7%99%BB%E5%BD%95%E6%88%90%E5%8A%9F%E5%90%8E%E6%8E%A5%E5%8F%A3%E8%BF%94%E5%9B%9Etoken%EF%BC%8C%E8%AF%B7%E6%B1%82%E6%88%90%E5%8A%9F%E6%88%AA%E5%9B%BE%E5%A6%82%E4%B8%8B%EF%BC%9A">http://localhost:8080/login?userName=zhangsan&amp;password=123456，登录成功后接口返回token，请求成功截图如下：</a></p>
-<p><img src="https://user-gold-cdn.xitu.io/2019/11/12/16e5e2dcb0926570?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="获取token截图"></p>
-<p>2.访问用户信息接口</p>
-<p>打开PostMan，访问<a target="_blank" rel="noopener" href="http://localhost:8080/secure/getUserInfo%EF%BC%8Cheader%E9%87%8C%E9%9C%80%E8%A6%81%E6%90%BA%E5%B8%A6token%EF%BC%8C%E8%AF%B7%E6%B1%82%E6%88%90%E5%8A%9F%E6%88%AA%E5%9B%BE%E5%A6%82%E4%B8%8B%EF%BC%9A">http://localhost:8080/secure/getUserInfo，header里需要携带token，请求成功截图如下：</a></p>
-<p><img src="https://user-gold-cdn.xitu.io/2019/11/12/16e5e2dcb0b0c279?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="请求用户信息截图"></p>
-<p>到此SpringBoot整合JWT的功能已经全部实现</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/02/04/%E4%B8%80%E3%80%81JWT%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
   
-    <article id="post-失败学见习语录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/03/%E5%A4%B1%E8%B4%A5%E5%AD%A6%E8%A7%81%E4%B9%A0%E8%AF%AD%E5%BD%95/">失败</a>
-    </h1>
-  
-
-        
-        <a href="/2021/02/03/%E5%A4%B1%E8%B4%A5%E5%AD%A6%E8%A7%81%E4%B9%A0%E8%AF%AD%E5%BD%95/" class="archive-article-date">
-  	<time datetime="2021-02-03T06:17:49.217Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>失败学见习语录</p>
-<p>感觉最近变得越来越废物了 </p>
-<p>大家学习这么多天肯定也累了</p>
-<p>所以今天的冬令营 就给大伙分享一些失败学见习语录</p>
-<p>…….不想多说了</p>
-<p>我好菜啊<br>我菜爆了<br>我是什么垃圾<br>我好堕落<br>我好菜菜啊 再这样下去就没人要了 我就只能混吃等死了<br>我越来越觉得自己是废物一个<br>我想要有大佬带<br>哭哭<br>哭了<br>我现在啥也不想干<br>求大佬带我<br>我好废物啊<br>?<br>求大佬带我<br>越来越觉得自己毫无水平<br>有意思吗 没意思<br>自闭了<br>我好菜啊.png<br>又是变菜菜的一天<br>太真实了<br>算了我啥也不会<br>好难啊 都不会 我好菜啊<br>越来越觉得自己是废物了……哭哭.png<br>又是堕落的一天<br>我好菜<br>我连抱大腿的机会都没有<br>我就什么都不会<br>大佬都这么强 而我呢 哭哭<br>唉 能理解我菜的人真的不多<br>反正……我真的上到自闭<br>唉 我不适合<br>你们都那么强<br>有些人啊 整天就知道卖弱 不像我 是什么水平 就是什么水平<br>我觉得我没了<br>我这种就只能靠 天天做做题 否则迟早被退学<br>我这种不行的就下线了吧<br>求大家带带我<br>我已经感受到被大佬摁在地上摩擦的恐惧了<br>我是真的不行<br>你们可以约我奶茶 同我讲我不行的故事<br>唉……我是真的不行……谁见谁知道……<br>幸亏交大招的人多，不然我这种闲鱼进不来<br>大家高考都好强 因为我不行<br>我自闭了<br>我就知道我没救了<br>我现在真的觉得 菜还是可以补救一下的<br>我真的好羡慕那些 不用学 也可以满绩的 我真的不一样 我去年真的是 学到自闭 没有办法 毕竟水平不行<br>说到这里 我就不得不提我高考排名四位数的事情<br>草<br>???<br>唉……<br>嘤嘤嘤<br>太强了<br>羡慕<br>我觉得我以后找工作好困难<br>我就整天学一些 学了没用的东西<br>我看不到历史的进程 我觉得我也快被淘汰了<br>我已经佛了 开学要凉<br>我已经预感到我后面的暑假有多悲惨了<br>一开学被各位摁在地上摩擦<br>唉 我想写故事了<br>我是什么水平 就说自己是什么水平<br>我像是会卖弱的人吗<br>？？我不是<br>我现在觉得我会的太少<br>我好自卑啊<br>有人和我一起挣扎一下吗<br>吾日三省吾身 每天起床第一句 迟先生世界最菜<br>我是一条酸菜鱼 又酸又菜又多余<br>没有人能知道我多菜<br>我好难过<br>我好久没卖弱了<br>可是我真的是菜<br>我说自己菜我就菜<br>我太垃圾了<br>有人带带我吗<br>又是新的一天 迟先生又变弱了<br>我好菜啊 求求各位带带我吧<br>做不动了<br>有大佬救救迟先生<br>唉 我好菜啊<br>下学期就被退学了<br>好怕自己挂科<br>求大佬安慰菜鸡迟<br>我真的只求 不挂科 不退学<br>我感觉我要被退学了<br>为什么我啥也学不会<br>为什么大佬都是学得又快又多又好 可我呢 就学这么点东西 整天还学的快要自闭了<br>学习好难 生活好难<br>我太卑微了<br>什么也不会 什么都不行.png<br>我要挂科了 怎么办啊<br>我要死了 死透了<br>我就是个菜鸡<br>我就是个菜逼<br>这学期过不下去了<br>感觉事情做不完了<br>自己真的啥也不会<br>我觉得我越来越不行了<br>我随时都可以让你觉得自己很强<br>毕业好难啊<br>我课都要修不完了<br>为什么别人的数学都能证出来 我连题目也看不懂 求大佬指导<br>人这一生啊<br>唉 想想自己已经荒废了这么多年 我还能做什么呢<br>我是废物了 嘤嘤嘤<br>我现在啥也不想干<br>我怕不是下学期就要垫底了<br>我又要变得更菜了<br>我是真的弱<br>我已经学不动了<br>希望大家下学期带带我<br>我觉得我对我自己有多菜，一直有比较清晰的认识<br>我自闭了 我甚至不会 cpp<br>我的脑子就是知识的筛子 以至于我什么都不会<br>我学的不好 希望有大佬可以带我<br>不是我卖弱，是我真的不会<br>可是我除了学习什么都不会<br>我卖个弱，大家给我小红花好不好啊<br>我哭了 我现在就开始卖弱<br>唉 我能力有限 水平有限<br>我觉得自己真是太渣了<br>比菜更菜，我是菜渣<br>我好（）啊<br>我太菜了 可没人觉得我菜 这就很让人苦恼<br>大佬们不仅比我努力 还比我聪明 我是怎么活到现在的<br>唉 我的学积分已经凉了<br>我这么菜 是怎么活到现在的<br>流下了不学无术的眼泪<br>带带我吧 我啥也不会<br>我觉得我要早点想明白 GPA 无所谓的<br>这改变不了我菜的本质<br>我奔三了 我好菜<br>又菜又弱小<br>我的未来没有希望<br>为什么要学习呢 gpa 高了我菜 gpa 低了我还是菜<br>我真是又菜又弱小<br>我好菜 因为太菜 和大家格格不入<br>不好意思我就是菜 我菜到大家了 我道歉<br>是我觉得自己太菜了 所以要把菜带给更多的人 这样大家就知道 菜也没关系 总有更菜的迟先生给你们垫底<br>我这种保研也没得保 出国也没学校要<br>啥也不想干 天天就想堕落<br>我觉得我讲自己菜的故事 可以讲一晚上 而且真的很菜<br>我觉得我天天被大佬摁在地上摩擦<br>我自闭了<br>我好难过 为什么我这么菜<br>满绩是不可能满绩的 只有退学才是唯一的选择<br>我真的搞不懂了 为什么会招我这种 在上海排 1200 的菜鸡<br>真的是把我招过来 给大家虐 给大家找自信的吗<br>我真的觉得我唯一的出路是 退学和搬砖<br>大部分人都是我这样的鶸<br>你好棒棒哦<br>我啥也不会啊 哭了<br>做废物真是太快乐了 每天养养生 听听课 写写作业 快乐的一天就过去了<br>像我这种 slightly above average 的菜鸡是没有未来的 我太菜了<br>我啥也不会，除了在卖弱方面是砖家.png<br>哭了，又是无所事事的一天<br>觉得自己是废物一个<br>我要么哪天也直播卖弱吧</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/02/03/%E5%A4%B1%E8%B4%A5%E5%AD%A6%E8%A7%81%E4%B9%A0%E8%AF%AD%E5%BD%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-END" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/02/END/">推荐项目(试图灌水</a>
-    </h1>
-  
-
-        
-        <a href="/2021/02/02/END/" class="archive-article-date">
-  	<time datetime="2021-02-02T06:52:14.220Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>看情况再补充些Java知识的细节</p>
-<p>下面是一个作业 大家可以先看看顺便做一做~</p>
-<p>当然 也可以直接小程序搜索 从心优选 体验一下==</p>
-<p>后端的写的接口目前小程序还没有实现完全 但是作为大家体验使用的平台 还算够用</p>
-<p>但是不影响我们直接学习整个后端项目~</p>
-<p>冬令营的毕业项目:</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/baijianruoliorz/gift"><img src="https://github-readme-stats.vercel.app/api/pin/?username=baijianruoliorz&repo=gift" alt="ReadMe Card"></a>        </p>
-<h1 id="END"><a href="#END" class="headerlink" title="END"></a>END</h1>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/02/02/END/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-@ResponseStatus注解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/01/@ResponseStatus%E6%B3%A8%E8%A7%A3/">SpringBoot的开发细节总结-02</a>
-    </h1>
-  
-
-        
-        <a href="/2021/02/01/@ResponseStatus%E6%B3%A8%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2021-02-01T03:15:39.938Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="ResponseStatus注解"><a href="#ResponseStatus注解" class="headerlink" title="@ResponseStatus注解"></a>@ResponseStatus注解</h1><p>带有@ResponseStatus注解的异常类会被ResponseStatusExceptionResolver 解析。可以实现自定义的一些异常,同时在页面上进行显示。具体的使用方法如下:</p>
-<p>1.首先定义一个异常类：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ResponseStatus(value = HttpStatus.FORBIDDEN,reason = &quot;用户名和密码不匹配!&quot;)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserNameNotMatchPasswordException</span> <span class="keyword">extends</span> <span class="title">RuntimeException</span></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>2.人为抛出一个异常:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/testResponseStatusExceptionResolver&quot;)</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">testResponseStatusExceptionResolver</span><span class="params">(<span class="meta">@RequestParam(&quot;i&quot;)</span> <span class="keyword">int</span> i)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (i==<span class="number">13</span>)&#123;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> UserNameNotMatchPasswordException();</span><br><span class="line">      &#125;</span><br><span class="line">      System.out.println(<span class="string">&quot;testResponseStatusExceptionResolver....&quot;</span>);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> <span class="string">&quot;success&quot;</span>;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<p>3.输入如下额路径:</p>
-<p><a target="_blank" rel="noopener" href="http://localhost:8090/testResponseStatusExceptionResolver?i=13">http://localhost:8090/testResponseStatusExceptionResolver?i=13</a></p>
-<p>即可出现403异常</p>
-<p>因为我们上面是HttpStatus.FORBIDDEN</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">resultTyperesultType可以把查询结果封装到pojo类型中，但必须pojo类的属性名和查询到的数据库表的字段名一致。 如果sql查询到的字段与pojo的属性名不一致，则需要使用resultMap将字段名和属性名对应起来，进行手动配置封装，将结果映射到pojo中！</span><br></pre></td></tr></table></figure>
-<p>resultMap</p>
-<p>resultMap可以实现将查询结果映射为复杂类型的pojo，比如在查询结果映射对象中包括pojo和list实现一对一查询和一对多查询。</p>
-<p>数据库字段：user_id,</p>
-<p>实体类字段：userId</p>
-<p>需要手动配置设置resultMap</p>
-<p>Mapper中基本查询语句</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 查询所有的订单数据 --&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;!-- resultMap:填入配置的resultMap标签的id值 --&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;select id&#x3D;&quot;queryOrderAll&quot; resultMap&#x3D;&quot;orderResultMap&quot;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        SELECT id, user_id,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        number,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        createtime, note FROM &#96;order&#96;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;&#x2F;select&gt;</span><br></pre></td></tr></table></figure>
-<p>resultMap中字段映射</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- resultMap最终还是要将结果映射到pojo上，type就是指定映射到哪一个pojo --&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;!-- id：设置ResultMap的id --&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;resultMap type&#x3D;&quot;order&quot; id&#x3D;&quot;orderResultMap&quot;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &lt;!-- 定义主键 ,非常重要。如果是多个字段,则定义多个id --&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &lt;!-- property：主键在pojo中的属性名 --&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &lt;!-- column：主键在数据库中的列名 --&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &lt;id property&#x3D;&quot;id&quot; column&#x3D;&quot;id&quot; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &lt;!-- 定义普通属性 --&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &lt;result property&#x3D;&quot;userId&quot; column&#x3D;&quot;user_id&quot; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &lt;result property&#x3D;&quot;number&quot; column&#x3D;&quot;number&quot; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &lt;result property&#x3D;&quot;createtime&quot; column&#x3D;&quot;createtime&quot; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &lt;result property&#x3D;&quot;note&quot; column&#x3D;&quot;note&quot; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;&#x2F;resultMap&gt;</span><br></pre></td></tr></table></figure>
-
-
-<h1 id="Spring-Boot-中使用-Transactional-注解配置事务管理"><a href="#Spring-Boot-中使用-Transactional-注解配置事务管理" class="headerlink" title="Spring Boot 中使用 @Transactional 注解配置事务管理"></a>Spring Boot 中使用 @Transactional 注解配置事务管理</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/nextyu/article/details/78669997">请阅读本文</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/02/01/@ResponseStatus%E6%B3%A8%E8%A7%A3/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-@RequestParam，@PathParam，@PathVariable等注解区别" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/31/@RequestParam%EF%BC%8C@PathParam%EF%BC%8C@PathVariable%E7%AD%89%E6%B3%A8%E8%A7%A3%E5%8C%BA%E5%88%AB/">SpringBoot的开发细节总结-01</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/31/@RequestParam%EF%BC%8C@PathParam%EF%BC%8C@PathVariable%E7%AD%89%E6%B3%A8%E8%A7%A3%E5%8C%BA%E5%88%AB/" class="archive-article-date">
-  	<time datetime="2021-01-31T03:48:13.977Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-31</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>SpringBoot的开发细节总结-01</p>
-<h1 id="RequestParam，-PathParam，-PathVariable等注解区别"><a href="#RequestParam，-PathParam，-PathVariable等注解区别" class="headerlink" title="@RequestParam，@PathParam，@PathVariable等注解区别"></a>@RequestParam，@PathParam，@PathVariable等注解区别</h1><p><code>@RequestParam</code> 和 <code>@PathVariable</code> 注解是用于从request中接收请求的，两个都可以接收参数，关键点不同的是<code>@RequestParam</code> 是从request里面拿取值，而 <code>@PathVariable</code> 是从一个URI模板里面来填充</p>
-<h4 id="RequestParam"><a href="#RequestParam" class="headerlink" title="@RequestParam"></a>@RequestParam</h4><p>看下面一段代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;localhost:8080&#x2F;springmvc&#x2F;hello&#x2F;101?param1&#x3D;10&amp;param2&#x3D;20</span><br></pre></td></tr></table></figure>
-<p>根据上面的这个URL，你可以用这样的方式来进行获取</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getDetails</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="meta">@RequestParam(value=&quot;param1&quot;, required=true)</span> String param1,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="meta">@RequestParam(value=&quot;param2&quot;, required=false)</span> String param2)</span></span>&#123;</span><br><span class="line">...</span><br><span class="line">&#125;<span class="number">12345</span></span><br></pre></td></tr></table></figure>
-<p><code>@RequestParam</code> 支持下面四种参数</p>
-<ul>
-<li>defaultValue 如果本次请求没有携带这个参数，或者参数为空，那么就会启用默认值</li>
-<li>name 绑定本次参数的名称，要跟URL上面的一样</li>
-<li>required 这个参数是不是必须的</li>
-<li>value 跟name一样的作用，是name属性的一个别名</li>
-</ul>
-<h4 id="PathVariable"><a href="#PathVariable" class="headerlink" title="@PathVariable"></a>@PathVariable</h4><p>这个注解能够识别URL里面的一个模板，我们看下面的一个URL</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080/springmvc/hello/101?param1=10&amp;param2=201</span><br></pre></td></tr></table></figure>
-<p>上面的一个url你可以这样写：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/hello/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDetails</span><span class="params">(<span class="meta">@PathVariable(value=&quot;id&quot;)</span> String id,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="meta">@RequestParam(value=&quot;param1&quot;, required=true)</span> String param1,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="meta">@RequestParam(value=&quot;param2&quot;, required=false)</span> String param2)</span></span>&#123;</span><br><span class="line">.......</span><br><span class="line">&#125;<span class="number">123456</span></span><br></pre></td></tr></table></figure>
-<p>区别很明显了</p>
-<h4 id="PathParam"><a href="#PathParam" class="headerlink" title="@PathParam"></a>@PathParam</h4><p>这个注解是和spring的<code>pathVariable</code>是一样的，也是基于模板的，但是这个是jboss包下面的一个实现，上面的是spring的一个实现，都要导包</p>
-<h4 id="QueryParam"><a href="#QueryParam" class="headerlink" title="@QueryParam"></a>@QueryParam</h4><p><code>@QueryParam</code> 是 JAX-RS 本来就提供的，和Spring的RequestParam作用一致</p>
-<h4 id="ResponseBody"><a href="#ResponseBody" class="headerlink" title="@ResponseBody"></a>@ResponseBody</h4><p>responseBody表示服务器返回的时候以一种什么样的方式进行返回， 将内容或对象作为 HTTP 响应正文返回，值有很多，一般设定为json</p>
-<h4 id="RequestBody"><a href="#RequestBody" class="headerlink" title="@RequestBody"></a>@RequestBody</h4><p>一般是post请求的时候才会使用这个请求，把参数丢在requestbody里面</p>
-<h1 id="spring的-Value注解使用"><a href="#spring的-Value注解使用" class="headerlink" title="spring的@Value注解使用"></a>spring的@Value注解使用</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/woheniccc/article/details/79804600">请看这篇文章</a></p>
-<h1 id="lombok-Accessors用法"><a href="#lombok-Accessors用法" class="headerlink" title="lombok @Accessors用法"></a>lombok @Accessors用法</h1><h2 id="Accessors"><a href="#Accessors" class="headerlink" title="@Accessors"></a>@Accessors</h2><p>Accessor的中文含义是存取器，@Accessors用于配置getter和setter方法的生成结果，下面介绍三个属性</p>
-<h6 id="fluent"><a href="#fluent" class="headerlink" title="fluent"></a>fluent</h6><p>fluent的中文含义是流畅的，设置为true，则getter和setter方法的方法名都是基础属性名，且setter方法返回当前对象。如下</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Accessors(fluent = true)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 生成的getter和setter方法如下，方法体略</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Long <span class="title">id</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">id</span><span class="params">(Long id)</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">name</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">name</span><span class="params">(String name)</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="number">123456789101112</span></span><br></pre></td></tr></table></figure>
-<h6 id="chain"><a href="#chain" class="headerlink" title="chain"></a>chain</h6><p>chain的中文含义是链式的，设置为true，则setter方法返回当前对象。如下</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Accessors(chain = true)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 生成的setter方法如下，方法体略</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">setId</span><span class="params">(Long id)</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="number">12345678910</span></span><br></pre></td></tr></table></figure>
-<h6 id="prefix"><a href="#prefix" class="headerlink" title="prefix"></a>prefix</h6><p>prefix的中文含义是前缀，用于生成getter和setter方法的字段名会忽视指定前缀（遵守驼峰命名）。如下</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Accessors(prefix = &quot;p&quot;)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Long pId;</span><br><span class="line">	<span class="keyword">private</span> String pName;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 生成的getter和setter方法如下，方法体略</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Long <span class="title">getId</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(Long id)</span> </span>&#123;&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="RequestParam详解以及加与不加的区别"><a href="#RequestParam详解以及加与不加的区别" class="headerlink" title="@RequestParam详解以及加与不加的区别"></a>@RequestParam详解以及加与不加的区别</h1><p>下面我们来区分一下加与不加的区别</p>
-<p>这里有两种写法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/list&quot;)</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">(<span class="meta">@RequestParam</span>  Long parentId)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line"></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/list&quot;)</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">( Long parentId)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>第一种必须带有参数</strong>,也就是说你直接输入localhost:8080/list 会报错 不会执行方法 只能输入localhost:8080/list?parentId=? 才能执行相应的方法</p>
-<p><strong>第二种 可带参数也可不带参数</strong> 就是说你输入  localhost:8080/list  以及 localhost:8080/list?parentId=?  方法都能执行</p>
-<p>当然你也可以设置 @RequestParam 里面的required为false(默认为true 代表必须带参数) 这样就跟第二种是一样的了</p>
-<p>如下:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/list&quot;)</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">(<span class="meta">@RequestParam(required=false)</span>  Long parentId)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		.....</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-<p>当然你还可以设置里面的defaultValue的属性</p>
-<p>如下:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/list&quot;)</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">(<span class="meta">@RequestParam(defaultValue=&quot;0&quot;)</span>  Long parentId)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	...	</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br></pre></td></tr></table></figure>
-<p>这样在地址里面也可以不带参数，如果带了参数会接收，不带参数会默认为0</p>
-<p>里面还有一个value属性也讲一下， 前面所有的方法 传入的参数必须为parentId 才能接收到值</p>
-<p>但是如果你加了value属性</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/list&quot;)</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">(<span class="meta">@RequestParam(value=&quot;id&quot;)</span>  Long parentId)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		..</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
-
-<p>这样会用id 代替parentId  也就是说你地址里面传入的参数名称为id　localhost:8080/list?id＝？　这种</p>
-<h1 id="END"><a href="#END" class="headerlink" title="END"></a>END</h1>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/31/@RequestParam%EF%BC%8C@PathParam%EF%BC%8C@PathVariable%E7%AD%89%E6%B3%A8%E8%A7%A3%E5%8C%BA%E5%88%AB/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-Jsoup" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/30/Jsoup/">Jsoup-Json-MVC</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/30/Jsoup/" class="archive-article-date">
-  	<time datetime="2021-01-30T08:13:33.359Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Jsoup"><a href="#Jsoup" class="headerlink" title="Jsoup"></a>Jsoup</h1><p>Jsoup</p>
-<p>什么是xml</p>
-<p>xml 是<strong>可扩展标记语言</strong>的缩写： Extensible Markup Language。<br>举个例子就像下面这样：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">e1</span>&gt;</span> czr orz<span class="tag">&lt;/<span class="name">e1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>常见的 xml</p>
-<p>比如做 web 应用开发，需要配置 web.xml，就是个典型的 xml文件。<br>它里面就有这些元素： web-app, servlet, servlet-name, servlet-class 这些。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">web-app</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>HelloServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>HelloServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line">     </span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>HelloServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/hello<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><strong>注：</strong> 什么是元素？ 像这样的格式就是一个元素 ： &lt;元素名称&gt; 元素内容 &lt;/元素名称&gt;。 比如： <servlet-name>HelloServlet</servlet-name> 就是 servlet-name 元素。</p>
-<p>什么是 html</p>
-<p><strong>html</strong> 是 <strong>HyperText Markup Language</strong>的缩写,<strong>超文本标记语言</strong>。<br>下面这段就是 一段 html。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello CZRORZ<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>html 可以简单看成是 xml 的一个子集。 html 用的都是一些预先定义的元素，如 <html>, <a>, <body>, <table> 。 而 xml 什么元素都可以自定义： 如 <a> , <b>, <aabb> 。</p>
-<p>既然 html 是 xml 的子集，那么解析起来就和 xml一样了，下面我们就来谈 xml的解析就可以了。</p>
-<p>首先还是需要直接在maven repo 里面找 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- https:&#x2F;&#x2F;mvnrepository.com&#x2F;artifact&#x2F;org.jsoup&#x2F;jsoup --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.jsoup&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;jsoup&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.13.1&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
-
-
-<p>以下代码，就可以把 一段html：</p>
-<html><body><p>Hello HTML</p></body></html>
-
-
-
-
-<p>里的 p 元素的内容 Hello HTML 取出来了。</p>
-<p>\1. 把文本解析成 Document 对象， Document 对象就代表整个 xml 文档。</p>
-<p>Document doc = Jsoup.parse(html);</p>
-<p>\2. 获取所有的 p 元素。</p>
-<p>Elements as= doc.getElementsByTag(“p”);</p>
-<p>\3. 遍历 所有的 p 元素 （这里其实只有一个）， 打印其内容</p>
-<p>​    for (Element e : as) {</p>
-<p>​        System.out.println(e.text());</p>
-<p>​    }</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	String html = <span class="string">&quot;&lt;html&gt;&lt;body&gt;&lt;p&gt;Hello HTML&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;</span>;</span><br><span class="line">	Document doc = Jsoup.parse(html);</span><br><span class="line">	</span><br><span class="line">	Elements as= doc.getElementsByTag(<span class="string">&quot;p&quot;</span>);</span><br><span class="line">	<span class="keyword">for</span> (Element e : as) &#123;</span><br><span class="line">		System.out.println(e.text());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="Json"><a href="#Json" class="headerlink" title="Json"></a>Json</h1><p>开发中我们经常要传一些参数 这里json传参就占了很大一部分</p>
-<p>当然 有经验的开发者通常会选用query传参 这样可以让程序的易用性和可拓展性更</p>
-<p>加丰富 但是我们不能忘了初心 我们是后端er 所以json的了解可以不求甚解一些</p>
-<p>在这里 我们来了解一下Json的作用</p>
-<p>demo1:</p>
-<p>var gareen = {“name”:”czr”,”hp”:666};<br>这样就创建了一个JSON 对象<br>JSON对象由 <strong>名称/值对</strong>组成 名称和值之间用冒号:隔开<br>名称必须用<strong>双引号”</strong> 包含起来<br>值可以是任意javascript数据类型，字符串，布尔，数字 ，数组甚至是对象<br>不同的<strong>名称/值对</strong>之间用 逗号 <strong>,</strong> 隔开</p>
-<p>JSON数组</p>
-<p>通过方括号[] 创建JSON 数组</p>
-<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/JSON"></a></p>
-<p>具体可以看看上面这篇文章 自备梯子</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h1 id="MVC设计模式"><a href="#MVC设计模式" class="headerlink" title="MVC设计模式"></a>MVC设计模式</h1><p>M 代表 模型（<strong>Model</strong>）<br>V 代表 视图（<strong>View</strong>）<br>C 代表 控制器（<strong>controller</strong>)</p>
-<p>具体看这篇文章</p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/254e2478a4ca"></a></p>
-<p>今天能够了解这三个概念已经很不错了</p>
-<p>要多靠实践开发来掌握如何使用这些内容</p>
-<p>但是由于现在只有752字</p>
-<p>所以我决定还得加几道面试题(老私货达人了)</p>
-<p>1.面向对象的特征有哪些方面？</p>
-<p>封装<br>最常见的是把属性私有化封装在一个类里面，只能通过方法去访问<br>继承<br>子类继承父类，从而继承了父类的方法和属性<br>抽象<br>比如一个czr类，<strong>抽象</strong>出了name,age这些属性，使得开发过程中更加易于理解<br>多态<br>多态分操作符的多态和类的多态。 类的多态指父类引用指向子类对象，并且有继承，有重写。</p>
-<p>关于抽象 还可以具体举例:</p>
-<p>抽象类</p>
-<p>在类中声明一个方法，这个方法没有实现体，是一个“空”方法</p>
-<p>这样的方法就叫抽象方法，使用修饰符“abstract”</p>
-<p>当一个类有抽象方法的时候，该类必须被声明为抽象类</p>
-<p>当父类有抽象方法是 子类<strong>必须</strong>实现该方法</p>
-<p>抽象类和接口的区别</p>
-<p>区别1：<br>子类只能继承一个抽象类，不能继承多个<br>子类可以实现<strong>多个</strong>接口<br>区别2：<br>抽象类可以定义<br>public,protected,package,private<br>静态和非静态属性<br>final和非final属性<br>但是接口中声明的属性，只能是<br>public<br>静态<br>final的<br>即便没有显式的声明</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> charactor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AP</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> resistPhysic = <span class="number">100</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//resistMagic即便没有显式的声明为 public static final</span></span><br><span class="line">	<span class="comment">//但依然默认为public static final</span></span><br><span class="line">	<span class="keyword">int</span> resistMagic = <span class="number">0</span>; </span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">magicAttack</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>一旦一个类被声明为抽象类，就不能够被直接实例化</p>
-<p>且抽象类可以没有抽象方法</p>
-<p>2.String是最基本的数据类型吗？</p>
-<p>String是类类型，不是基本类型。<br>基本类型 有八种<br>这八种基本类型分别是：<br>整型 （4种）<br>字符型 （1种）<br>浮点型 （2种）<br>布尔型（1种）</p>
-<p>3.Collection 和 Collections的区别。</p>
-<p>首先<strong>不要说成</strong>了一个是单数，一个是复数。。。<br>Collection是接口，是List和Set的父接口<br>Collentions是工具类，提供了排序，混淆等等很多实用方法</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/30/Jsoup/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-日志与单元测试" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/30/%E6%97%A5%E5%BF%97%E4%B8%8E%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">日志与单元测试</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/30/%E6%97%A5%E5%BF%97%E4%B8%8E%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" class="archive-article-date">
-  	<time datetime="2021-01-30T05:00:15.241Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="日志与单元测试"><a href="#日志与单元测试" class="headerlink" title="日志与单元测试"></a>日志与单元测试</h1><p>今天讲一讲开发中常用的两个小功能</p>
-<p>日志以及单元测试</p>
-<p>关于完成这两个功能开源的工具有很多 我们这里选用 log4j 以及junit来完成即可!</p>
-<p>当然选用slf4j也可以同样完成输出 我们这里不展开讨论</p>
-<h1 id="Log4j"><a href="#Log4j" class="headerlink" title="Log4j"></a>Log4j</h1><p>通常，我们写代码的过程中，免不了要输出各种调试信息。在没有使用任何日志工具之前，都会使用 <strong>System.out.println</strong> 来做到。 这么做直观有效，但是有一系列的缺点：<br>\1. 不知道这句话是在哪个类，哪个线程里出来的<br>\2. 不知道什么时候前后两句输出间隔了多少时间<br>\3. 无法关闭调试信息，一旦System.out.println多了之后，到处都是输出，增加定位自己需要信息的难度</p>
-<p>所以 我们要使用Log4j来输出日志信息</p>
-<p>这里推荐一下idea的 rainbow插件</p>
-<p>它可以让你的控制台变得五颜六色 更容易识别不同级别的日志输出</p>
-<p>首先导入maven依赖</p>
-<p>直接去maven  repo</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--日志 start--&gt;</span><br><span class="line"> &lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;log4j&lt;&#x2F;groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;log4j&lt;&#x2F;artifactId&gt;</span><br><span class="line">     &lt;version&gt;1.2.17&lt;&#x2F;version&gt;</span><br><span class="line"> &lt;&#x2F;dependency&gt;</span><br><span class="line"> &lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;org.slf4j&lt;&#x2F;groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;slf4j-api&lt;&#x2F;artifactId&gt;</span><br><span class="line">     &lt;version&gt;1.7.25&lt;&#x2F;version&gt;</span><br><span class="line"> &lt;&#x2F;dependency&gt;</span><br><span class="line"> &lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;org.slf4j&lt;&#x2F;groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;slf4j-log4j12&lt;&#x2F;artifactId&gt;</span><br><span class="line">     &lt;version&gt;1.7.25&lt;&#x2F;version&gt;</span><br><span class="line">     &lt;scope&gt;test&lt;&#x2F;scope&gt;</span><br><span class="line"> &lt;&#x2F;dependency&gt;</span><br><span class="line"> &lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;org.slf4j&lt;&#x2F;groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;slf4j-simple&lt;&#x2F;artifactId&gt;</span><br><span class="line">     &lt;version&gt;1.7.25&lt;&#x2F;version&gt;</span><br><span class="line">     &lt;scope&gt;test&lt;&#x2F;scope&gt;</span><br><span class="line"> &lt;&#x2F;dependency&gt;</span><br><span class="line"> &lt;!--日志end--&gt;</span><br></pre></td></tr></table></figure>
-<p>这里 日志抽象层使用slf4j,所以需要slf4j-api,而slf4j-api接口和log4j的接口不一致，所以需要一个适配层，也就是slf4j-log4j12，在pom中导入slf4j-log4j12适配包会自动导入log4j实现包。最后slf4j-simple包也相当于一个简单的日志实现包，这里可以不用导入。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> log4j;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.log4j.BasicConfigurator;</span><br><span class="line"><span class="keyword">import</span> org.apache.log4j.Level;</span><br><span class="line"><span class="keyword">import</span> org.apache.log4j.Logger;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestLog4j</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> Logger logger = Logger.getLogger(TestLog4j.class);</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">		BasicConfigurator.configure();</span><br><span class="line">		logger.setLevel(Level.DEBUG);</span><br><span class="line">		logger.trace(<span class="string">&quot;跟踪信息&quot;</span>);</span><br><span class="line">		logger.debug(<span class="string">&quot;调试信息&quot;</span>);</span><br><span class="line">		logger.info(<span class="string">&quot;输出信息&quot;</span>);</span><br><span class="line">		Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">		logger.warn(<span class="string">&quot;警告信息&quot;</span>);</span><br><span class="line">		logger.error(<span class="string">&quot;错误信息&quot;</span>);</span><br><span class="line">		logger.fatal(<span class="string">&quot;致命信息&quot;</span>);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>代码讲解</p>
-<p>\1. 基于类的名称获取日志对象</p>
-<p>static Logger logger = Logger.getLogger(TestLog4j.class);</p>
-<p>\2. 进行默认配置</p>
-<p>BasicConfigurator.configure();</p>
-<p>\3. 设置日志输出级别   一般这个可以在配置文件完成</p>
-<p>logger.setLevel(Level.DEBUG);</p>
-<p>\3. 进行不同级别的日志输出</p>
-<p>logger.trace(“跟踪信息”);</p>
-<p>logger.debug(“调试信息”);</p>
-<p>logger.info(“输出信息”);</p>
-<p>Thread.sleep(1000);</p>
-<p>logger.warn(“警告信息”);</p>
-<p>logger.error(“错误信息”);</p>
-<p>logger.fatal(“致命信息”);</p>
-<p> 关于如何使用配置文件配置</p>
-<p>大家可以在网上查询相关资料 找到一份最适合自己的</p>
-<h1 id="Junit"><a href="#Junit" class="headerlink" title="Junit"></a>Junit</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> junit;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SumUtil</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> result = sum1(<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line">		System.out.println(result);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">sum1</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> i+j;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>通过main方法来进行测试的问题是显而易见的。<br>比如新开发了一个方法，是对3个数求和，那么问题至少有两个：<br>\1. 要在原来测试的基础上修改，可能破坏原来的测试逻辑<br>\2. 测试成功了，还是i测试失败了，都不知道呀。。。只能通过肉眼进行观察，如果测试的量很大，是很难看的过来滴</p>
-<p>junit</p>
-<p>为了应付这种测试的需求，我们就需要使用 junit 测试框架来进行测试工作。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;junit&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;junit&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;scope&gt;test&lt;&#x2F;scope&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSum1</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​    	<span class="keyword">int</span> result = SumUtil.sum1(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">​    	Assert.assertEquals(result, <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line"> </span><br></pre></td></tr></table></figure>
-<p>测试类</p>
-<p>\1. 需要加上2个注解：<br>@RunWith(SpringRunner.class)<br>@SpringBootTest(classes = Application.class)</p>
-<p>\2. 自动装配 CategoryDAO dao; 以便于使用</p>
-<p>\3. test 方法加上 @Test 注解，然后就可以使用dao来工作了</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith(SpringRunner.class)</span></span><br><span class="line"><span class="meta">@SpringBootTest(classes = Application.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestJPA</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Autowired</span> CategoryDAO dao;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		List&lt;Category&gt; cs=  dao.findAll();</span><br><span class="line">		<span class="keyword">for</span> (Category c : cs) &#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;c.getName():&quot;</span>+ c.getName());</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="END"><a href="#END" class="headerlink" title="END"></a>END</h2>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/30/%E6%97%A5%E5%BF%97%E4%B8%8E%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-补完的Java常见注解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/29/%E8%A1%A5%E5%AE%8C%E7%9A%84Java%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3/">注解与hutool</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/29/%E8%A1%A5%E5%AE%8C%E7%9A%84Java%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2021-01-29T02:57:45.570Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>过渡文章三</p>
-<h1 id="补完的Java常见注解"><a href="#补完的Java常见注解" class="headerlink" title="补完的Java常见注解"></a>补完的Java常见注解</h1><p>@SafeVarargs   (自己查一查 感觉不是很重要)</p>
-<p>@FunctionalInterface @FunctionalInterface这是Java1.8 新增的注解，用于约定函数式接口。</p>
-<p><strong>总结</strong></p>
-<p>以上5个都是内置注解，从开发过程中的体验来讲，有也可以，没有也可以，<strong>没什么大的卵用</strong>~ 大家晓得有这么回事就行了~</p>
-<h1 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h1><p>虽然我不怎么用但是有学长在用(<del>喜欢阅读学长的code</del>)</p>
-<p>所以打算贴一篇文章</p>
-<p>实际开发中也是很实用的小技巧~</p>
-<p><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/1252599548343744/1265102803921888">自定义注解</a></p>
-<h1 id="元注解"><a href="#元注解" class="headerlink" title="元注解"></a>元注解</h1><p>在讲解<strong>元注解</strong>概念之前，我们先建立<strong>元数据</strong>的概念。 元数据在英语中对应单词 <strong>metadata</strong>, <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Metadata">metadata在wiki中的解释</a>是：<br><strong>Metadata is data [information] that provides information about other data</strong>为其他数据提供信息的数据</p>
-<p>这样元注解就好理解了，元注解 meta annotation用于注解 自定义注解 的注解。<br>元注解有这么几种：<br>@Target<br>@Retention<br>@Inherited<br>@Documented<br>@Repeatable (java1.8 新增)</p>
-<p>@Target</p>
-<p>表示这个注解能放在什么位置上，是只能放在类上？还是即可以放在方法上，又可以放在属性上。</p>
-<p>@Target({METHOD,TYPE})，表示他可以用在方法和类型上（类和接口），但是不能放在属性等其他位置。 </p>
-<p>ElementType.TYPE：能修饰类、接口或枚举类型<br>ElementType.FIELD：能修饰成员变量<br>ElementType.METHOD：能修饰方法<br>ElementType.PARAMETER：能修饰参数<br>ElementType.CONSTRUCTOR：能修饰构造器<br>ElementType.LOCAL_VARIABLE：能修饰局部变量<br>ElementType.ANNOTATION_TYPE：能修饰注解<br>ElementType.PACKAGE：能修饰包</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> anno;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> java.lang.annotation.ElementType.METHOD;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> java.lang.annotation.ElementType.TYPE;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Documented;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Inherited;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Retention;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.RetentionPolicy;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Target(&#123;METHOD,TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Inherited</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> JDBCConfig &#123;</span><br><span class="line">     <span class="function">String <span class="title">ip</span><span class="params">()</span></span>; </span><br><span class="line">     <span class="function"><span class="keyword">int</span> <span class="title">port</span><span class="params">()</span> <span class="keyword">default</span> 3306</span>; </span><br><span class="line">     <span class="function">String <span class="title">database</span><span class="params">()</span></span>; </span><br><span class="line">     <span class="function">String <span class="title">encoding</span><span class="params">()</span></span>; </span><br><span class="line">     <span class="function">String <span class="title">loginName</span><span class="params">()</span></span>; </span><br><span class="line">     <span class="function">String <span class="title">password</span><span class="params">()</span></span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>@Retention 自己查查==</p>
-<p>@Inherited   表示该注解具有继承性。</p>
-<p>@Documented</p>
-<p> 在用javadoc命令生成API文档后，文档里会出现该注解说明</p>
-<p>@Repeatable (java1.8 新增)</p>
-<p>当没有@Repeatable修饰的时候，注解在同一个位置，只能出现一次</p>
-<p>重复做两次就会报错了。 啊具体我也没怎么用过~大家可以下去找一找资料看看</p>
-<p>如何使用</p>
-<h1 id="国产精品-hutool"><a href="#国产精品-hutool" class="headerlink" title="国产精品  hutool"></a><del>国产精品</del>  hutool</h1><p>工欲善其事必先利其器！ Hutool 就是这么一款超级强力的工具类。</p>
-<p>在大家日常工作中，都常常会做如下这些非常繁琐的工作：<br>日期与字符串转换<br>文件操作<br>转码与反转码<br>随机数生成<br>压缩与解压<br>编码与解码<br>CVS文件操作<br>缓存处理<br>加密解密<br>定时任务<br>邮件收发<br>二维码创建<br>FTP 上传与下载<br>图形验证码生成</p>
-<p>等等等等</p>
-<p>以上这些事情，要么自己动手写代码，要么从零零碎碎的各个不同的地方去找各种零零散散的代码来改造成自己需要的样子。</p>
-<p>现在不用了，您只需要一个 hutool ! 那么这些功能都是现成滴了，而且非常好用。</p>
-<p>hutool 的工具类非常多</p>
-<p>不需要每个都搞得特别明白，挨个用一下，有个印象，以后要用到了，就回头来看一下，当作手册使用便可。</p>
-<p>hutool的官方文档:<a target="_blank" rel="noopener" href="https://hutool.cn/docs/#/">https://hutool.cn/docs/#/</a></p>
-<p>有空的同学可以去GitHub点个star <del>支持国产</del></p>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a><a target="_blank" rel="noopener" href="https://hutool.cn/docs/#/?id=%E7%AE%80%E4%BB%8B">简介</a></h2><p>Hutool是一个小而全的Java工具类库，通过静态方法封装，降低相关API的学习成本，提高工作效率，使Java拥有函数式语言般的优雅，让Java语言也可以“甜甜的”。</p>
-<p>Hutool中的工具方法来自每个用户的精雕细琢，它涵盖了Java开发底层代码中的方方面面，它既是大型项目开发中解决小问题的利器，也是小型项目中的效率担当；</p>
-<p>Hutool是项目中“util”包友好的替代，它节省了开发人员对项目中公用类和公用工具方法的封装时间，使开发专注于业务，同时可以最大限度的避免封装不完善带来的bug。</p>
-<h3 id="Hutool名称的由来"><a href="#Hutool名称的由来" class="headerlink" title="Hutool名称的由来"></a><a target="_blank" rel="noopener" href="https://hutool.cn/docs/#/?id=hutool%E5%90%8D%E7%A7%B0%E7%9A%84%E7%94%B1%E6%9D%A5">Hutool名称的由来</a></h3><p>Hutool = Hu + tool，是原公司项目底层代码剥离后的开源库，“Hu”是公司名称的表示，tool表示工具。Hutool谐音“糊涂”，一方面简洁易懂，一方面寓意“难得糊涂”。</p>
-<h3 id="Hutool如何改变我们的coding方式"><a href="#Hutool如何改变我们的coding方式" class="headerlink" title="Hutool如何改变我们的coding方式"></a><a target="_blank" rel="noopener" href="https://hutool.cn/docs/#/?id=hutool%E5%A6%82%E4%BD%95%E6%94%B9%E5%8F%98%E6%88%91%E4%BB%AC%E7%9A%84coding%E6%96%B9%E5%BC%8F">Hutool如何改变我们的coding方式</a></h3><p>Hutool的目标是使用一个工具方法代替一段复杂代码，从而最大限度的避免“复制粘贴”代码的问题，彻底改变我们写代码的方式。</p>
-<p>以计算MD5为例：</p>
-<ul>
-<li>【以前】打开搜索引擎 -&gt; 搜“Java MD5加密” -&gt; 打开某篇博客-&gt; 复制粘贴 -&gt; 改改好用</li>
-<li>【现在】引入Hutool -&gt; SecureUtil.md5()</li>
-</ul>
-<p>Hutool的存在就是为了减少代码搜索成本，避免网络上参差不齐的代码出现导致的bug。</p>
-<p>具体使用方法在文档写的清清楚楚了 大家自己下去可以学习学习</p>
-<p>不需要完全记住 有个印象 以后想用到了直接去文档查即可</p>
-<h1 id="END"><a href="#END" class="headerlink" title="END"></a>END</h1><p>今天的学习就到这里乐  周末愉快~</p>
-<p>哦 想留一个作业:</p>
-<p>我觉得身为后端了解一下前端知识就是对前端同学的降维打击(请不要把这句话拿给你周围正在学前端的同学看)  所以大家可以看看html css javascript</p>
-<p>大致浏览一遍后 再看看json是个嘛(当然可能明天会讲一讲 同学们可以提前了解一些)</p>
-<p>然后顺便学一学vue 这样前端同学就会说:WC 你怎么什么都会 然后开始无止境的膜拜你</p>
-<p>是不是感觉这个建议挺好的~</p>
-<p>不开玩笑 有必要了解一下前端 因为我发现了解前端后在现在前后端分离开发的环境下更容易与前端沟通 这样有时间有些锅甩到你头上你还能说服他其实是前端的错</p>
-<p>对不对(<del>亲身经历</del></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/29/%E8%A1%A5%E5%AE%8C%E7%9A%84Java%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-过渡文章二" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/28/%E8%BF%87%E6%B8%A1%E6%96%87%E7%AB%A0%E4%BA%8C/">过渡文章二</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/28/%E8%BF%87%E6%B8%A1%E6%96%87%E7%AB%A0%E4%BA%8C/" class="archive-article-date">
-  	<time datetime="2021-01-28T15:34:12.352Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="过渡文章二"><a href="#过渡文章二" class="headerlink" title="过渡文章二"></a>过渡文章二</h1><h1 id="Java中的private、protected、public和default的区别"><a href="#Java中的private、protected、public和default的区别" class="headerlink" title="Java中的private、protected、public和default的区别"></a>Java中的private、protected、public和default的区别</h1><ul>
-<li>(1）对于public修饰符，它具有最大的访问权限，可以访问任何一个在CLASSPATH下的类、接口、异常等。它往往用于对外的情况，也就是对象或类对外的一种接口的形式。</li>
-<li>（2）对于protected修饰符，它主要的作用就是用来保护子类的。它的含义在于子类可以用它修饰的成员，其他的不可以，它相当于传递给子类的一种继承的东西。</li>
-<li>（3）对于default来说，有点的时候也成为friendly（友员），它是针对本包访问而设计的，任何处于本包下的类、接口、异常等，都可以相互访问，即使是父类没有用protected修饰的成员也可以。</li>
-<li>（4）对于private来说，它的访问权限仅限于类的内部，是一种封装的体现，例如，大多数的成员变量都是修饰符为private的，它们不希望被其他任何外部的类访问。</li>
-</ul>
-<p>具体可以用下图来总结:</p>
-<p><img src="https://edu-1014.oss-cn-beijing.aliyuncs.com/2021/image-20210128225137800.png"></p>
-<h1 id="MYSQL的主键与外键"><a href="#MYSQL的主键与外键" class="headerlink" title="MYSQL的主键与外键"></a>MYSQL的主键与外键</h1><p><strong>主键</strong>：<strong>表中经常有一个列或多列的组合，其值能唯一地标识表中的每一行</strong>这样的一列或多列称为表的主键，通过它可强制表的实体完整性。当创建或更改表时可通过定义 PRIMARY KEY 约束来创建主键。一个表只能有一个 PRIMARY KEY 约束，而且 PRIMARY KEY 约束中的列不能接受空值。由于 PRIMARY KEY 约束确保唯一数据，所以经常用来定义标识列。</p>
-<h2 id="外键"><a href="#外键" class="headerlink" title="外键"></a>外键</h2><p><strong>外键的定义</strong></p>
-<p>如果公共关键字在一个关系中是主关键字，那么这个公共关键字被称为另一个关系的外键。由此可见，外键表示了两个关系之间的相关联系。以另一个关系的外键作主关键字的表被称为主表，具有此外键的表被称为主表的从表。外键又称作外关键字。</p>
-<p>定义一个外键时，需要遵守下列规则：</p>
-<ul>
-<li>父表必须已经存在于数据库中，或者是当前正在创建的表。如果是后一种情况，则父表与子表是同一个表，这样的表称为自参照表，这种结构称为自参照完整性。</li>
-<li>必须为父表定义主键。</li>
-<li>主键不能包含空值，但允许在外键中出现空值。也就是说，只要外键的每个非空值出现在指定的主键中，这个外键的内容就是正确的。</li>
-<li>在父表的表名后面指定列名或列名的组合。这个列或列的组合必须是父表的主键或候选键。</li>
-<li>外键中列的数目必须和父表的主键中列的数目相同。</li>
-<li>外键中列的数据类型必须和父表主键中对应列的数据类型相同。</li>
-</ul>
-<p><strong>外键约束的作用：<br>阻止执行</strong></p>
-<ul>
-<li>从表插入新行，其外键值不是主表的主键值便阻止插入；</li>
-<li>从表修改外键值，新值不是主表的主键值便阻止修改；</li>
-<li>主表删除行，其主键值在从表里存在便阻止删除(要想删除，必须先删除从表的相关行)；</li>
-<li>主表修改主键值，旧值在从表里存在便阻止修改(要想修改，必须先删除从表的相关行)。</li>
-</ul>
-<h1 id="JAVA的反射"><a href="#JAVA的反射" class="headerlink" title="JAVA的反射"></a>JAVA的反射</h1><p>类对象概念： 所有的类，都存在一个<strong>类对象</strong>，这个类对象用于提供<strong>类本身</strong>的信息，比如有几种构造方法， 有多少属性，有哪些普通方法。</p>
-<p>之后的概念 可以看看下面这篇文章:</p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chanshuyi/p/head_first_of_reflection.html">java中的反射</a></p>
-<p>学习了反射 可以继续深入了解一下Java的注解</p>
-<p>无论从上古框架 Hibernate还是现在流行的SpringBoot SpringCloud 其功能的强大</p>
-<p>都离不开各种各样的注解</p>
-<p>但是今天可能说不完了 暂时陈列这一些…</p>
-<h1 id="Java传统注解"><a href="#Java传统注解" class="headerlink" title="Java传统注解"></a>Java传统注解</h1><p>@Override 用在方法上，表示这个方法重写了父类的方法，如toString()。<br>如果父类没有这个方法，那么就无法编译通过</p>
-<p>@Deprecated 表示这个方法已经过期，不建议开发者使用。(暗示在将来某个不确定的版本，就有可能会取消掉)</p>
-<p>比如你要觉得自己这个方法写的太菜了但是不想删掉 你可以<del>装模作样</del>认认真真的</p>
-<p>在那个方法上加上@Deprecated注解</p>
-<p>然后别人看到了 就会觉得:卧槽 这么专业!!! …  <del>然后开始膜拜你</del></p>
-<p>@SuppressWarnings</p>
-<p>@SuppressWarnings Suppress英文的意思是抑制的意思，这个注解的用处是忽略警告信息。</p>
-<p>比如大家使用集合的时候，有时候为了偷懒，会不写泛型，像这样：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List czrorz = <span class="keyword">new</span> ArrayList();</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>那么就会导致编译器出现警告，而加上</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SuppressWarnings(&#123; &quot;rawtypes&quot;, &quot;unused&quot; &#125;)</span></span><br></pre></td></tr></table></figure>
-<p>就对这些警告进行了<strong>抑制</strong>，即忽略掉这些警告信息。<br>@SuppressWarnings 有常见的值，分别对应如下意思<br>1.deprecation：使用了不赞成使用的类或方法时的警告(使用@Deprecated使得编译器产生的警告)；<br>2.unchecked：执行了未检查的转换时的警告，例如当使用集合时没有用泛型 (Generics) 来指定集合保存的类型; 关闭编译器警告<br>3.fallthrough：当 Switch 程序块直接通往下一种情况而没有 Break 时的警告;<br>4.path：在类路径、源文件路径等中有不存在的路径时的警告;<br>5.serial：当在可序列化的类上缺少 serialVersionUID 定义时的警告;<br>6.finally：任何 finally 子句不能正常完成时的警告;<br>7.rawtypes 泛型类型未指明<br>8.unused 引用定义了，但是没有被使用<br>9.all：关于以上所有情况的警告。</p>
-<p>END</p>
-<p>太困了 我要<del>看会B站再</del>睡觉</p>
-<p>明天再说叭~~</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/28/%E8%BF%87%E6%B8%A1%E6%96%87%E7%AB%A0%E4%BA%8C/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
 
   
   
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
-    </nav>
+
+  <div id="gitalk-container" style="padding: 0px 30px 0px 30px;"></div> 
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+
+if(true){
+	var gitalk = new Gitalk({
+  	clientID: 'cfddc77ae887330d8ee1',
+  	clientSecret: '92b203d0a5537b91fa82e3b67c882d0c2bdd1743',
+  	repo: 'baijianruoliorz.github.io',
+  	owner: 'baijianruoliorz',
+  	admin: ['baijianruoliorz'],
+  	id: 'Thu Feb 04 2021 23:16:06 GMT+0800',
+  	distractionFreeMode: 'true'
+})
+gitalk.render('gitalk-container') 
+}
+</script>
   
+
+  
+  
+
 
 
           </div>
@@ -1248,8 +431,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
