@@ -6,15 +6,41 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives: 2021 | Blog-WIZZBEWINTERCAMP</title>
+  <title>Blog-WIZZBEWINTERCAMP</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="just a gopher">
-<meta property="og:type" content="website">
+  <meta name="description" content="MyBatis-Plus不写任何resultMap和SQL执行一对一、一对多、多对多关联查询对于一对一，一对多，多对一，多对多的关联查询，Mybatis-Plus 在处理时，需要编写关联查询方法及配置resultMap，并且书写SQL。 为了简化这种操作，可以注解来简化。 POM引用 ： 12345&lt;dependency&gt;     &lt;groupId&gt;com.github.d">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Blog-WIZZBEWINTERCAMP">
-<meta property="og:url" content="http://example.com/archives/2021/index.html">
+<meta property="og:url" content="http://example.com/2021/02/06/MyBatis-Plus%E4%B8%8D%E5%86%99%E4%BB%BB%E4%BD%95resultMap%E5%92%8CSQL%E6%89%A7%E8%A1%8C%E4%B8%80%E5%AF%B9%E4%B8%80%E3%80%81%E4%B8%80%E5%AF%B9%E5%A4%9A%E3%80%81%E5%A4%9A%E5%AF%B9%E5%A4%9A%E5%85%B3%E8%81%94%E6%9F%A5%E8%AF%A2/index.html">
 <meta property="og:site_name" content="Blog-WIZZBEWINTERCAMP">
-<meta property="og:description" content="just a gopher">
+<meta property="og:description" content="MyBatis-Plus不写任何resultMap和SQL执行一对一、一对多、多对多关联查询对于一对一，一对多，多对一，多对多的关联查询，Mybatis-Plus 在处理时，需要编写关联查询方法及配置resultMap，并且书写SQL。 为了简化这种操作，可以注解来简化。 POM引用 ： 12345&lt;dependency&gt;     &lt;groupId&gt;com.github.d">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="article:published_time" content="2021-02-06T15:45:37.450Z">
+<meta property="article:modified_time" content="2021-02-06T15:45:37.451Z">
 <meta property="article:author" content="baijianruoliorz">
 <meta property="article:tag" content="Vue">
 <meta property="article:tag" content="github">
@@ -25,6 +51,7 @@
 <meta property="article:tag" content="Go">
 <meta property="article:tag" content="Grpc">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://common.cnblogs.com/images/copycode.gif">
   
     <link rel="alternative" href="/atom.xml" title="Blog-WIZZBEWINTERCAMP" type="application/atom+xml">
   
@@ -160,290 +187,281 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-MyBatis-Plus不写任何resultMap和SQL执行一对一、一对多、多对多关联查询" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MyBatis-Plus不写任何resultMap和SQL执行一对一、一对多、多对多关联查询"><a href="#MyBatis-Plus不写任何resultMap和SQL执行一对一、一对多、多对多关联查询" class="headerlink" title="MyBatis-Plus不写任何resultMap和SQL执行一对一、一对多、多对多关联查询"></a>MyBatis-Plus不写任何resultMap和SQL执行一对一、一对多、多对多关联查询</h1><p>对于一对一，一对多，多对一，多对多的关联查询，<strong>Mybatis-Plus</strong> 在处理时，需要编写关联查询方法及配置resultMap，并且书写SQL。</p>
+<p>为了简化这种操作，可以注解来简化。</p>
+<p>POM引用 ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;com.github.dreamyoung&lt;&#x2F;groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;mprelation&lt;&#x2F;artifactId&gt;</span><br><span class="line">     &lt;version&gt;0.0.3.2-RELEASE&lt;&#x2F;version&gt; </span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>注解工具使用优缺点：</strong></p>
+<p>优点：</p>
+<p>​    使用简单，通过在实体类上添加**@OneToOne** / <strong>@OneToMany</strong> / <strong>@ManyToOne</strong> / <strong>@ManyToMany</strong> 等注解即可。</p>
+<p>​    注解命名参考了Hibernate命名，如果使用过Hibernate则即刻可上手。</p>
+<p>​    1对1、1对多、多对1、多对多映射时，可以不再写SQL及XML配置文件，免去配置冗长的**<resultMap>**的麻烦。</p>
+<p>​    Service层及Mapper层不需要再添加 <strong>getLinkById</strong> 、 <strong>selectLinkById</strong>  之类的方法来关联映射</p>
+<p>​    重写过的<strong>ServiceImpl</strong>各种内置的查询方法都自动关联查询，非内置方法可以调用<strong>autoMapper</strong>相关方法进行自动或手动关联</p>
+<p>​    所有执行采用<strong>非join</strong>方式查询，同时解决关联处理的<strong>1+n</strong>问题</p>
+<p>缺点：</p>
+<p>​    目前只针对SqlSession/Mappe形式有效（ActiveRecord形式暂未涉及修改，也没有测试）</p>
+<p>​    非事务下， 1个连接（1个SqlSession）只执行一条SQL，而自动获取每个关联属性的sql都会创建1<del>2个SqlSession（并执行1</del>2条SQL)。如果需要使用非内置方法（即除ServiceImpl外的方法）,必须配置只读事务来减少SqlSession创建。</p>
+<p>​    如果有多个延迟加载的关联属性，类上可注解@AutoLazy(false)或没有标注该注解（默认），之后通过initialize方法在事务范围内的一个SqlSession中同时加载需要的多个延迟加载的属性。</p>
+<p>使用注意点：</p>
+<p>​    非<strong>ServiceImpl</strong>内置的业务查询，配置事务管理，减少SqlSession的创建。</p>
+<p>​    实体上可用注解@AutoLazy(true/false)来标注是否自动触发延迟加载，该注解只针对需要延迟的属性。</p>
+<p>​        ★ <strong>true</strong>或无值的话，则获取延迟的关联属性时自动关联。但每一个延迟属性的获取都消耗一个SqlSession。适合于只有一个延迟属性的情况。</p>
+<p>​        ★ false或者不标注该注解的话，需要手动通过initialize()方法对延迟的关联属性进行获取，否则不会自动关联获取，此时关联为空。适合于有多个延迟属性的情况。</p>
+<p>​    如果可以，不使用延迟加载（延迟加载的使用是在SqlSession关闭后执行的，需要重新创建SqlSession）。</p>
+<p>​    如果确实需要延迟加载，可使用<strong>ServiceImpl</strong> 或 <strong>AutoMapper</strong> 相关的<strong>initialize</strong>方法一次性加载所有需要的被延迟的属性(只需要创建额外的一个SqlSession，毕竟SqlSession之前已经关闭）</p>
+<p><strong>注解使用：</strong></p>
+<p> <strong>一对多(多对一) ：</strong></p>
+<p><strong>Company</strong>实体类中配置：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class Company &#123;</span><br><span class="line">    @TableId(value &#x3D; &quot;company_id&quot;)</span><br><span class="line">    private Long id;</span><br><span class="line">    private String name;</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F;一对多</span><br><span class="line">    @TableField(exist &#x3D; false)</span><br><span class="line">    @OneToMany &#x2F;&#x2F;一对多默认为延迟加载,即@Lazy&#x2F;@Lazy(true)&#x2F;或此时不标注</span><br><span class="line">    @JoinColumn(name&#x3D;&quot;company_id&quot;,referencedColumnName &#x3D; &quot;company_id&quot;)&#x2F;&#x2F;@TableId与一方相关属性中@TableField名称保持一致时@JoinColumn可省略</span><br><span class="line">    private Set&lt;Man&gt; employees;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p> <strong>Man</strong>实体类中配置：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class Man &#123;</span><br><span class="line"></span><br><span class="line">    @TableId(value &#x3D; &quot;man_id&quot;)</span><br><span class="line">    private Long id;</span><br><span class="line">    private String name;    &#x2F;&#x2F;多对一</span><br><span class="line">    @TableField(&quot;company_id&quot;)</span><br><span class="line">    private Long companyId;</span><br><span class="line">    </span><br><span class="line">    @TableField(exist &#x3D; false)</span><br><span class="line">    @ManyToOne &#x2F;&#x2F;多对一默认为立即加载，即@Lazy(false)或此时不标注</span><br><span class="line">    @JoinColumn(name &#x3D; &quot;company_id&quot;, referencedColumnName &#x3D; &quot;company_id&quot;) &#x2F;&#x2F;相关的@TableField与多方的@TableId名称一致时@JoinColumn可省略</span><br><span class="line">    private Company company;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p> 一对多（多对一）表结构： <strong>company</strong>: (<strong>compnay_id</strong>,  name)      <strong>man</strong>: (man_id,  name,  <strong>company_id</strong>)</p>
+<p><strong>一对一：</strong></p>
+<p><strong>Woman</strong>实体类配置：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class Woman &#123;</span><br><span class="line">    @TableId(value &#x3D; &quot;woman_id&quot;)</span><br><span class="line">    private Long id;</span><br><span class="line">    private String name;</span><br><span class="line">        &#x2F;&#x2F;一对一    @TableField(&quot;lao_gong_id&quot;)</span><br><span class="line">    private Long laoGongId;</span><br><span class="line">    </span><br><span class="line">    @TableField(exist &#x3D; false)</span><br><span class="line">    @OneToOne &#x2F;&#x2F;一对一默认为立即加载，即@Lazy(false)或此时不标注</span><br><span class="line">    @JoinColumn(name &#x3D; &quot;lao_gong_id&quot;, referencedColumnName &#x3D; &quot;man_id&quot;)    private Man laoGong;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><strong>Man</strong>实体类配置：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class Man &#123;</span><br><span class="line">    @TableId(value &#x3D; &quot;man_id&quot;)</span><br><span class="line">    private Long id;</span><br><span class="line">    private String name;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;一对一    @TableField(&quot;lao_po_id&quot;)</span><br><span class="line">    private Long laoPoId;</span><br><span class="line">    </span><br><span class="line">    @TableField(exist &#x3D; false)</span><br><span class="line">    @OneToOne</span><br><span class="line">    @JoinColumn(name &#x3D; &quot;lao_po_id&quot;, referencedColumnName &#x3D; &quot;woman_id&quot;)</span><br><span class="line">    private Woman laoPo;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p> 一对一表结构：（实际可以减少一方） <strong>woman</strong>: (woman_id, name,  <strong>lao_gong_id</strong>)      <strong>man</strong>: (man_id,  name,  <strong>lao_po_id</strong>)</p>
+<p><strong>多对多：</strong></p>
+<p><strong>Course</strong>实体类配置：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class Course &#123;</span><br><span class="line">    @TableId(value &#x3D; &quot;course_id&quot;)</span><br><span class="line">    private Long id;</span><br><span class="line">    private String name;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;多对多</span><br><span class="line">    @TableField(exist &#x3D; false)</span><br><span class="line">    @ManyToMany &#x2F;&#x2F;多对多默认为延迟加载，即@Lazy(true)或此时不标注</span><br><span class="line">    @JoinTable(targetMapper &#x3D; StudentCourseMapper.class) &#x2F;&#x2F;第三方命名为StudentCourseMapper或CourseStudentMapper时@JoinTable注解一般可省略</span><br><span class="line">    @JoinColumn(name &#x3D; &quot;course_id&quot;, referencedColumnName &#x3D; &quot;course_id&quot;)</span><br><span class="line">    @InverseJoinColumn(name &#x3D; &quot;child_id&quot;, referencedColumnName &#x3D; &quot;student_id&quot;)</span><br><span class="line">    private List&lt;Child&gt; students;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><strong>Child</strong>实体类配置：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class Child &#123;</span><br><span class="line">    @TableId(&quot;child_id&quot;)</span><br><span class="line">    private Long id;</span><br><span class="line">    private String name;     &#x2F;&#x2F;多对多</span><br><span class="line">    @TableField(exist &#x3D; false)</span><br><span class="line">    @ManyToMany</span><br><span class="line">    @JoinTable(targetMapper&#x3D;StudentCourseMapper.class)</span><br><span class="line">    @JoinColumn(name &#x3D; &quot;child_id&quot;, referencedColumnName &#x3D; &quot;student_id&quot;)</span><br><span class="line">    @InverseJoinColumn(name &#x3D; &quot;course_id&quot;, referencedColumnName &#x3D; &quot;course_id&quot;)    private List&lt;Course&gt; courses;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><strong>StudenCourse</strong>中间类（多对多必须要有，如果命名为StudentCourse或CourseStudent，则上边的@JoinTable可省略）：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class StudentCourse &#123;</span><br><span class="line">    &#x2F;&#x2F;可以有也可以无此ID</span><br><span class="line">    private Long id;</span><br><span class="line">    </span><br><span class="line">    @TableField(&quot;student_id&quot;)</span><br><span class="line">    private Long studentId;</span><br><span class="line">    </span><br><span class="line">    @TableField(&quot;course_id&quot;)</span><br><span class="line">    private Long courseId;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p> 多对多表结构：<strong>course</strong>: (course_id, name)     <strong>child</strong>: (child_id,  name)    <strong>student_course</strong>:(id,  <strong>student_id</strong>,  <strong>course_id</strong>)</p>
+<p><strong>mprelation 关联查询，使用过程：</strong>  </p>
+<p>\1.  POM中引入mprelation：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;com.github.dreamyoung&lt;&#x2F;groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;mprelation&lt;&#x2F;artifactId&gt;</span><br><span class="line">     &lt;version&gt;0.0.3.2-RELEASE&lt;&#x2F;version&gt; </span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+<p>配置 <strong><em>AutoMapper\</em></strong> （只要是扫描被注解的实体类）</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class AutoMapperConfig &#123;</span><br><span class="line">    @Bean</span><br><span class="line">    public AutoMapper autoMapper() &#123;</span><br><span class="line">        return new AutoMapper(new String[] &#123; &quot;demo.entity&quot;,&quot;demo.bean&quot; &#125;); &#x2F;&#x2F;配置实体类所在目录（可多个,暂时不支持通过符*号配置）</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>\2.  在实体类中配置注解（更多的注解配置见上边注解部分，这里只列出其中一个）</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">@AutoLazy  &#x2F;&#x2F;不需要手动触发加载延迟属性，当延迟属性被调用时自动创建Session进行获取。可见如果有多个延迟属性需要被使用时，会造成多次创建Session，此时可以标注为AutoLazy(false)或不标注，然后采用initialze方法手动一次性加载需要的属性</span><br><span class="line">public class Man &#123; </span><br><span class="line">    @TableId(value &#x3D; &quot;man_id&quot;)</span><br><span class="line">    private Long id;</span><br><span class="line">    private String name;</span><br><span class="line"></span><br><span class="line">    private Long laoPoId;</span><br><span class="line">    @TableField(exist &#x3D; false)</span><br><span class="line">    @OneToOne</span><br><span class="line">    @JoinColumn(name &#x3D; &quot;lao_po_id&quot;, referencedColumnName &#x3D; &quot;woman_id&quot;)</span><br><span class="line">    private Woman laoPo;</span><br><span class="line"></span><br><span class="line">    @TableField(&quot;company_id&quot;)</span><br><span class="line">    private Long companyId;</span><br><span class="line"></span><br><span class="line">    @TableField(exist &#x3D; false)</span><br><span class="line">    @ManyToOne</span><br><span class="line">    @JoinColumn(name &#x3D; &quot;company_id&quot;, referencedColumnName &#x3D; &quot;company_id&quot;)    private Company company;</span><br><span class="line"></span><br><span class="line">    @TableField(exist &#x3D; false)</span><br><span class="line">    @OneToMany</span><br><span class="line">    @JoinColumn(name &#x3D; &quot;man_id&quot;, referencedColumnName &#x3D; &quot;lao_han_id&quot;)    @Lazy(false)    private List&lt;Child&gt; waWa;</span><br><span class="line">    @TableField(exist &#x3D; false)</span><br><span class="line">    @OneToMany</span><br><span class="line">    @JoinColumn(name &#x3D; &quot;man_id&quot;, referencedColumnName &#x3D; &quot;man_id&quot;)</span><br><span class="line">    @Lazy(false)</span><br><span class="line">    private Set&lt;Tel&gt; tels;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>\3.  在Service层、Mapper层的使用，见下面：</p>
+<p><strong>以下是基于Mybatis-Plus官方示例修改而来的测试程序：</strong> </p>
+<p> 通过继承工具类重写过的<strong>IService / ServiceImpl</strong>  会自动执行关联映射, 无须再写gettLinkById之类的方法（可以使得各实现类没有任何方法）：</p>
+<p> mapper接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public interface ManMapper extends BaseMapper&lt;Man&gt; &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p> service接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public interface IManService extends IService&lt;Man&gt; &#123;&#125;  &#x2F;&#x2F; IService为重写过的同名接口</span><br></pre></td></tr></table></figure>
+<p> Service实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public class ManServiceImpl extends ServiceImpl&lt;ManMapper, Man&gt; implements IManService &#123;&#125;  &#x2F;&#x2F; ServiceImpl为重写过的同名接口</span><br></pre></td></tr></table></figure>
+
+
+<p>测试调用：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class ServiceTest &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    ManService manService;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void t_man_serviceImpl() &#123;</span><br><span class="line">        Man man &#x3D; manService.getById(1); &#x2F;&#x2F; 原Mybatis-Plus的ServiceImpl的各种查询，被重写过后，都可以自动关联,        System.out.println(man);        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>结果输出:</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Man(</span><br><span class="line">    id&#x3D;1, </span><br><span class="line">    name&#x3D;程序猿小明, </span><br><span class="line">    laoPoId&#x3D;1, </span><br><span class="line">    laoPo&#x3D;Woman(id&#x3D;1, name&#x3D;程序猿小明老婆, laoGongId&#x3D;1, laoGong&#x3D;null, waWa&#x3D;null), </span><br><span class="line">    companyId&#x3D;1, </span><br><span class="line">    company&#x3D;Company(id&#x3D;1, name&#x3D;百度, employees&#x3D;null), </span><br><span class="line">    waWa&#x3D;[ </span><br><span class="line">        Child(id&#x3D;1,name&#x3D;xxx1,lao_han_id&#x3D;null, laoHan&#x3D;null, lao_ma_id&#x3D;null, laoMa&#x3D;null, courses&#x3D;null), </span><br><span class="line">        Child(id&#x3D;2,name&#x3D;xxxx2, lao_han_id&#x3D;null, laoHan&#x3D;null, lao_ma_id&#x3D;null, laoMa&#x3D;null, courses&#x3D;null)  </span><br><span class="line">    ], </span><br><span class="line">    tels&#x3D;[</span><br><span class="line">        Tel(id&#x3D;1, tel&#x3D;139xxxxxx, manId&#x3D;1, laoHan&#x3D;null), </span><br><span class="line">        Tel(id&#x3D;4, tel&#x3D;159xxxxxx, manId&#x3D;1, laoHan&#x3D;null), </span><br><span class="line">        Tel(id&#x3D;2, tel&#x3D;137xxxxxx, manId&#x3D;1, laoHan&#x3D;null)</span><br><span class="line">    ]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>如需需要对其关联属性对象的关联属性进行自动加载，可以继续使用AutoMapper对象的mapperEntity、mapperEntityList、mapperEntitySet、mapperEntityPage来操作：</p>
+<p>比如想获取（填充）<strong>waWas</strong> 的关联，则：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List waWas&#x3D;man.getWaWas();</span><br><span class="line">autoMapper.mapperEntityList(waWas); </span><br></pre></td></tr></table></figure>
+
+
+<p>**AutoMapper类中的几个常用方法说明：<br>**</p>
+<p>​    mapperEntity(entity)                      可以对一个实体类，实现自动关联。</p>
+<p>​    mapperEntityList(entity_list)                可以对一个实体类List，实现自动关联。</p>
+<p>​    mapperEntitySet(entity_set)                可以对一个实体类Set，实现自动关联。</p>
+<p>​    mapperEntityCollection(entity_list_or_set)     可以对一个实体类Set或List，实现自动关联。</p>
+<p>​    mapperEntityPage(entity_page)             可以对一个实体类Page，实现自动关联。</p>
+<p>​    mapper(entity_entityListOrSet_entityPage)     统一上边的各种方法，直接对实体类，列表，分页都可以实现自动关联。</p>
+<pre><code>**initialize**(entity/entityList/entitySet/entityPage,  OneOrMoreLazyPropertyName **...**)          </code></pre>
+<p>​    可以对一个实体类/实体类List/实体类Set/实体类Page，在事务范围内，手动立即触发其各个被@Lazy(true)标注的关联属性。</p>
+<p>   该方法在重写过的ServiceImpl内也存在(供Controller层调用来加载延迟关联的属性）。</p>
+<p>​    </p>
+<p><strong>AutoMapper</strong>在重写过的<strong>ServiceImpl</strong>类中已经自动注入可用(名为<strong>autoMapper</strong>)，其它情况也可以手动注入：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class MPRTest2 &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    AutoMapper autoMapper;</span><br><span class="line"></span><br><span class="line">    @Resource</span><br><span class="line">    private ManMapper manMapper;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void t_man() &#123;</span><br><span class="line">        Man man &#x3D; manMapper.selectById(1L);</span><br><span class="line">        autoMapper.mapperEntity(man);</span><br><span class="line">        System.out.println(man);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p> <strong>最新版本POM：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;com.github.dreamyoung&lt;&#x2F;groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;mprelation&lt;&#x2F;artifactId&gt;</span><br><span class="line">     &lt;version&gt;0.0.3.2-RELEASE&lt;&#x2F;version&gt; </span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/06/MyBatis-Plus%E4%B8%8D%E5%86%99%E4%BB%BB%E4%BD%95resultMap%E5%92%8CSQL%E6%89%A7%E8%A1%8C%E4%B8%80%E5%AF%B9%E4%B8%80%E3%80%81%E4%B8%80%E5%AF%B9%E5%A4%9A%E3%80%81%E5%A4%9A%E5%AF%B9%E5%A4%9A%E5%85%B3%E8%81%94%E6%9F%A5%E8%AF%A2/" class="archive-article-date">
-  	<time datetime="2021-02-06T15:45:37.450Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-06</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/02/06/MyBatis-Plus%E4%B8%8D%E5%86%99%E4%BB%BB%E4%BD%95resultMap%E5%92%8CSQL%E6%89%A7%E8%A1%8C%E4%B8%80%E5%AF%B9%E4%B8%80%E3%80%81%E4%B8%80%E5%AF%B9%E5%A4%9A%E3%80%81%E5%A4%9A%E5%AF%B9%E5%A4%9A%E5%85%B3%E8%81%94%E6%9F%A5%E8%AF%A2/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/04/%E7%BB%93%E6%9E%9C%E6%98%A0%E5%B0%84/" class="archive-article-date">
-  	<time datetime="2021-02-04T15:16:06.525Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-04</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/02/04/%E7%BB%93%E6%9E%9C%E6%98%A0%E5%B0%84/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">深入了解resultmap</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/04/%E7%BB%93%E6%9E%9C%E6%98%A0%E5%B0%84/">深入了解resultmap</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/04/%E4%B8%80%E3%80%81JWT%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2021-02-04T14:49:56.753Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/04/%E4%B8%80%E3%80%81JWT%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B/">SpringBoot 整合JWT</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/03/%E5%A4%B1%E8%B4%A5%E5%AD%A6%E8%A7%81%E4%B9%A0%E8%AF%AD%E5%BD%95/" class="archive-article-date">
-  	<time datetime="2021-02-03T06:17:49.217Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/03/%E5%A4%B1%E8%B4%A5%E5%AD%A6%E8%A7%81%E4%B9%A0%E8%AF%AD%E5%BD%95/">失败</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
+  <div id="gitalk-container" style="padding: 0px 30px 0px 30px;"></div> 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/02/END/" class="archive-article-date">
-  	<time datetime="2021-02-02T06:52:14.220Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/02/END/">推荐项目(试图灌水</a>
-    </h1>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+
+if(true){
+	var gitalk = new Gitalk({
+  	clientID: 'cfddc77ae887330d8ee1',
+  	clientSecret: '92b203d0a5537b91fa82e3b67c882d0c2bdd1743',
+  	repo: 'baijianruoliorz.github.io',
+  	owner: 'baijianruoliorz',
+  	admin: ['baijianruoliorz'],
+  	id: 'Sat Feb 06 2021 23:45:37 GMT+0800',
+  	distractionFreeMode: 'true'
+})
+gitalk.render('gitalk-container') 
+}
+</script>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/01/@ResponseStatus%E6%B3%A8%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2021-02-01T03:15:39.938Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/01/@ResponseStatus%E6%B3%A8%E8%A7%A3/">SpringBoot的开发细节总结-02</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/31/@RequestParam%EF%BC%8C@PathParam%EF%BC%8C@PathVariable%E7%AD%89%E6%B3%A8%E8%A7%A3%E5%8C%BA%E5%88%AB/" class="archive-article-date">
-  	<time datetime="2021-01-31T03:48:13.977Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-31</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/31/@RequestParam%EF%BC%8C@PathParam%EF%BC%8C@PathVariable%E7%AD%89%E6%B3%A8%E8%A7%A3%E5%8C%BA%E5%88%AB/">SpringBoot的开发细节总结-01</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/30/Jsoup/" class="archive-article-date">
-  	<time datetime="2021-01-30T08:13:33.359Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/30/Jsoup/">Jsoup-Json-MVC</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/30/%E6%97%A5%E5%BF%97%E4%B8%8E%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" class="archive-article-date">
-  	<time datetime="2021-01-30T05:00:15.241Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/30/%E6%97%A5%E5%BF%97%E4%B8%8E%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">日志与单元测试</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/29/%E8%A1%A5%E5%AE%8C%E7%9A%84Java%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2021-01-29T02:57:45.570Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/29/%E8%A1%A5%E5%AE%8C%E7%9A%84Java%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3/">注解与hutool</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2021/page/2/">2</a><a class="page-number" href="/archives/2021/page/3/">3</a><a class="extend next" rel="next" href="/archives/2021/page/2/">Next &amp;raquo;</a>
-    </nav>
-  
 
 
           </div>
@@ -466,8 +484,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
