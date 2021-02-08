@@ -162,6 +162,75 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-AQS是什么" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/08/AQS%E6%98%AF%E4%BB%80%E4%B9%88/">所以AQS是什么呢</a>
+    </h1>
+  
+
+        
+        <a href="/2021/02/08/AQS%E6%98%AF%E4%BB%80%E4%B9%88/" class="archive-article-date">
+  	<time datetime="2021-02-08T12:05:15.188Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>大家面试的时候经常被问到AQS是什么,想必大家一定有自己的理解AQS是什么,所以AQS是什么呢</p>
+<p>AQS是什么是怎么回事呢？AQS相信大家都很熟悉，<br>但是AQS是什么是怎么回事呢？下面就让小编带大家一起了解吧。<br>AQS是什么，其实就是AQS是什么了。 大家可能会感到很惊讶，AQS怎么会是什么呢？…<br>但事实就是这样，小编也感到非常惊讶。 那么这就是关于AQS是什么的事情了，</p>
+<p>大家有什么想法呢？欢迎在评论区告诉小编一起讨论哦</p>
+<p>AQS是什么:</p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1710145">毕竟我也不是很熟悉所以拿来一篇大佬的文章</a></p>
+<p>大家有个印象即可 面试之前背一背(</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/02/08/AQS%E6%98%AF%E4%BB%80%E4%B9%88/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
     <article id="post-JUC巩固题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1183,113 +1252,9 @@
 
 
   
-    <article id="post-日志与单元测试" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/30/%E6%97%A5%E5%BF%97%E4%B8%8E%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">日志与单元测试</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/30/%E6%97%A5%E5%BF%97%E4%B8%8E%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" class="archive-article-date">
-  	<time datetime="2021-01-30T05:00:15.241Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="日志与单元测试"><a href="#日志与单元测试" class="headerlink" title="日志与单元测试"></a>日志与单元测试</h1><p>今天讲一讲开发中常用的两个小功能</p>
-<p>日志以及单元测试</p>
-<p>关于完成这两个功能开源的工具有很多 我们这里选用 log4j 以及junit来完成即可!</p>
-<p>当然选用slf4j也可以同样完成输出 我们这里不展开讨论</p>
-<h1 id="Log4j"><a href="#Log4j" class="headerlink" title="Log4j"></a>Log4j</h1><p>通常，我们写代码的过程中，免不了要输出各种调试信息。在没有使用任何日志工具之前，都会使用 <strong>System.out.println</strong> 来做到。 这么做直观有效，但是有一系列的缺点：<br>\1. 不知道这句话是在哪个类，哪个线程里出来的<br>\2. 不知道什么时候前后两句输出间隔了多少时间<br>\3. 无法关闭调试信息，一旦System.out.println多了之后，到处都是输出，增加定位自己需要信息的难度</p>
-<p>所以 我们要使用Log4j来输出日志信息</p>
-<p>这里推荐一下idea的 rainbow插件</p>
-<p>它可以让你的控制台变得五颜六色 更容易识别不同级别的日志输出</p>
-<p>首先导入maven依赖</p>
-<p>直接去maven  repo</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--日志 start--&gt;</span><br><span class="line"> &lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;log4j&lt;&#x2F;groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;log4j&lt;&#x2F;artifactId&gt;</span><br><span class="line">     &lt;version&gt;1.2.17&lt;&#x2F;version&gt;</span><br><span class="line"> &lt;&#x2F;dependency&gt;</span><br><span class="line"> &lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;org.slf4j&lt;&#x2F;groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;slf4j-api&lt;&#x2F;artifactId&gt;</span><br><span class="line">     &lt;version&gt;1.7.25&lt;&#x2F;version&gt;</span><br><span class="line"> &lt;&#x2F;dependency&gt;</span><br><span class="line"> &lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;org.slf4j&lt;&#x2F;groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;slf4j-log4j12&lt;&#x2F;artifactId&gt;</span><br><span class="line">     &lt;version&gt;1.7.25&lt;&#x2F;version&gt;</span><br><span class="line">     &lt;scope&gt;test&lt;&#x2F;scope&gt;</span><br><span class="line"> &lt;&#x2F;dependency&gt;</span><br><span class="line"> &lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;org.slf4j&lt;&#x2F;groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;slf4j-simple&lt;&#x2F;artifactId&gt;</span><br><span class="line">     &lt;version&gt;1.7.25&lt;&#x2F;version&gt;</span><br><span class="line">     &lt;scope&gt;test&lt;&#x2F;scope&gt;</span><br><span class="line"> &lt;&#x2F;dependency&gt;</span><br><span class="line"> &lt;!--日志end--&gt;</span><br></pre></td></tr></table></figure>
-<p>这里 日志抽象层使用slf4j,所以需要slf4j-api,而slf4j-api接口和log4j的接口不一致，所以需要一个适配层，也就是slf4j-log4j12，在pom中导入slf4j-log4j12适配包会自动导入log4j实现包。最后slf4j-simple包也相当于一个简单的日志实现包，这里可以不用导入。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> log4j;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.log4j.BasicConfigurator;</span><br><span class="line"><span class="keyword">import</span> org.apache.log4j.Level;</span><br><span class="line"><span class="keyword">import</span> org.apache.log4j.Logger;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestLog4j</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> Logger logger = Logger.getLogger(TestLog4j.class);</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">		BasicConfigurator.configure();</span><br><span class="line">		logger.setLevel(Level.DEBUG);</span><br><span class="line">		logger.trace(<span class="string">&quot;跟踪信息&quot;</span>);</span><br><span class="line">		logger.debug(<span class="string">&quot;调试信息&quot;</span>);</span><br><span class="line">		logger.info(<span class="string">&quot;输出信息&quot;</span>);</span><br><span class="line">		Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">		logger.warn(<span class="string">&quot;警告信息&quot;</span>);</span><br><span class="line">		logger.error(<span class="string">&quot;错误信息&quot;</span>);</span><br><span class="line">		logger.fatal(<span class="string">&quot;致命信息&quot;</span>);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>代码讲解</p>
-<p>\1. 基于类的名称获取日志对象</p>
-<p>static Logger logger = Logger.getLogger(TestLog4j.class);</p>
-<p>\2. 进行默认配置</p>
-<p>BasicConfigurator.configure();</p>
-<p>\3. 设置日志输出级别   一般这个可以在配置文件完成</p>
-<p>logger.setLevel(Level.DEBUG);</p>
-<p>\3. 进行不同级别的日志输出</p>
-<p>logger.trace(“跟踪信息”);</p>
-<p>logger.debug(“调试信息”);</p>
-<p>logger.info(“输出信息”);</p>
-<p>Thread.sleep(1000);</p>
-<p>logger.warn(“警告信息”);</p>
-<p>logger.error(“错误信息”);</p>
-<p>logger.fatal(“致命信息”);</p>
-<p> 关于如何使用配置文件配置</p>
-<p>大家可以在网上查询相关资料 找到一份最适合自己的</p>
-<h1 id="Junit"><a href="#Junit" class="headerlink" title="Junit"></a>Junit</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> junit;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SumUtil</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> result = sum1(<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line">		System.out.println(result);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">sum1</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> i+j;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>通过main方法来进行测试的问题是显而易见的。<br>比如新开发了一个方法，是对3个数求和，那么问题至少有两个：<br>\1. 要在原来测试的基础上修改，可能破坏原来的测试逻辑<br>\2. 测试成功了，还是i测试失败了，都不知道呀。。。只能通过肉眼进行观察，如果测试的量很大，是很难看的过来滴</p>
-<p>junit</p>
-<p>为了应付这种测试的需求，我们就需要使用 junit 测试框架来进行测试工作。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;junit&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;junit&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;scope&gt;test&lt;&#x2F;scope&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSum1</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​    	<span class="keyword">int</span> result = SumUtil.sum1(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">​    	Assert.assertEquals(result, <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line"> </span><br></pre></td></tr></table></figure>
-<p>测试类</p>
-<p>\1. 需要加上2个注解：<br>@RunWith(SpringRunner.class)<br>@SpringBootTest(classes = Application.class)</p>
-<p>\2. 自动装配 CategoryDAO dao; 以便于使用</p>
-<p>\3. test 方法加上 @Test 注解，然后就可以使用dao来工作了</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith(SpringRunner.class)</span></span><br><span class="line"><span class="meta">@SpringBootTest(classes = Application.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestJPA</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Autowired</span> CategoryDAO dao;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		List&lt;Category&gt; cs=  dao.findAll();</span><br><span class="line">		<span class="keyword">for</span> (Category c : cs) &#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;c.getName():&quot;</span>+ c.getName());</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="END"><a href="#END" class="headerlink" title="END"></a>END</h2>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/30/%E6%97%A5%E5%BF%97%E4%B8%8E%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
     </nav>
   
 
