@@ -6,15 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | Blog-WIZZBEWINTERCAMP</title>
+  <title>省略的IO还是得谈谈 | Blog-WIZZBEWINTERCAMP</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="just a gopher">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Blog-WIZZBEWINTERCAMP">
-<meta property="og:url" content="http://example.com/archives/index.html">
+  <meta name="description" content="前言在昨天的文章中，回顾了Java的多线程。而在本篇文章中主要介绍Java IO的相关知识。 IO的介绍什么是IO？  IO的名称又来是Input与Output的缩写，也就是输入流和输出流。输入流用于从源读取数据，输出流用于向目标写数据。  可以从下列示例图来了解IO流: IO流使用IO流对文件的操作主要分为字符流和字节流。 字符流字符流有两个抽象类：Writer和Reader类。其对应子类Fil">
+<meta property="og:type" content="article">
+<meta property="og:title" content="省略的IO还是得谈谈">
+<meta property="og:url" content="http://example.com/2021/02/09/%E5%89%8D%E8%A8%80/index.html">
 <meta property="og:site_name" content="Blog-WIZZBEWINTERCAMP">
-<meta property="og:description" content="just a gopher">
+<meta property="og:description" content="前言在昨天的文章中，回顾了Java的多线程。而在本篇文章中主要介绍Java IO的相关知识。 IO的介绍什么是IO？  IO的名称又来是Input与Output的缩写，也就是输入流和输出流。输入流用于从源读取数据，输出流用于向目标写数据。  可以从下列示例图来了解IO流: IO流使用IO流对文件的操作主要分为字符流和字节流。 字符流字符流有两个抽象类：Writer和Reader类。其对应子类Fil">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1138196/201806/1138196-20180616215244409-846822604.jpg">
+<meta property="article:published_time" content="2021-02-09T14:52:43.771Z">
+<meta property="article:modified_time" content="2021-02-09T14:55:24.346Z">
 <meta property="article:author" content="baijianruoliorz">
 <meta property="article:tag" content="Vue">
 <meta property="article:tag" content="github">
@@ -25,6 +28,7 @@
 <meta property="article:tag" content="Go">
 <meta property="article:tag" content="Grpc">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images2018.cnblogs.com/blog/1138196/201806/1138196-20180616215244409-846822604.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Blog-WIZZBEWINTERCAMP" type="application/atom+xml">
   
@@ -160,296 +164,216 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-前言" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      省略的IO还是得谈谈
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/09/%E5%89%8D%E8%A8%80/" class="archive-article-date">
+
+        
+        <a href="/2021/02/09/%E5%89%8D%E8%A8%80/" class="archive-article-date">
   	<time datetime="2021-02-09T14:52:43.771Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-09</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/09/%E5%89%8D%E8%A8%80/">省略的IO还是得谈谈</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在昨天的文章中，回顾了Java的多线程。而在本篇文章中主要介绍<strong>Java IO</strong>的相关知识。</p>
+<h2 id="IO的介绍"><a href="#IO的介绍" class="headerlink" title="IO的介绍"></a>IO的介绍</h2><p><strong>什么是IO？</strong></p>
+<blockquote>
+<p>IO的名称又来是Input与Output的缩写，也就是输入流和输出流。输入流用于从源读取数据，输出流用于向目标写数据。</p>
+</blockquote>
+<p>可以从下列示例图来了解IO流:<br><img src="https://images2018.cnblogs.com/blog/1138196/201806/1138196-20180616215244409-846822604.jpg" alt="img"></p>
+<h2 id="IO流使用"><a href="#IO流使用" class="headerlink" title="IO流使用"></a>IO流使用</h2><p><strong>IO流对文件的操作主要分为字符流和字节流。</strong></p>
+<h3 id="字符流"><a href="#字符流" class="headerlink" title="字符流"></a><strong>字符流</strong></h3><p>字符流有两个抽象类：<strong>Writer</strong>和<strong>Reader</strong>类。<br>其对应子类<strong>FileWriter</strong>和<strong>FileReader</strong>可实现文件的读写操作。<br><strong>BufferedWriter</strong>和<strong>BufferedReader</strong>能够提供缓冲区功能，用以提高效率。</p>
+<p>我记得在开始学习Java不久的时候， 在教程中会使用 字符流来进行字符的读取和写入。比较常见的就是，运行一个main方法，然后再控制台输入字符，获取输入的字符做一些逻辑控制之类。<br>例如: 在控制台输入字符，输入<strong>quit</strong>退出，输入其它的字符打印。</p>
+<p><strong>代码示例:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args)  &#123;</span><br><span class="line">	try &#123;</span><br><span class="line">		test();</span><br><span class="line">	&#125; catch (IOException e) &#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private static void test() throws IOException &#123;</span><br><span class="line">	  String str;</span><br><span class="line">	    &#x2F;&#x2F; 使用 System.in 创建 BufferedReader </span><br><span class="line">	    BufferedReader br &#x3D; new BufferedReader(new InputStreamReader(System.in));</span><br><span class="line">	    System.out.println(&quot;输入字符, 输入 &#39;quit&#39; 退出。&quot;);</span><br><span class="line">	    &#x2F;&#x2F; 读取字符</span><br><span class="line">	    do &#123;</span><br><span class="line">	       str&#x3D;br.readLine();</span><br><span class="line">	       System.out.println(&quot;您输入的字符是:&quot;+str);</span><br><span class="line">	    &#125; while(!str.equals(&quot;quit&quot;));</span><br><span class="line">		 br.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们输入 <strong>hello</strong> 和<strong>quit</strong>。<br><strong>结果如下:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">输入字符, 输入 &#39;quit&#39; 退出。</span><br><span class="line">hello</span><br><span class="line">您输入的字符是:hello</span><br><span class="line">您输入的字符是:</span><br><span class="line">quit</span><br><span class="line">您输入的字符是:quit</span><br></pre></td></tr></table></figure>
+<p>通过上述示例我们可以简单的了解下了字符流。<br>一般来说，我们主要用字符流的情况是读写文件，大部分也是文本文件，比如.txt后缀的。这里我们也顺便介绍下如何使用。</p>
+<p><strong>代码示例:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> *</span><br><span class="line"> * 写入和读取文件</span><br><span class="line"> * @throws IOException</span><br><span class="line"> *&#x2F;</span><br><span class="line">private static void test2() throws IOException &#123;</span><br><span class="line">	&#x2F;&#x2F;创建要操作的文件路径和名称  </span><br><span class="line">       String path &#x3D;&quot;E:&#x2F;test&#x2F;hello.txt&quot;;</span><br><span class="line">       String str&#x3D;&quot;hello world&quot;;</span><br><span class="line">       FileWriter fw &#x3D; new FileWriter(path);  </span><br><span class="line">       fw.write(str);  </span><br><span class="line">       fw.close();  </span><br><span class="line">       </span><br><span class="line">       FileReader fr &#x3D; new FileReader(path);  </span><br><span class="line">       StringBuffer sb&#x3D;new StringBuffer();</span><br><span class="line"> 		while(fr.ready())&#123;</span><br><span class="line"> 			sb.append((char)fr.read());</span><br><span class="line"> 		&#125;</span><br><span class="line">       System.out.println(&quot;输出:&quot;+sb.toString());</span><br><span class="line">       fr.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注：如果在不同的系统上运行，可以使用 <strong>File.separator</strong>方法，该方法表示系统的分隔符。</p>
+<p><strong>输出结果:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">输出:hello word</span><br></pre></td></tr></table></figure>
+<p>上述代码示例中，我们使用<strong>FileWriter</strong> 和<strong>FileReader</strong> 这两个类对文件进行读写，虽然可以实现字符的写入和读取，但是效率并不高，因为是对磁盘的直接读写。一般对于文件的读写，我们会使用缓冲。使用缓冲的好处就像 倒垃圾一样，将垃圾进行整理堆积，然后到了一定的规模在丢弃，而不是有一点垃圾就倒一次。</p>
+<p>那么在上述的代码中加上<strong>BufferedWriter</strong>和<strong>BufferedReader</strong>类来进行缓冲。</p>
+<p><strong>代码示例:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 写入和读取文件</span><br><span class="line"> * @throws IOException</span><br><span class="line"> *&#x2F;</span><br><span class="line">private static void test3() throws IOException &#123;</span><br><span class="line">	&#x2F;&#x2F;创建要操作的文件路径和名称  </span><br><span class="line">       String path &#x3D;&quot;E:&#x2F;test&#x2F;hello.txt&quot;;</span><br><span class="line">       String str&#x3D;&quot;你好!&quot;;</span><br><span class="line">       FileWriter fw &#x3D; new FileWriter(path);  </span><br><span class="line">       BufferedWriter bw&#x3D;new BufferedWriter(fw);</span><br><span class="line">       bw.write(str);  </span><br><span class="line">       bw.close();</span><br><span class="line">       fw.close();  </span><br><span class="line">       </span><br><span class="line">       FileReader fr &#x3D; new FileReader(path);  </span><br><span class="line">       BufferedReader br&#x3D;new BufferedReader(fr);</span><br><span class="line">       StringBuffer sb&#x3D;new StringBuffer();</span><br><span class="line"> 		while(br.ready())&#123;</span><br><span class="line"> 			sb.append((char)br.read());</span><br><span class="line"> 		&#125;</span><br><span class="line">       System.out.println(&quot;输出:&quot;+sb.toString());</span><br><span class="line">       br.close();</span><br><span class="line">       fr.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注:需要注意的是关闭的顺序，先关闭缓冲，再关闭文件。</strong></p>
+<h3 id="字节流"><a href="#字节流" class="headerlink" title="字节流"></a><strong>字节流</strong></h3><p>字节流也有两个抽象类：<strong>InputStream</strong>和<strong>OutputStream</strong>类。<br>其对应子类有<strong>FileInputStream</strong>和<strong>FileOutputStream</strong>实现文件读写操作。<br><strong>BufferedInputStream</strong>和<strong>BufferedOutputStream</strong>提供缓冲区功能</p>
+<p>字节流也能对文本进行读取，但是它的主要使用的场景是读取无法直接获取文本信息的二进制文件，比如音乐文件、视频文件、图片文件等等。<br>这里我们依旧对文件进行读取和写入，不过我们把之前写入到hello.txt文件的内容加上 ‘你好’ 写入到新的文件中。由于这里使用的了中文，所以需要设置相应的编码。</p>
+<p><strong>代码示例:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 创建一个文件并读取记录 </span><br><span class="line"> * @throws IOException</span><br><span class="line"> *&#x2F;</span><br><span class="line">private static void test4() throws IOException &#123;</span><br><span class="line">	String path&#x3D;&quot;E:&#x2F;test&#x2F;hello.txt&quot;;</span><br><span class="line">	String path2&#x3D;&quot;E:&#x2F;test&#x2F;你好.txt&quot;;</span><br><span class="line">	String str&#x3D;&quot;你好!&quot;;</span><br><span class="line">	&#x2F;&#x2F;从文件读取数据</span><br><span class="line">	InputStream input &#x3D; new FileInputStream(path);</span><br><span class="line">	InputStreamReader reader &#x3D; new InputStreamReader(input, &quot;UTF-8&quot;);</span><br><span class="line">    StringBuffer sb&#x3D;new StringBuffer();</span><br><span class="line">	while(reader.ready())&#123;</span><br><span class="line">		sb.append((char)reader.read());</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	input.close();</span><br><span class="line">	reader.close();</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F;创建一个文件并向文件中写数据</span><br><span class="line">	OutputStream output &#x3D; new FileOutputStream(path2);</span><br><span class="line">	OutputStreamWriter writer &#x3D; new OutputStreamWriter(output, &quot;UTF-8&quot;);</span><br><span class="line">	writer.write(sb+str);</span><br><span class="line">	</span><br><span class="line">	writer.close();</span><br><span class="line">	output.close();</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F;从文件读取数据</span><br><span class="line">	InputStream input2 &#x3D; new FileInputStream(path2);</span><br><span class="line">	InputStreamReader reader2 &#x3D; new InputStreamReader(input2, &quot;UTF-8&quot;);</span><br><span class="line">    StringBuffer sb2&#x3D;new StringBuffer();</span><br><span class="line">	while(reader2.ready())&#123;</span><br><span class="line">		sb2.append((char)reader2.read());</span><br><span class="line">	&#125;</span><br><span class="line">	System.out.println(&quot;输出:&quot;+sb2);</span><br><span class="line">	input2.close();</span><br><span class="line">	reader2.close();</span><br><span class="line">&#125;	</span><br></pre></td></tr></table></figure>
+<p>结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">输出:hello world你好!</span><br></pre></td></tr></table></figure>
+<p>可以看到结果符合我们的预期。</p>
+<h3 id="File"><a href="#File" class="headerlink" title="File"></a>File</h3><p>学习IO流中，我们也会接触<strong>File</strong>类。<br>File类中主要是对文件夹的一些操作。比如，文件夹的创建、删除、查看等等。<br>这里我们就简单的介绍下File类的相关使用，还是使用代码配合注释来进行说明。</p>
+<p><strong>代码示例:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">private static void test5() throws IOException &#123;</span><br><span class="line">		String path&#x3D;&quot;E:&#x2F;test&#x2F;test2&quot;;</span><br><span class="line">		String path2&#x3D;&quot;E:&#x2F;test&#x2F;test3&#x2F;test3&quot;;</span><br><span class="line">		String path3&#x3D;&quot;E:&#x2F;test&#x2F;test2&#x2F;test2.txt&quot;;</span><br><span class="line">		File f &#x3D; new File(path);</span><br><span class="line">		File f2 &#x3D; new File(path2);</span><br><span class="line">		File f3 &#x3D; new File(path3);</span><br><span class="line">		&#x2F;&#x2F;创建文件夹</span><br><span class="line">		System.out.println(&quot;&#x3D;&quot;+f.mkdir());</span><br><span class="line">		&#x2F;&#x2F;创建文件夹和所有父文件夹</span><br><span class="line">		System.out.println(&quot;&#x3D;&#x3D;&quot;+f2.mkdirs());</span><br><span class="line">		&#x2F;&#x2F;创建一个文本</span><br><span class="line">		System.out.println(&quot;&#x3D;&#x3D;&#x3D;&quot;+f3.createNewFile());</span><br><span class="line">		&#x2F;&#x2F;获取名称</span><br><span class="line">		System.out.println(&quot;&#x3D;&#x3D;&#x3D;&quot;+f3.getName());</span><br><span class="line">		&#x2F;&#x2F;获取父级名称</span><br><span class="line">		System.out.println(&quot;&#x3D;&#x3D;&#x3D;&quot;+f3.getParent());</span><br><span class="line">		&#x2F;&#x2F;获取当前路径</span><br><span class="line">		System.out.println(&quot;&#x3D;&#x3D;&#x3D;&quot;+f3.getPath());</span><br><span class="line">		&#x2F;&#x2F;判断是否是目录</span><br><span class="line">		System.out.println(&quot;&#x3D;&#x3D;&quot;+f2.isDirectory());</span><br><span class="line">		System.out.println(&quot;&#x3D;&#x3D;&#x3D;&quot;+f3.isDirectory());</span><br><span class="line">		&#x2F;&#x2F;删除该文件</span><br><span class="line">		System.out.println(&quot;&#x3D;&#x3D;&#x3D;&quot;+f3.delete());	</span><br><span class="line">&#125;	</span><br></pre></td></tr></table></figure>
+<p><strong>输出结果:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x3D;true</span><br><span class="line">&#x3D;&#x3D;true</span><br><span class="line">&#x3D;&#x3D;&#x3D;true</span><br><span class="line">&#x3D;&#x3D;&#x3D;test2.txt</span><br><span class="line">&#x3D;&#x3D;&#x3D;E:\test\test2</span><br><span class="line">&#x3D;&#x3D;&#x3D;E:\test\test2\test2.txt</span><br><span class="line">&#x3D;&#x3D;true</span><br><span class="line">&#x3D;&#x3D;&#x3D;false</span><br><span class="line">&#x3D;&#x3D;&#x3D;true</span><br></pre></td></tr></table></figure>
+<p>关于File类的相关只是简单的介绍了下，具体的使用还需要配置实际的场景。需要注意的是，在进行文件创建和删除的时候，需要先判断是否存在，否则将抛出异常。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h1 id="END"><a href="#END" class="headerlink" title="END"></a>END</h1>
+      
 
-        <div class="article-info info-on-right">
-          
-          
-
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/02/09/%E5%89%8D%E8%A8%80/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/08/AQS%E6%98%AF%E4%BB%80%E4%B9%88/" class="archive-article-date">
-  	<time datetime="2021-02-08T12:05:15.188Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-08</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/02/08/AQS%E6%98%AF%E4%BB%80%E4%B9%88/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">所以AQS是什么呢</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/08/AQS%E6%98%AF%E4%BB%80%E4%B9%88/">所以AQS是什么呢</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/07/JUC%E5%B7%A9%E5%9B%BA%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2021-02-07T07:09:15.557Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/07/JUC%E5%B7%A9%E5%9B%BA%E9%A2%98/">十道JUC</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/06/MyBatis-Plus%E4%B8%8D%E5%86%99%E4%BB%BB%E4%BD%95resultMap%E5%92%8CSQL%E6%89%A7%E8%A1%8C%E4%B8%80%E5%AF%B9%E4%B8%80%E3%80%81%E4%B8%80%E5%AF%B9%E5%A4%9A%E3%80%81%E5%A4%9A%E5%AF%B9%E5%A4%9A%E5%85%B3%E8%81%94%E6%9F%A5%E8%AF%A2/" class="archive-article-date">
-  	<time datetime="2021-02-06T15:45:37.450Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/06/MyBatis-Plus%E4%B8%8D%E5%86%99%E4%BB%BB%E4%BD%95resultMap%E5%92%8CSQL%E6%89%A7%E8%A1%8C%E4%B8%80%E5%AF%B9%E4%B8%80%E3%80%81%E4%B8%80%E5%AF%B9%E5%A4%9A%E3%80%81%E5%A4%9A%E5%AF%B9%E5%A4%9A%E5%85%B3%E8%81%94%E6%9F%A5%E8%AF%A2/">MybatisPlus-03</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
+  <div id="gitalk-container" style="padding: 0px 30px 0px 30px;"></div> 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/04/%E7%BB%93%E6%9E%9C%E6%98%A0%E5%B0%84/" class="archive-article-date">
-  	<time datetime="2021-02-04T15:16:06.525Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/04/%E7%BB%93%E6%9E%9C%E6%98%A0%E5%B0%84/">深入了解resultmap</a>
-    </h1>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+
+if(true){
+	var gitalk = new Gitalk({
+  	clientID: 'cfddc77ae887330d8ee1',
+  	clientSecret: '92b203d0a5537b91fa82e3b67c882d0c2bdd1743',
+  	repo: 'baijianruoliorz.github.io',
+  	owner: 'baijianruoliorz',
+  	admin: ['baijianruoliorz'],
+  	id: 'Tue Feb 09 2021 22:52:43 GMT+0800',
+  	distractionFreeMode: 'true'
+})
+gitalk.render('gitalk-container') 
+}
+</script>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/04/%E4%B8%80%E3%80%81JWT%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2021-02-04T14:49:56.753Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/04/%E4%B8%80%E3%80%81JWT%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B/">SpringBoot 整合JWT</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/03/%E5%A4%B1%E8%B4%A5%E5%AD%A6%E8%A7%81%E4%B9%A0%E8%AF%AD%E5%BD%95/" class="archive-article-date">
-  	<time datetime="2021-02-03T06:17:49.217Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/03/%E5%A4%B1%E8%B4%A5%E5%AD%A6%E8%A7%81%E4%B9%A0%E8%AF%AD%E5%BD%95/">失败</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/02/END/" class="archive-article-date">
-  	<time datetime="2021-02-02T06:52:14.220Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/02/END/">推荐项目(试图灌水</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/01/@ResponseStatus%E6%B3%A8%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2021-02-01T03:15:39.938Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/01/@ResponseStatus%E6%B3%A8%E8%A7%A3/">SpringBoot的开发细节总结-02</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/31/@RequestParam%EF%BC%8C@PathParam%EF%BC%8C@PathVariable%E7%AD%89%E6%B3%A8%E8%A7%A3%E5%8C%BA%E5%88%AB/" class="archive-article-date">
-  	<time datetime="2021-01-31T03:48:13.977Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-31</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/31/@RequestParam%EF%BC%8C@PathParam%EF%BC%8C@PathVariable%E7%AD%89%E6%B3%A8%E8%A7%A3%E5%8C%BA%E5%88%AB/">SpringBoot的开发细节总结-01</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><a class="extend next" rel="next" href="/archives/page/2/">Next &amp;raquo;</a>
-    </nav>
-  
 
 
           </div>
@@ -472,8 +396,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

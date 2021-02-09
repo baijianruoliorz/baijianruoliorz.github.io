@@ -162,6 +162,106 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-前言" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/09/%E5%89%8D%E8%A8%80/">省略的IO还是得谈谈</a>
+    </h1>
+  
+
+        
+        <a href="/2021/02/09/%E5%89%8D%E8%A8%80/" class="archive-article-date">
+  	<time datetime="2021-02-09T14:52:43.771Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在昨天的文章中，回顾了Java的多线程。而在本篇文章中主要介绍<strong>Java IO</strong>的相关知识。</p>
+<h2 id="IO的介绍"><a href="#IO的介绍" class="headerlink" title="IO的介绍"></a>IO的介绍</h2><p><strong>什么是IO？</strong></p>
+<blockquote>
+<p>IO的名称又来是Input与Output的缩写，也就是输入流和输出流。输入流用于从源读取数据，输出流用于向目标写数据。</p>
+</blockquote>
+<p>可以从下列示例图来了解IO流:<br><img src="https://images2018.cnblogs.com/blog/1138196/201806/1138196-20180616215244409-846822604.jpg" alt="img"></p>
+<h2 id="IO流使用"><a href="#IO流使用" class="headerlink" title="IO流使用"></a>IO流使用</h2><p><strong>IO流对文件的操作主要分为字符流和字节流。</strong></p>
+<h3 id="字符流"><a href="#字符流" class="headerlink" title="字符流"></a><strong>字符流</strong></h3><p>字符流有两个抽象类：<strong>Writer</strong>和<strong>Reader</strong>类。<br>其对应子类<strong>FileWriter</strong>和<strong>FileReader</strong>可实现文件的读写操作。<br><strong>BufferedWriter</strong>和<strong>BufferedReader</strong>能够提供缓冲区功能，用以提高效率。</p>
+<p>我记得在开始学习Java不久的时候， 在教程中会使用 字符流来进行字符的读取和写入。比较常见的就是，运行一个main方法，然后再控制台输入字符，获取输入的字符做一些逻辑控制之类。<br>例如: 在控制台输入字符，输入<strong>quit</strong>退出，输入其它的字符打印。</p>
+<p><strong>代码示例:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args)  &#123;</span><br><span class="line">	try &#123;</span><br><span class="line">		test();</span><br><span class="line">	&#125; catch (IOException e) &#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private static void test() throws IOException &#123;</span><br><span class="line">	  String str;</span><br><span class="line">	    &#x2F;&#x2F; 使用 System.in 创建 BufferedReader </span><br><span class="line">	    BufferedReader br &#x3D; new BufferedReader(new InputStreamReader(System.in));</span><br><span class="line">	    System.out.println(&quot;输入字符, 输入 &#39;quit&#39; 退出。&quot;);</span><br><span class="line">	    &#x2F;&#x2F; 读取字符</span><br><span class="line">	    do &#123;</span><br><span class="line">	       str&#x3D;br.readLine();</span><br><span class="line">	       System.out.println(&quot;您输入的字符是:&quot;+str);</span><br><span class="line">	    &#125; while(!str.equals(&quot;quit&quot;));</span><br><span class="line">		 br.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们输入 <strong>hello</strong> 和<strong>quit</strong>。<br><strong>结果如下:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">输入字符, 输入 &#39;quit&#39; 退出。</span><br><span class="line">hello</span><br><span class="line">您输入的字符是:hello</span><br><span class="line">您输入的字符是:</span><br><span class="line">quit</span><br><span class="line">您输入的字符是:quit</span><br></pre></td></tr></table></figure>
+<p>通过上述示例我们可以简单的了解下了字符流。<br>一般来说，我们主要用字符流的情况是读写文件，大部分也是文本文件，比如.txt后缀的。这里我们也顺便介绍下如何使用。</p>
+<p><strong>代码示例:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> *</span><br><span class="line"> * 写入和读取文件</span><br><span class="line"> * @throws IOException</span><br><span class="line"> *&#x2F;</span><br><span class="line">private static void test2() throws IOException &#123;</span><br><span class="line">	&#x2F;&#x2F;创建要操作的文件路径和名称  </span><br><span class="line">       String path &#x3D;&quot;E:&#x2F;test&#x2F;hello.txt&quot;;</span><br><span class="line">       String str&#x3D;&quot;hello world&quot;;</span><br><span class="line">       FileWriter fw &#x3D; new FileWriter(path);  </span><br><span class="line">       fw.write(str);  </span><br><span class="line">       fw.close();  </span><br><span class="line">       </span><br><span class="line">       FileReader fr &#x3D; new FileReader(path);  </span><br><span class="line">       StringBuffer sb&#x3D;new StringBuffer();</span><br><span class="line"> 		while(fr.ready())&#123;</span><br><span class="line"> 			sb.append((char)fr.read());</span><br><span class="line"> 		&#125;</span><br><span class="line">       System.out.println(&quot;输出:&quot;+sb.toString());</span><br><span class="line">       fr.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注：如果在不同的系统上运行，可以使用 <strong>File.separator</strong>方法，该方法表示系统的分隔符。</p>
+<p><strong>输出结果:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">输出:hello word</span><br></pre></td></tr></table></figure>
+<p>上述代码示例中，我们使用<strong>FileWriter</strong> 和<strong>FileReader</strong> 这两个类对文件进行读写，虽然可以实现字符的写入和读取，但是效率并不高，因为是对磁盘的直接读写。一般对于文件的读写，我们会使用缓冲。使用缓冲的好处就像 倒垃圾一样，将垃圾进行整理堆积，然后到了一定的规模在丢弃，而不是有一点垃圾就倒一次。</p>
+<p>那么在上述的代码中加上<strong>BufferedWriter</strong>和<strong>BufferedReader</strong>类来进行缓冲。</p>
+<p><strong>代码示例:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 写入和读取文件</span><br><span class="line"> * @throws IOException</span><br><span class="line"> *&#x2F;</span><br><span class="line">private static void test3() throws IOException &#123;</span><br><span class="line">	&#x2F;&#x2F;创建要操作的文件路径和名称  </span><br><span class="line">       String path &#x3D;&quot;E:&#x2F;test&#x2F;hello.txt&quot;;</span><br><span class="line">       String str&#x3D;&quot;你好!&quot;;</span><br><span class="line">       FileWriter fw &#x3D; new FileWriter(path);  </span><br><span class="line">       BufferedWriter bw&#x3D;new BufferedWriter(fw);</span><br><span class="line">       bw.write(str);  </span><br><span class="line">       bw.close();</span><br><span class="line">       fw.close();  </span><br><span class="line">       </span><br><span class="line">       FileReader fr &#x3D; new FileReader(path);  </span><br><span class="line">       BufferedReader br&#x3D;new BufferedReader(fr);</span><br><span class="line">       StringBuffer sb&#x3D;new StringBuffer();</span><br><span class="line"> 		while(br.ready())&#123;</span><br><span class="line"> 			sb.append((char)br.read());</span><br><span class="line"> 		&#125;</span><br><span class="line">       System.out.println(&quot;输出:&quot;+sb.toString());</span><br><span class="line">       br.close();</span><br><span class="line">       fr.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注:需要注意的是关闭的顺序，先关闭缓冲，再关闭文件。</strong></p>
+<h3 id="字节流"><a href="#字节流" class="headerlink" title="字节流"></a><strong>字节流</strong></h3><p>字节流也有两个抽象类：<strong>InputStream</strong>和<strong>OutputStream</strong>类。<br>其对应子类有<strong>FileInputStream</strong>和<strong>FileOutputStream</strong>实现文件读写操作。<br><strong>BufferedInputStream</strong>和<strong>BufferedOutputStream</strong>提供缓冲区功能</p>
+<p>字节流也能对文本进行读取，但是它的主要使用的场景是读取无法直接获取文本信息的二进制文件，比如音乐文件、视频文件、图片文件等等。<br>这里我们依旧对文件进行读取和写入，不过我们把之前写入到hello.txt文件的内容加上 ‘你好’ 写入到新的文件中。由于这里使用的了中文，所以需要设置相应的编码。</p>
+<p><strong>代码示例:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 创建一个文件并读取记录 </span><br><span class="line"> * @throws IOException</span><br><span class="line"> *&#x2F;</span><br><span class="line">private static void test4() throws IOException &#123;</span><br><span class="line">	String path&#x3D;&quot;E:&#x2F;test&#x2F;hello.txt&quot;;</span><br><span class="line">	String path2&#x3D;&quot;E:&#x2F;test&#x2F;你好.txt&quot;;</span><br><span class="line">	String str&#x3D;&quot;你好!&quot;;</span><br><span class="line">	&#x2F;&#x2F;从文件读取数据</span><br><span class="line">	InputStream input &#x3D; new FileInputStream(path);</span><br><span class="line">	InputStreamReader reader &#x3D; new InputStreamReader(input, &quot;UTF-8&quot;);</span><br><span class="line">    StringBuffer sb&#x3D;new StringBuffer();</span><br><span class="line">	while(reader.ready())&#123;</span><br><span class="line">		sb.append((char)reader.read());</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	input.close();</span><br><span class="line">	reader.close();</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F;创建一个文件并向文件中写数据</span><br><span class="line">	OutputStream output &#x3D; new FileOutputStream(path2);</span><br><span class="line">	OutputStreamWriter writer &#x3D; new OutputStreamWriter(output, &quot;UTF-8&quot;);</span><br><span class="line">	writer.write(sb+str);</span><br><span class="line">	</span><br><span class="line">	writer.close();</span><br><span class="line">	output.close();</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F;从文件读取数据</span><br><span class="line">	InputStream input2 &#x3D; new FileInputStream(path2);</span><br><span class="line">	InputStreamReader reader2 &#x3D; new InputStreamReader(input2, &quot;UTF-8&quot;);</span><br><span class="line">    StringBuffer sb2&#x3D;new StringBuffer();</span><br><span class="line">	while(reader2.ready())&#123;</span><br><span class="line">		sb2.append((char)reader2.read());</span><br><span class="line">	&#125;</span><br><span class="line">	System.out.println(&quot;输出:&quot;+sb2);</span><br><span class="line">	input2.close();</span><br><span class="line">	reader2.close();</span><br><span class="line">&#125;	</span><br></pre></td></tr></table></figure>
+<p>结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">输出:hello world你好!</span><br></pre></td></tr></table></figure>
+<p>可以看到结果符合我们的预期。</p>
+<h3 id="File"><a href="#File" class="headerlink" title="File"></a>File</h3><p>学习IO流中，我们也会接触<strong>File</strong>类。<br>File类中主要是对文件夹的一些操作。比如，文件夹的创建、删除、查看等等。<br>这里我们就简单的介绍下File类的相关使用，还是使用代码配合注释来进行说明。</p>
+<p><strong>代码示例:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">private static void test5() throws IOException &#123;</span><br><span class="line">		String path&#x3D;&quot;E:&#x2F;test&#x2F;test2&quot;;</span><br><span class="line">		String path2&#x3D;&quot;E:&#x2F;test&#x2F;test3&#x2F;test3&quot;;</span><br><span class="line">		String path3&#x3D;&quot;E:&#x2F;test&#x2F;test2&#x2F;test2.txt&quot;;</span><br><span class="line">		File f &#x3D; new File(path);</span><br><span class="line">		File f2 &#x3D; new File(path2);</span><br><span class="line">		File f3 &#x3D; new File(path3);</span><br><span class="line">		&#x2F;&#x2F;创建文件夹</span><br><span class="line">		System.out.println(&quot;&#x3D;&quot;+f.mkdir());</span><br><span class="line">		&#x2F;&#x2F;创建文件夹和所有父文件夹</span><br><span class="line">		System.out.println(&quot;&#x3D;&#x3D;&quot;+f2.mkdirs());</span><br><span class="line">		&#x2F;&#x2F;创建一个文本</span><br><span class="line">		System.out.println(&quot;&#x3D;&#x3D;&#x3D;&quot;+f3.createNewFile());</span><br><span class="line">		&#x2F;&#x2F;获取名称</span><br><span class="line">		System.out.println(&quot;&#x3D;&#x3D;&#x3D;&quot;+f3.getName());</span><br><span class="line">		&#x2F;&#x2F;获取父级名称</span><br><span class="line">		System.out.println(&quot;&#x3D;&#x3D;&#x3D;&quot;+f3.getParent());</span><br><span class="line">		&#x2F;&#x2F;获取当前路径</span><br><span class="line">		System.out.println(&quot;&#x3D;&#x3D;&#x3D;&quot;+f3.getPath());</span><br><span class="line">		&#x2F;&#x2F;判断是否是目录</span><br><span class="line">		System.out.println(&quot;&#x3D;&#x3D;&quot;+f2.isDirectory());</span><br><span class="line">		System.out.println(&quot;&#x3D;&#x3D;&#x3D;&quot;+f3.isDirectory());</span><br><span class="line">		&#x2F;&#x2F;删除该文件</span><br><span class="line">		System.out.println(&quot;&#x3D;&#x3D;&#x3D;&quot;+f3.delete());	</span><br><span class="line">&#125;	</span><br></pre></td></tr></table></figure>
+<p><strong>输出结果:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x3D;true</span><br><span class="line">&#x3D;&#x3D;true</span><br><span class="line">&#x3D;&#x3D;&#x3D;true</span><br><span class="line">&#x3D;&#x3D;&#x3D;test2.txt</span><br><span class="line">&#x3D;&#x3D;&#x3D;E:\test\test2</span><br><span class="line">&#x3D;&#x3D;&#x3D;E:\test\test2\test2.txt</span><br><span class="line">&#x3D;&#x3D;true</span><br><span class="line">&#x3D;&#x3D;&#x3D;false</span><br><span class="line">&#x3D;&#x3D;&#x3D;true</span><br></pre></td></tr></table></figure>
+<p>关于File类的相关只是简单的介绍了下，具体的使用还需要配置实际的场景。需要注意的是，在进行文件创建和删除的时候，需要先判断是否存在，否则将抛出异常。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h1 id="END"><a href="#END" class="headerlink" title="END"></a>END</h1>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/02/09/%E5%89%8D%E8%A8%80/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
     <article id="post-AQS是什么" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1089,139 +1189,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2021/01/31/@RequestParam%EF%BC%8C@PathParam%EF%BC%8C@PathVariable%E7%AD%89%E6%B3%A8%E8%A7%A3%E5%8C%BA%E5%88%AB/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-Jsoup" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/30/Jsoup/">Jsoup-Json-MVC</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/30/Jsoup/" class="archive-article-date">
-  	<time datetime="2021-01-30T08:13:33.359Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Jsoup"><a href="#Jsoup" class="headerlink" title="Jsoup"></a>Jsoup</h1><p>Jsoup</p>
-<p>什么是xml</p>
-<p>xml 是<strong>可扩展标记语言</strong>的缩写： Extensible Markup Language。<br>举个例子就像下面这样：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">e1</span>&gt;</span> czr orz<span class="tag">&lt;/<span class="name">e1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>常见的 xml</p>
-<p>比如做 web 应用开发，需要配置 web.xml，就是个典型的 xml文件。<br>它里面就有这些元素： web-app, servlet, servlet-name, servlet-class 这些。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">web-app</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>HelloServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>HelloServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line">     </span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>HelloServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/hello<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><strong>注：</strong> 什么是元素？ 像这样的格式就是一个元素 ： &lt;元素名称&gt; 元素内容 &lt;/元素名称&gt;。 比如： <servlet-name>HelloServlet</servlet-name> 就是 servlet-name 元素。</p>
-<p>什么是 html</p>
-<p><strong>html</strong> 是 <strong>HyperText Markup Language</strong>的缩写,<strong>超文本标记语言</strong>。<br>下面这段就是 一段 html。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello CZRORZ<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>html 可以简单看成是 xml 的一个子集。 html 用的都是一些预先定义的元素，如 <html>, <a>, <body>, <table> 。 而 xml 什么元素都可以自定义： 如 <a> , <b>, <aabb> 。</p>
-<p>既然 html 是 xml 的子集，那么解析起来就和 xml一样了，下面我们就来谈 xml的解析就可以了。</p>
-<p>首先还是需要直接在maven repo 里面找 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- https:&#x2F;&#x2F;mvnrepository.com&#x2F;artifact&#x2F;org.jsoup&#x2F;jsoup --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.jsoup&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;jsoup&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.13.1&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
-
-
-<p>以下代码，就可以把 一段html：</p>
-<html><body><p>Hello HTML</p></body></html>
-
-
-
-
-<p>里的 p 元素的内容 Hello HTML 取出来了。</p>
-<p>\1. 把文本解析成 Document 对象， Document 对象就代表整个 xml 文档。</p>
-<p>Document doc = Jsoup.parse(html);</p>
-<p>\2. 获取所有的 p 元素。</p>
-<p>Elements as= doc.getElementsByTag(“p”);</p>
-<p>\3. 遍历 所有的 p 元素 （这里其实只有一个）， 打印其内容</p>
-<p>​    for (Element e : as) {</p>
-<p>​        System.out.println(e.text());</p>
-<p>​    }</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	String html = <span class="string">&quot;&lt;html&gt;&lt;body&gt;&lt;p&gt;Hello HTML&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;</span>;</span><br><span class="line">	Document doc = Jsoup.parse(html);</span><br><span class="line">	</span><br><span class="line">	Elements as= doc.getElementsByTag(<span class="string">&quot;p&quot;</span>);</span><br><span class="line">	<span class="keyword">for</span> (Element e : as) &#123;</span><br><span class="line">		System.out.println(e.text());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="Json"><a href="#Json" class="headerlink" title="Json"></a>Json</h1><p>开发中我们经常要传一些参数 这里json传参就占了很大一部分</p>
-<p>当然 有经验的开发者通常会选用query传参 这样可以让程序的易用性和可拓展性更</p>
-<p>加丰富 但是我们不能忘了初心 我们是后端er 所以json的了解可以不求甚解一些</p>
-<p>在这里 我们来了解一下Json的作用</p>
-<p>demo1:</p>
-<p>var gareen = {“name”:”czr”,”hp”:666};<br>这样就创建了一个JSON 对象<br>JSON对象由 <strong>名称/值对</strong>组成 名称和值之间用冒号:隔开<br>名称必须用<strong>双引号”</strong> 包含起来<br>值可以是任意javascript数据类型，字符串，布尔，数字 ，数组甚至是对象<br>不同的<strong>名称/值对</strong>之间用 逗号 <strong>,</strong> 隔开</p>
-<p>JSON数组</p>
-<p>通过方括号[] 创建JSON 数组</p>
-<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/JSON"></a></p>
-<p>具体可以看看上面这篇文章 自备梯子</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h1 id="MVC设计模式"><a href="#MVC设计模式" class="headerlink" title="MVC设计模式"></a>MVC设计模式</h1><p>M 代表 模型（<strong>Model</strong>）<br>V 代表 视图（<strong>View</strong>）<br>C 代表 控制器（<strong>controller</strong>)</p>
-<p>具体看这篇文章</p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/254e2478a4ca"></a></p>
-<p>今天能够了解这三个概念已经很不错了</p>
-<p>要多靠实践开发来掌握如何使用这些内容</p>
-<p>但是由于现在只有752字</p>
-<p>所以我决定还得加几道面试题(老私货达人了)</p>
-<p>1.面向对象的特征有哪些方面？</p>
-<p>封装<br>最常见的是把属性私有化封装在一个类里面，只能通过方法去访问<br>继承<br>子类继承父类，从而继承了父类的方法和属性<br>抽象<br>比如一个czr类，<strong>抽象</strong>出了name,age这些属性，使得开发过程中更加易于理解<br>多态<br>多态分操作符的多态和类的多态。 类的多态指父类引用指向子类对象，并且有继承，有重写。</p>
-<p>关于抽象 还可以具体举例:</p>
-<p>抽象类</p>
-<p>在类中声明一个方法，这个方法没有实现体，是一个“空”方法</p>
-<p>这样的方法就叫抽象方法，使用修饰符“abstract”</p>
-<p>当一个类有抽象方法的时候，该类必须被声明为抽象类</p>
-<p>当父类有抽象方法是 子类<strong>必须</strong>实现该方法</p>
-<p>抽象类和接口的区别</p>
-<p>区别1：<br>子类只能继承一个抽象类，不能继承多个<br>子类可以实现<strong>多个</strong>接口<br>区别2：<br>抽象类可以定义<br>public,protected,package,private<br>静态和非静态属性<br>final和非final属性<br>但是接口中声明的属性，只能是<br>public<br>静态<br>final的<br>即便没有显式的声明</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> charactor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AP</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> resistPhysic = <span class="number">100</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//resistMagic即便没有显式的声明为 public static final</span></span><br><span class="line">	<span class="comment">//但依然默认为public static final</span></span><br><span class="line">	<span class="keyword">int</span> resistMagic = <span class="number">0</span>; </span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">magicAttack</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>一旦一个类被声明为抽象类，就不能够被直接实例化</p>
-<p>且抽象类可以没有抽象方法</p>
-<p>2.String是最基本的数据类型吗？</p>
-<p>String是类类型，不是基本类型。<br>基本类型 有八种<br>这八种基本类型分别是：<br>整型 （4种）<br>字符型 （1种）<br>浮点型 （2种）<br>布尔型（1种）</p>
-<p>3.Collection 和 Collections的区别。</p>
-<p>首先<strong>不要说成</strong>了一个是单数，一个是复数。。。<br>Collection是接口，是List和Set的父接口<br>Collentions是工具类，提供了排序，混淆等等很多实用方法</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/30/Jsoup/">展开全文 >></a>
         </p>
       
 
