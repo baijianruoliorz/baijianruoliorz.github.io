@@ -162,6 +162,87 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-GC问题探讨" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/12/GC%E9%97%AE%E9%A2%98%E6%8E%A2%E8%AE%A8/">大年初一GC清理垃圾</a>
+    </h1>
+  
+
+        
+        <a href="/2021/02/12/GC%E9%97%AE%E9%A2%98%E6%8E%A2%E8%AE%A8/" class="archive-article-date">
+  	<time datetime="2021-02-12T03:00:24.737Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>GC问题探讨</p>
+<p>我们知道，目前主流的虚拟机实现都采用了分代收集的思想，把整个堆区划分为新生代和老年代；新生代又被划分成 Eden 空间、 FromSurvivor 和 To Survivor 三块区域。</p>
+<p>看书的时候有个疑问，为什么非得是两个 Survivor 空间呢？要回答这个问题，其实等价于：为什么不是0个或1个 Survivor 空间？为什么2个 Survivor 空间可以达到要求？</p>
+<p>为什么不是0个 Survivor 空间？</p>
+<p>这个问题等价于：为什么需要 Survivor 空间。我们看看如果没有 Survivor 空间的话，垃圾收集将会怎样进行：一遍新生代 gc 过后，不管三七二十一，活着的对象全部进入老年代，即便它在接下来的几次 gc 过程中极有可能被回收掉。这样的话老年代很快被填满， Full GC 的频率大大增加。我们知道，老年代一般都会被规划成比新生代大很多，对它进行垃圾收集会消耗比较长的时间；如果收集的频率又很快的话，那就更糟糕了。基于这种考虑，虚拟机引进了“幸存区”的概念：如果对象在某次新生代</p>
+<p>gc 之后任然存活，让它暂时进入幸存区；以后每熬过一次 gc ，让对象的年龄＋1，直到其年龄达到某个设定的值（比如15岁）， JVM 认为它很有可能是个“老不死的”对象，再呆在幸存区没有必要（而且老是在两个幸存区之间反复地复制也需要消耗资源），才会把它转移到老年代。</p>
+<p>总之，设置 Survivor 空间的目的是让那些中等寿命的对象尽量在 Minor GC 时被干掉，最终在总体上减少虚拟机的垃圾收集过程对用户程序的影响。</p>
+<p>为什么不是1个 Survivor 空间？</p>
+<p>回答这个问题有一个前提，就是新生代一般都采用复制算法进行垃圾收集。原始的复制算法是把一块内存一分为二， gc 时把存活的对象从一块空间（From space）复制到另外一块空间（To space），再把原先的那块内存（From space）清理干净，最后调换 From space 和 To space 的逻辑角色（这样下一次 gc 的时候还可以按这样的方式进行）。</p>
+<p>我们知道，在 HotSpot 虚拟机里， Eden 空间和 Survivor 空间默认的比例是 8:1 。我们来看看在只有一个 Survivor 空间的情况下，这个 8:1 会有什么问题。此处为了方便说明，我们假设新生代一共为 9 MB 。对象优先在 Eden 区分配，当 Eden 空间满 8 MB 时，触发第一次 Minor GC 。比如说有 0.5 MB</p>
+<p>的对象存活，那这 0.5 MB 的对象将由 Eden 区向 Survivor 区复制。这次 Minor GC 过后， Eden 区被清理干净， Survivor 区被占用了 0.5 MB ，还剩 0.5 MB 。到这里一切都很美好，但问题马上就来了：从现在开始所有对象将会在这剩下的 0.5 MB 的空间上被分配，很快就会发现空间不足，于是只好触发下一次 Minor GC 。可以看出在这种情况下，当 Survivor 空间作为对象“出生地”的时候，很容易触发 Minor GC ，这种 8:1 的不对称分配不但没能在总体上降低</p>
+<p>Minor GC 的频率，还会把 gc 的时间间隔搞得很不平均。把 Eden : Survivor 设成 1 : 1 也一样，每当对象总大小满 5 MB 的时候都必须触发一次 Minor GC ，唯一的变化是 gc 的时间间隔相对平均了。</p>
+<p>上面的论述都是以“新生代使用复制算法”这个既定事实作为前提来讨论的。如果不是这样，比如说新生代采用“标记-清除”或者“标记-整理”算法来实现幸存对象的移动，好像确实是只需要一个 Survivor 就够了。至于主流的虚拟机实现为什么不考虑采用这种方式，我也不是很清楚，或许有实现难度、内存碎片或者执行效率方面的考虑吧。</p>
+<p>为什么2个 Survivor 空间可以达到要求？</p>
+<p>问题很清楚了，无论 Eden 和 Survivor 的比例怎么设置，在只有一个 Survivor 的情况下，总体上看在新生代空间满一半的时候就会触发一次 Minor GC 。那有没有提升的空间呢？比如说永远在新生代空间满 80% 的时候才触发 Minor GC ？</p>
+<p>事实上是可以做到的：我们可以设两个 Survivor 空间（ From Survivor 和 To Survivor ）。比如，我们把 Eden : From Survivor : To Survivor 空间大小设成 8 : 1 : 1 ，对象总是在 Eden 区出生， From Survivor 保存当前的幸存对象， To Survivor 为空。一次 gc</p>
+<p>发生后：<br>1）Eden 区活着的对象 ＋ From Survivor 存储的对象被复制到 To Survivor ；<br>2) 清空 Eden 和 From Survivor ；<br>3) 颠倒 From Survivor 和 To Survivor 的逻辑关系： From 变 To ， To 变 From 。</p>
+<p>可以看出，只有在 Eden 空间快满的时候才会触发 Minor GC 。而 Eden 空间占新生代的绝大部分，所以 Minor GC 的频率得以降低。当然，使用两个 Survivor 这种方式我们也付出了一定的代价，如 10% 的空间浪费、复制对象的开销等</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/02/12/GC%E9%97%AE%E9%A2%98%E6%8E%A2%E8%AE%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
     <article id="post-为之祝大家新年快乐" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1125,76 +1206,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2021/02/03/%E5%A4%B1%E8%B4%A5%E5%AD%A6%E8%A7%81%E4%B9%A0%E8%AF%AD%E5%BD%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-END" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/02/END/">推荐项目(试图灌水</a>
-    </h1>
-  
-
-        
-        <a href="/2021/02/02/END/" class="archive-article-date">
-  	<time datetime="2021-02-02T06:52:14.220Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>看情况再补充些Java知识的细节</p>
-<p>下面是一个作业 大家可以先看看顺便做一做~</p>
-<p>当然 也可以直接小程序搜索 从心优选 体验一下==</p>
-<p>后端的写的接口目前小程序还没有实现完全 但是作为大家体验使用的平台 还算够用</p>
-<p>但是不影响我们直接学习整个后端项目~</p>
-<p>冬令营的毕业项目:</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/baijianruoliorz/gift"><img src="https://github-readme-stats.vercel.app/api/pin/?username=baijianruoliorz&repo=gift" alt="ReadMe Card"></a>        </p>
-<h1 id="END"><a href="#END" class="headerlink" title="END"></a>END</h1>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/02/02/END/">展开全文 >></a>
         </p>
       
 
