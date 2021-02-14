@@ -162,6 +162,103 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-session机制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/14/session%E6%9C%BA%E5%88%B6/">cookie与session的区别大家一定要知道</a>
+    </h1>
+  
+
+        
+        <a href="/2021/02/14/session%E6%9C%BA%E5%88%B6/" class="archive-article-date">
+  	<time datetime="2021-02-14T03:04:08.305Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>昨天知道了还有一些小伙伴不知道cookie和session的区别</p>
+<p>作为一名合格的后端开发</p>
+<p>有必要扫除这个盲区</p>
+<p>本文分别对Cookie与Session做一个介绍和总结，并分别对两个知识点进行对比分析，让大家对Cookie和Session有一个更深入的了解，并对自己的开发工作中灵活运用带来启示。</p>
+<p><strong>cookie机制</strong></p>
+<p>Cookies是服务器在本地机器上存储的小段文本并随每一个请求发送至同一个服务器。IETF RFC 2965 HTTP State Management Mechanism 是通用cookie规范。网络服务器用HTTP头向客户端发送cookies，在客户终端，浏览器解析这些cookies并将它们保存为一个本地文件，它会自动将同一服务器的任何请求缚上这些cookies 。</p>
+<p>具体来说cookie机制采用的是在客户端保持状态的方案。它是在用户端的会话状态的存贮机制，他需要用户打开客户端的cookie支持。cookie的作用就是为了解决HTTP协议无状态的缺陷所作的努力。</p>
+<p>正统的cookie分发是通过扩展HTTP协议来实现的，服务器通过在HTTP的响应头中加上一行特殊的指示以提示浏览器按照指示生成相应的cookie。然而纯粹的客户端脚本如JavaScript也可以生成cookie。而cookie的使用是由浏览器按照一定的原则在后台自动发送给服务器的。浏览器检查所有存储的cookie，如果某个cookie所声明的作用范围大于等于将要请求的资源所在的位置，则把该cookie附在请求资源的HTTP请求头上发送给服务器。</p>
+<p>cookie的内容主要包括：名字，值，过期时间，路径和域。路径与域一起构成cookie的作用范围。若不设置过期时间，则表示这个cookie的生命期为浏览器会话期间，关闭浏览器窗口，cookie就消失。这种生命期为浏览器会话期的cookie被称为会话cookie。会话cookie一般不存储在硬盘上而是保存在内存里，当然这种行为并不是规范规定的。若设置了过期时间，浏览器就会把cookie保存到硬盘上，关闭后再次打开浏览器，这些cookie仍然有效直到超过设定的过期时间。存储在硬盘上的cookie可以在不同的浏览器进程间共享，比如两个IE窗口。而对于保存在内存里的cookie，不同的浏览器有不同的处理方式。</p>
+<p>而session机制采用的是一种在服务器端保持状态的解决方案。同时我们也看到，由于采用服务器端保持状态的方案在客户端也需要保存一个标识，所以session机制可能需要借助于cookie机制来达到保存标识的目的。而session提供了方便管理全局变量的方式 。</p>
+<p>session是针对每一个用户的，变量的值保存在服务器上，用一个sessionID来区分是哪个用户session变量,这个值是通过用户的浏览器在访问的时候返回给服务器，当客户禁用cookie时，这个值也可能设置为由get来返回给服务器。</p>
+<p>就安全性来说：当你访问一个使用session 的站点，同时在自己机子上建立一个cookie，建议在服务器端的session机制更安全些，因为它不会任意读取客户存储的信息。</p>
+<h2 id="session机制"><a href="#session机制" class="headerlink" title="session机制"></a><strong>session机制</strong></h2><p>session机制是一种服务器端的机制，服务器使用一种类似于散列表的结构（也可能就是使用散列表）来保存信息。</p>
+<p>当程序需要为某个客户端的请求创建一个session时，服务器首先检查这个客户端的请求里是否已包含了一个session标识（称为session id），如果已包含则说明以前已经为此客户端创建过session，服务器就按照session id把这个session检索出来使用（检索不到，会新建一个），如果客户端请求不包含session id，则为此客户端创建一个session并且生成一个与此session相关联的session id，session id的值应该是一个既不会重复，又不容易被找到规律以仿造的字符串，这个session id将被在本次响应中返回给客户端保存。</p>
+<p>保存这个session id的方式可以采用cookie，这样在交互过程中浏览器可以自动的按照规则把这个标识发挥给服务器。一般这个cookie的名字都是类似于SEEESIONID。但cookie可以被人为的禁止，则必须有其他机制以便在cookie被禁止时仍然能够把session id传递回服务器。</p>
+<p>经常被使用的一种技术叫做URL重写，就是把session id直接附加在URL路径的后面。还有一种技术叫做表单隐藏字段。就是服务器会自动修改表单，添加一个隐藏字段，以便在表单提交时能够把session id传递回服务器。</p>
+<p>Cookie与Session都能够进行会话跟踪，但是完成的原理不太一样。普通状况下二者均能够满足需求，但有时分不能够运用Cookie，有时分不能够运用Session。下面经过比拟阐明二者的特性以及适用的场所。</p>
+<p><strong>1、存取方式的不同</strong></p>
+<p>Cookie中只能保管ASCII字符串，假如需求存取Unicode字符或者二进制数据，需求先进行编码。Cookie中也不能直接存取Java对象。若要存储略微复杂的信息，运用Cookie是比拟艰难的。</p>
+<p>而Session中能够存取任何类型的数据，包括而不限于String、Integer、List、Map等。Session中也能够直接保管Java Bean乃至任何Java类，对象等，运用起来十分便当。能够把Session看做是一个Java容器类。</p>
+<p><strong>2、隐私策略的不同</strong></p>
+<p>Cookie存储在客户端阅读器中，对客户端是可见的，客户端的一些程序可能会窥探、复制以至修正Cookie中的内容。而Session存储在服务器上，对客户端是透明的，不存在敏感信息泄露的风险。</p>
+<p>假如选用Cookie，比较好的方法是，敏感的信息如账号密码等尽量不要写到Cookie中。最好是像Google、Baidu那样将Cookie信息加密，提交到服务器后再进行解密，保证Cookie中的信息只要本人能读得懂。而假如选择Session就省事多了，反正是放在服务器上，Session里任何隐私都能够有效的保护。</p>
+<p><strong>3、有效期上的不同</strong></p>
+<p>使用过Google的人都晓得，假如登录过Google，则Google的登录信息长期有效。用户不用每次访问都重新登录，Google会持久地记载该用户的登录信息。要到达这种效果，运用Cookie会是比较好的选择。只需要设置Cookie的过期时间属性为一个很大很大的数字。</p>
+<p>由于Session依赖于名为JSESSIONID的Cookie，而Cookie JSESSIONID的过期时间默许为–1，只需关闭了阅读器该Session就会失效，因而Session不能完成信息永世有效的效果。运用URL地址重写也不能完成。而且假如设置Session的超时时间过长，服务器累计的Session就会越多，越容易招致内存溢出。</p>
+<p>**4、服务器压力的不同<br>**<br>Session是保管在服务器端的，每个用户都会产生一个Session。假如并发访问的用户十分多，会产生十分多的Session，耗费大量的内存。因而像Google、Baidu、Sina这样并发访问量极高的网站，是不太可能运用Session来追踪客户会话的。</p>
+<p>而Cookie保管在客户端，不占用服务器资源。假如并发阅读的用户十分多，Cookie是很好的选择。关于Google、Baidu、Sina来说，Cookie或许是唯一的选择。</p>
+<p>**5、浏览器支持的不同<br>**<br>Cookie是需要客户端浏览器支持的。假如客户端禁用了Cookie，或者不支持Cookie，则会话跟踪会失效。关于WAP上的应用，常规的Cookie就派不上用场了。</p>
+<p>假如客户端浏览器不支持Cookie，需要运用Session以及URL地址重写。需要注意的是一切的用到Session程序的URL都要进行URL地址重写，否则Session会话跟踪还会失效。关于WAP应用来说，Session+URL地址重写或许是它唯一的选择。</p>
+<p>假如客户端支持Cookie，则Cookie既能够设为本浏览器窗口以及子窗口内有效（把过期时间设为–1），也能够设为一切阅读器窗口内有效（把过期时间设为某个大于0的整数）。但Session只能在本阅读器窗口以及其子窗口内有效。假如两个浏览器窗口互不相干，它们将运用两个不同的Session。（IE8下不同窗口Session相干）</p>
+<p><strong>6、跨域支持上的不同</strong></p>
+<p>Cookie支持跨域名访问，例如将domain属性设置为“.biaodianfu.com”，则以“.biaodianfu.com”为后缀的一切域名均能够访问该Cookie。跨域名Cookie如今被普遍用在网络中，例如Google、Baidu、Sina等。而Session则不会支持跨域名访问。Session仅在他所在的域名内有效。</p>
+<p>仅运用Cookie或者仅运用Session可能完成不了理想的效果。这时应该尝试一下同时运用Cookie与Session。Cookie与Session的搭配运用在实践项目中会完成很多意想不到的效果。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/02/14/session%E6%9C%BA%E5%88%B6/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
     <article id="post-今天看到一道挺有意思的面试题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1091,119 +1188,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2021/02/04/%E7%BB%93%E6%9E%9C%E6%98%A0%E5%B0%84/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-一、JWT认证流程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/04/%E4%B8%80%E3%80%81JWT%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B/">SpringBoot 整合JWT</a>
-    </h1>
-  
-
-        
-        <a href="/2021/02/04/%E4%B8%80%E3%80%81JWT%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2021-02-04T14:49:56.753Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>SpringBoot 整合JWT</p>
-<p>此篇文章转载至掘金博客 </p>
-<p>本人已验证可以实现==</p>
-<h3 id="一、JWT认证流程"><a href="#一、JWT认证流程" class="headerlink" title="一、JWT认证流程"></a>一、JWT认证流程</h3><p><img src="https://user-gold-cdn.xitu.io/2019/11/8/16e48ac6ceffe058?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="JWT认证流程"></p>
-<p>认证流程如下：</p>
-<ol>
-<li>用户使用账号和密码发出post请求；</li>
-<li>服务器使用私钥创建一个jwt；</li>
-<li>服务器返回这个jwt给浏览器；</li>
-<li>浏览器将该jwt串在请求头中像服务器发送请求；</li>
-<li>服务器验证该jwt；</li>
-<li>返回响应的资源给浏览器。</li>
-</ol>
-<h3 id="二、SpringBoot整合JWT"><a href="#二、SpringBoot整合JWT" class="headerlink" title="二、SpringBoot整合JWT"></a>二、SpringBoot整合JWT</h3><p>新建一个spring boot项目spring-boot-jwt，按照下面步骤操作。</p>
-<ol>
-<li>pom.xml引入jar包</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 引入jwt--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.auth0&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;java-jwt&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.8.2&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
-<ol>
-<li>新建Jwt工具类</li>
-</ol>
-<p>Jwt工具类进行token的生成和认证，工具类代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * @description: Jwt工具类，生成JWT和认证</span><br><span class="line"> * @author: Java碎碎念</span><br><span class="line"> *&#x2F;</span><br><span class="line">public class JwtUtil &#123;</span><br><span class="line"></span><br><span class="line">    private static final Logger logger &#x3D; LoggerFactory.getLogger(JwtUtil.class);</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 密钥</span><br><span class="line">     *&#x2F;</span><br><span class="line">    private static final String SECRET &#x3D; &quot;my_secret&quot;;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 过期时间</span><br><span class="line">     **&#x2F;</span><br><span class="line">    private static final long EXPIRATION &#x3D; 1800L;&#x2F;&#x2F;单位为秒</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 生成用户token,设置token超时时间</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public static String createToken(User user) &#123;</span><br><span class="line">        &#x2F;&#x2F;过期时间</span><br><span class="line">        Date expireDate &#x3D; new Date(System.currentTimeMillis() + EXPIRATION * 1000);</span><br><span class="line">        Map&lt;String, Object&gt; map &#x3D; new HashMap&lt;&gt;();</span><br><span class="line">        map.put(&quot;alg&quot;, &quot;HS256&quot;);</span><br><span class="line">        map.put(&quot;typ&quot;, &quot;JWT&quot;);</span><br><span class="line">        String token &#x3D; JWT.create()</span><br><span class="line">                .withHeader(map)&#x2F;&#x2F; 添加头部</span><br><span class="line">                &#x2F;&#x2F;可以将基本信息放到claims中</span><br><span class="line">                .withClaim(&quot;id&quot;, user.getId())&#x2F;&#x2F;userId</span><br><span class="line">                .withClaim(&quot;userName&quot;, user.getUserName())&#x2F;&#x2F;userName</span><br><span class="line">                .withClaim(&quot;name&quot;, user.getName())&#x2F;&#x2F;name</span><br><span class="line">                .withExpiresAt(expireDate) &#x2F;&#x2F;超时设置,设置过期的日期</span><br><span class="line">                .withIssuedAt(new Date()) &#x2F;&#x2F;签发时间</span><br><span class="line">                .sign(Algorithm.HMAC256(SECRET)); &#x2F;&#x2F;SECRET加密</span><br><span class="line">        return token;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 校验token并解析token</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public static Map&lt;String, Claim&gt; verifyToken(String token) &#123;</span><br><span class="line">        DecodedJWT jwt &#x3D; null;</span><br><span class="line">        try &#123;</span><br><span class="line">            JWTVerifier verifier &#x3D; JWT.require(Algorithm.HMAC256(SECRET)).build();</span><br><span class="line">            jwt &#x3D; verifier.verify(token);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            logger.error(e.getMessage());</span><br><span class="line">            logger.error(&quot;token解码异常&quot;);</span><br><span class="line">            &#x2F;&#x2F;解码异常则抛出异常</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        return jwt.getClaims();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
-<ol>
-<li>添加JWT过滤器</li>
-</ol>
-<p>JWT过滤器中进行token的校验和判断，，token不合法直接返回，合法则解密数据并把数据放到request中供后续使用。</p>
-<p>为了使过滤器生效，需要在启动类添加注解@ServletComponentScan(basePackages = “com.example.springbootjwt.filter”)。</p>
-<p>JWT过滤器代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * JWT过滤器，拦截 &#x2F;secure的请求</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Slf4j</span><br><span class="line">@WebFilter(filterName &#x3D; &quot;JwtFilter&quot;, urlPatterns &#x3D; &quot;&#x2F;secure&#x2F;*&quot;)</span><br><span class="line">public class JwtFilter implements Filter &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void init(FilterConfig filterConfig) throws ServletException &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException &#123;</span><br><span class="line">        final HttpServletRequest request &#x3D; (HttpServletRequest) req;</span><br><span class="line">        final HttpServletResponse response &#x3D; (HttpServletResponse) res;</span><br><span class="line"></span><br><span class="line">        response.setCharacterEncoding(&quot;UTF-8&quot;);</span><br><span class="line">        &#x2F;&#x2F;获取 header里的token</span><br><span class="line">        final String token &#x3D; request.getHeader(&quot;authorization&quot;);</span><br><span class="line"></span><br><span class="line">        if (&quot;OPTIONS&quot;.equals(request.getMethod())) &#123;</span><br><span class="line">            response.setStatus(HttpServletResponse.SC_OK);</span><br><span class="line">            chain.doFilter(request, response);</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F; Except OPTIONS, other request should be checked by JWT</span><br><span class="line">        else &#123;</span><br><span class="line"></span><br><span class="line">            if (token &#x3D;&#x3D; null) &#123;</span><br><span class="line">                response.getWriter().write(&quot;没有token！&quot;);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            Map&lt;String, Claim&gt; userData &#x3D; JwtUtil.verifyToken(token);</span><br><span class="line">            if (userData &#x3D;&#x3D; null) &#123;</span><br><span class="line">                response.getWriter().write(&quot;token不合法！&quot;);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            Integer id &#x3D; userData.get(&quot;id&quot;).asInt();</span><br><span class="line">            String name &#x3D; userData.get(&quot;name&quot;).asString();</span><br><span class="line">            String userName &#x3D; userData.get(&quot;userName&quot;).asString();</span><br><span class="line">            &#x2F;&#x2F;拦截器 拿到用户信息，放到request中</span><br><span class="line">            request.setAttribute(&quot;id&quot;, id);</span><br><span class="line">            request.setAttribute(&quot;name&quot;, name);</span><br><span class="line">            request.setAttribute(&quot;userName&quot;, userName);</span><br><span class="line">            chain.doFilter(req, res);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void destroy() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
-<ol>
-<li>添加登录Controller</li>
-</ol>
-<p>登录Controller进行登录操作，登录成功后生产token并返回。</p>
-<p>登录Controller代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 登录Controller</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Slf4j</span><br><span class="line">@RestController</span><br><span class="line">public class LoginController &#123;</span><br><span class="line"></span><br><span class="line">    static Map&lt;Integer, User&gt; userMap &#x3D; new HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    static &#123;</span><br><span class="line">        &#x2F;&#x2F;模拟数据库</span><br><span class="line">        User user1 &#x3D; new User(1, &quot;zhangsan&quot;, &quot;张三&quot;, &quot;123456&quot;);</span><br><span class="line">        userMap.put(1, user1);</span><br><span class="line">        User user2 &#x3D; new User(2, &quot;lisi&quot;, &quot;李四&quot;, &quot;123123&quot;);</span><br><span class="line">        userMap.put(2, user2);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 模拟用户 登录</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @RequestMapping(&quot;&#x2F;login&quot;)</span><br><span class="line">    public String login(User user) &#123;</span><br><span class="line">        for (User dbUser : userMap.values()) &#123;</span><br><span class="line">            if (dbUser.getUserName().equals(user.getUserName()) &amp;&amp; dbUser.getPassword().equals(user.getPassword())) &#123;</span><br><span class="line">                log.info(&quot;登录成功！生成token！&quot;);</span><br><span class="line">                String token &#x3D; JwtUtil.createToken(dbUser);</span><br><span class="line">                return token;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return &quot;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
-<ol>
-<li>添加SecureController</li>
-</ol>
-<p>SecureController中的请求会被JWT过滤器拦截，合法后才能访问。</p>
-<p>SecureController代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 需要登录后才能访问</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Slf4j</span><br><span class="line">@RestController</span><br><span class="line">public class SecureController &#123;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 查询 用户信息，登录后才能访问</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @RequestMapping(&quot;&#x2F;secure&#x2F;getUserInfo&quot;)</span><br><span class="line">    public String login(HttpServletRequest request) &#123;</span><br><span class="line">        Integer id &#x3D; (Integer) request.getAttribute(&quot;id&quot;);</span><br><span class="line">        String name &#x3D; request.getAttribute(&quot;name&quot;).toString();</span><br><span class="line">        String userName &#x3D; request.getAttribute(&quot;userName&quot;).toString();</span><br><span class="line">        return &quot;当前用户信息id&#x3D;&quot; + id + &quot;,name&#x3D;&quot; + name + &quot;,userName&#x3D;&quot; + userName;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
-<h3 id="三、测试"><a href="#三、测试" class="headerlink" title="三、测试"></a>三、测试</h3><p>测试分两步，首先访问登录接口，登录成功后获取token，然后拿着token在访问查询用户信息接口。</p>
-<p>1.访问登录接口</p>
-<p>打开PostMan，访问<a target="_blank" rel="noopener" href="http://localhost:8080/login?userName=zhangsan&amp;password=123456%EF%BC%8C%E7%99%BB%E5%BD%95%E6%88%90%E5%8A%9F%E5%90%8E%E6%8E%A5%E5%8F%A3%E8%BF%94%E5%9B%9Etoken%EF%BC%8C%E8%AF%B7%E6%B1%82%E6%88%90%E5%8A%9F%E6%88%AA%E5%9B%BE%E5%A6%82%E4%B8%8B%EF%BC%9A">http://localhost:8080/login?userName=zhangsan&amp;password=123456，登录成功后接口返回token，请求成功截图如下：</a></p>
-<p><img src="https://user-gold-cdn.xitu.io/2019/11/12/16e5e2dcb0926570?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="获取token截图"></p>
-<p>2.访问用户信息接口</p>
-<p>打开PostMan，访问<a target="_blank" rel="noopener" href="http://localhost:8080/secure/getUserInfo%EF%BC%8Cheader%E9%87%8C%E9%9C%80%E8%A6%81%E6%90%BA%E5%B8%A6token%EF%BC%8C%E8%AF%B7%E6%B1%82%E6%88%90%E5%8A%9F%E6%88%AA%E5%9B%BE%E5%A6%82%E4%B8%8B%EF%BC%9A">http://localhost:8080/secure/getUserInfo，header里需要携带token，请求成功截图如下：</a></p>
-<p><img src="https://user-gold-cdn.xitu.io/2019/11/12/16e5e2dcb0b0c279?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="请求用户信息截图"></p>
-<p>到此SpringBoot整合JWT的功能已经全部实现</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/02/04/%E4%B8%80%E3%80%81JWT%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B/">展开全文 >></a>
         </p>
       
 

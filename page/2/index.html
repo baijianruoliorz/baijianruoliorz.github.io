@@ -162,6 +162,119 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-一、JWT认证流程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/04/%E4%B8%80%E3%80%81JWT%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B/">SpringBoot 整合JWT</a>
+    </h1>
+  
+
+        
+        <a href="/2021/02/04/%E4%B8%80%E3%80%81JWT%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B/" class="archive-article-date">
+  	<time datetime="2021-02-04T14:49:56.753Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>SpringBoot 整合JWT</p>
+<p>此篇文章转载至掘金博客 </p>
+<p>本人已验证可以实现==</p>
+<h3 id="一、JWT认证流程"><a href="#一、JWT认证流程" class="headerlink" title="一、JWT认证流程"></a>一、JWT认证流程</h3><p><img src="https://user-gold-cdn.xitu.io/2019/11/8/16e48ac6ceffe058?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="JWT认证流程"></p>
+<p>认证流程如下：</p>
+<ol>
+<li>用户使用账号和密码发出post请求；</li>
+<li>服务器使用私钥创建一个jwt；</li>
+<li>服务器返回这个jwt给浏览器；</li>
+<li>浏览器将该jwt串在请求头中像服务器发送请求；</li>
+<li>服务器验证该jwt；</li>
+<li>返回响应的资源给浏览器。</li>
+</ol>
+<h3 id="二、SpringBoot整合JWT"><a href="#二、SpringBoot整合JWT" class="headerlink" title="二、SpringBoot整合JWT"></a>二、SpringBoot整合JWT</h3><p>新建一个spring boot项目spring-boot-jwt，按照下面步骤操作。</p>
+<ol>
+<li>pom.xml引入jar包</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 引入jwt--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.auth0&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;java-jwt&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.8.2&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+<ol>
+<li>新建Jwt工具类</li>
+</ol>
+<p>Jwt工具类进行token的生成和认证，工具类代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * @description: Jwt工具类，生成JWT和认证</span><br><span class="line"> * @author: Java碎碎念</span><br><span class="line"> *&#x2F;</span><br><span class="line">public class JwtUtil &#123;</span><br><span class="line"></span><br><span class="line">    private static final Logger logger &#x3D; LoggerFactory.getLogger(JwtUtil.class);</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 密钥</span><br><span class="line">     *&#x2F;</span><br><span class="line">    private static final String SECRET &#x3D; &quot;my_secret&quot;;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 过期时间</span><br><span class="line">     **&#x2F;</span><br><span class="line">    private static final long EXPIRATION &#x3D; 1800L;&#x2F;&#x2F;单位为秒</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 生成用户token,设置token超时时间</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public static String createToken(User user) &#123;</span><br><span class="line">        &#x2F;&#x2F;过期时间</span><br><span class="line">        Date expireDate &#x3D; new Date(System.currentTimeMillis() + EXPIRATION * 1000);</span><br><span class="line">        Map&lt;String, Object&gt; map &#x3D; new HashMap&lt;&gt;();</span><br><span class="line">        map.put(&quot;alg&quot;, &quot;HS256&quot;);</span><br><span class="line">        map.put(&quot;typ&quot;, &quot;JWT&quot;);</span><br><span class="line">        String token &#x3D; JWT.create()</span><br><span class="line">                .withHeader(map)&#x2F;&#x2F; 添加头部</span><br><span class="line">                &#x2F;&#x2F;可以将基本信息放到claims中</span><br><span class="line">                .withClaim(&quot;id&quot;, user.getId())&#x2F;&#x2F;userId</span><br><span class="line">                .withClaim(&quot;userName&quot;, user.getUserName())&#x2F;&#x2F;userName</span><br><span class="line">                .withClaim(&quot;name&quot;, user.getName())&#x2F;&#x2F;name</span><br><span class="line">                .withExpiresAt(expireDate) &#x2F;&#x2F;超时设置,设置过期的日期</span><br><span class="line">                .withIssuedAt(new Date()) &#x2F;&#x2F;签发时间</span><br><span class="line">                .sign(Algorithm.HMAC256(SECRET)); &#x2F;&#x2F;SECRET加密</span><br><span class="line">        return token;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 校验token并解析token</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public static Map&lt;String, Claim&gt; verifyToken(String token) &#123;</span><br><span class="line">        DecodedJWT jwt &#x3D; null;</span><br><span class="line">        try &#123;</span><br><span class="line">            JWTVerifier verifier &#x3D; JWT.require(Algorithm.HMAC256(SECRET)).build();</span><br><span class="line">            jwt &#x3D; verifier.verify(token);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            logger.error(e.getMessage());</span><br><span class="line">            logger.error(&quot;token解码异常&quot;);</span><br><span class="line">            &#x2F;&#x2F;解码异常则抛出异常</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        return jwt.getClaims();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+<ol>
+<li>添加JWT过滤器</li>
+</ol>
+<p>JWT过滤器中进行token的校验和判断，，token不合法直接返回，合法则解密数据并把数据放到request中供后续使用。</p>
+<p>为了使过滤器生效，需要在启动类添加注解@ServletComponentScan(basePackages = “com.example.springbootjwt.filter”)。</p>
+<p>JWT过滤器代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * JWT过滤器，拦截 &#x2F;secure的请求</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Slf4j</span><br><span class="line">@WebFilter(filterName &#x3D; &quot;JwtFilter&quot;, urlPatterns &#x3D; &quot;&#x2F;secure&#x2F;*&quot;)</span><br><span class="line">public class JwtFilter implements Filter &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void init(FilterConfig filterConfig) throws ServletException &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException &#123;</span><br><span class="line">        final HttpServletRequest request &#x3D; (HttpServletRequest) req;</span><br><span class="line">        final HttpServletResponse response &#x3D; (HttpServletResponse) res;</span><br><span class="line"></span><br><span class="line">        response.setCharacterEncoding(&quot;UTF-8&quot;);</span><br><span class="line">        &#x2F;&#x2F;获取 header里的token</span><br><span class="line">        final String token &#x3D; request.getHeader(&quot;authorization&quot;);</span><br><span class="line"></span><br><span class="line">        if (&quot;OPTIONS&quot;.equals(request.getMethod())) &#123;</span><br><span class="line">            response.setStatus(HttpServletResponse.SC_OK);</span><br><span class="line">            chain.doFilter(request, response);</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F; Except OPTIONS, other request should be checked by JWT</span><br><span class="line">        else &#123;</span><br><span class="line"></span><br><span class="line">            if (token &#x3D;&#x3D; null) &#123;</span><br><span class="line">                response.getWriter().write(&quot;没有token！&quot;);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            Map&lt;String, Claim&gt; userData &#x3D; JwtUtil.verifyToken(token);</span><br><span class="line">            if (userData &#x3D;&#x3D; null) &#123;</span><br><span class="line">                response.getWriter().write(&quot;token不合法！&quot;);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            Integer id &#x3D; userData.get(&quot;id&quot;).asInt();</span><br><span class="line">            String name &#x3D; userData.get(&quot;name&quot;).asString();</span><br><span class="line">            String userName &#x3D; userData.get(&quot;userName&quot;).asString();</span><br><span class="line">            &#x2F;&#x2F;拦截器 拿到用户信息，放到request中</span><br><span class="line">            request.setAttribute(&quot;id&quot;, id);</span><br><span class="line">            request.setAttribute(&quot;name&quot;, name);</span><br><span class="line">            request.setAttribute(&quot;userName&quot;, userName);</span><br><span class="line">            chain.doFilter(req, res);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void destroy() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+<ol>
+<li>添加登录Controller</li>
+</ol>
+<p>登录Controller进行登录操作，登录成功后生产token并返回。</p>
+<p>登录Controller代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 登录Controller</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Slf4j</span><br><span class="line">@RestController</span><br><span class="line">public class LoginController &#123;</span><br><span class="line"></span><br><span class="line">    static Map&lt;Integer, User&gt; userMap &#x3D; new HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    static &#123;</span><br><span class="line">        &#x2F;&#x2F;模拟数据库</span><br><span class="line">        User user1 &#x3D; new User(1, &quot;zhangsan&quot;, &quot;张三&quot;, &quot;123456&quot;);</span><br><span class="line">        userMap.put(1, user1);</span><br><span class="line">        User user2 &#x3D; new User(2, &quot;lisi&quot;, &quot;李四&quot;, &quot;123123&quot;);</span><br><span class="line">        userMap.put(2, user2);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 模拟用户 登录</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @RequestMapping(&quot;&#x2F;login&quot;)</span><br><span class="line">    public String login(User user) &#123;</span><br><span class="line">        for (User dbUser : userMap.values()) &#123;</span><br><span class="line">            if (dbUser.getUserName().equals(user.getUserName()) &amp;&amp; dbUser.getPassword().equals(user.getPassword())) &#123;</span><br><span class="line">                log.info(&quot;登录成功！生成token！&quot;);</span><br><span class="line">                String token &#x3D; JwtUtil.createToken(dbUser);</span><br><span class="line">                return token;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return &quot;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+<ol>
+<li>添加SecureController</li>
+</ol>
+<p>SecureController中的请求会被JWT过滤器拦截，合法后才能访问。</p>
+<p>SecureController代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 需要登录后才能访问</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Slf4j</span><br><span class="line">@RestController</span><br><span class="line">public class SecureController &#123;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 查询 用户信息，登录后才能访问</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @RequestMapping(&quot;&#x2F;secure&#x2F;getUserInfo&quot;)</span><br><span class="line">    public String login(HttpServletRequest request) &#123;</span><br><span class="line">        Integer id &#x3D; (Integer) request.getAttribute(&quot;id&quot;);</span><br><span class="line">        String name &#x3D; request.getAttribute(&quot;name&quot;).toString();</span><br><span class="line">        String userName &#x3D; request.getAttribute(&quot;userName&quot;).toString();</span><br><span class="line">        return &quot;当前用户信息id&#x3D;&quot; + id + &quot;,name&#x3D;&quot; + name + &quot;,userName&#x3D;&quot; + userName;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+<h3 id="三、测试"><a href="#三、测试" class="headerlink" title="三、测试"></a>三、测试</h3><p>测试分两步，首先访问登录接口，登录成功后获取token，然后拿着token在访问查询用户信息接口。</p>
+<p>1.访问登录接口</p>
+<p>打开PostMan，访问<a target="_blank" rel="noopener" href="http://localhost:8080/login?userName=zhangsan&amp;password=123456%EF%BC%8C%E7%99%BB%E5%BD%95%E6%88%90%E5%8A%9F%E5%90%8E%E6%8E%A5%E5%8F%A3%E8%BF%94%E5%9B%9Etoken%EF%BC%8C%E8%AF%B7%E6%B1%82%E6%88%90%E5%8A%9F%E6%88%AA%E5%9B%BE%E5%A6%82%E4%B8%8B%EF%BC%9A">http://localhost:8080/login?userName=zhangsan&amp;password=123456，登录成功后接口返回token，请求成功截图如下：</a></p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/11/12/16e5e2dcb0926570?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="获取token截图"></p>
+<p>2.访问用户信息接口</p>
+<p>打开PostMan，访问<a target="_blank" rel="noopener" href="http://localhost:8080/secure/getUserInfo%EF%BC%8Cheader%E9%87%8C%E9%9C%80%E8%A6%81%E6%90%BA%E5%B8%A6token%EF%BC%8C%E8%AF%B7%E6%B1%82%E6%88%90%E5%8A%9F%E6%88%AA%E5%9B%BE%E5%A6%82%E4%B8%8B%EF%BC%9A">http://localhost:8080/secure/getUserInfo，header里需要携带token，请求成功截图如下：</a></p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/11/12/16e5e2dcb0b0c279?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="请求用户信息截图"></p>
+<p>到此SpringBoot整合JWT的功能已经全部实现</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/02/04/%E4%B8%80%E3%80%81JWT%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
     <article id="post-失败学见习语录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1047,119 +1160,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2021/01/27/%E4%B8%80%E4%BA%9B%E8%BF%87%E6%B8%A1%E7%9F%A5%E8%AF%86(%E8%AF%B7%E7%9C%8B%E5%AE%8C%E5%86%8DSpringboot)/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-补充小知识 http与https" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/26/%E8%A1%A5%E5%85%85%E5%B0%8F%E7%9F%A5%E8%AF%86%20http%E4%B8%8Ehttps/">补充小知识 http与https</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/26/%E8%A1%A5%E5%85%85%E5%B0%8F%E7%9F%A5%E8%AF%86%20http%E4%B8%8Ehttps/" class="archive-article-date">
-  	<time datetime="2021-01-26T02:50:49.433Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="补充小知识-http与https"><a href="#补充小知识-http与https" class="headerlink" title="补充小知识 http与https"></a>补充小知识 http与https</h1><p><strong>http协议</strong></p>
-<p>HTTP 超文本传输协议 <strong>H</strong>yper <strong>T</strong>ext <strong>T</strong>ransfer <strong>P</strong>rotocol</p>
-<p>当我们在浏览器的地址栏输入一个地址的时候，就能够访问服务器的某个页面</p>
-<p>这个过程本身就是两个应用程序之间的交互，一个应用程序是浏览器，另一个应用程序是服务器。</p>
-<p><strong>协议是什么？</strong> 协议就是不同的应用程序之间按照事先做好的约定进行的通信。 这样就能互相<strong>读懂</strong>对方的意思。</p>
-<p>浏览器和WEB服务器之间，使用的就是一种叫做HTTP的协议。 这样是BS (Browser Server )架构模型的基础</p>
-<p>HTTP协议由请求和响应两种类型组成</p>
-<p>调试工具可以选用chrome浏览器</p>
-<h1 id="http请求协议"><a href="#http请求协议" class="headerlink" title="http请求协议"></a>http请求协议</h1><p>请求消息 由 请求行，请求头部，空行和请求数据4部分组成</p>
-<p>请求行</p>
-<p>打开网页  输入 yangxiangrui.site</p>
-<p><img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-b1ebbd3c-ca49-405b-957b-effe60782276/cd09fa0c-6bd7-4c21-b05e-c295b3d376e2.png" alt="image-20210126103748422"></p>
-<p>在chrome按F12查询network就会显示上面的信息</p>
-<h2 id="请求行"><a href="#请求行" class="headerlink" title="请求行"></a>请求行</h2><p>在这里  <a target="_blank" rel="noopener" href="https://yangxiangrui.site/">https://yangxiangrui.site</a> 就是<strong>请求行</strong></p>
-<h2 id="请求头"><a href="#请求头" class="headerlink" title="请求头"></a>请求头</h2><p>请求头部信息提供了如下信息:</p>
-<p>:authority: yangxiangrui.site<br>:method: GET<br>:path: /<br>:scheme: https<br>accept: text<img src="file:///C:\Users\LIQIQI~1\AppData\Local\Temp@IR3P(8S$C$Z$TY~5I{QEPC.gif" alt="img">ml,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,<em>/</em>;q=0.8,application/signed-exchange;v=b3;q=0.9<br>accept-encoding: gzip, deflate, br<br>accept-language: zh-CN,zh;q=0.9,ja;q=0.8<br>cache-control: max-age=0<br>if-modified-since: Mon, 04 Jan 2021 08:47:21 GMT<br>if-none-match: W/“5ff2d619-a741”<br>sec-fetch-dest: document<br>sec-fetch-mode: navigate<br>sec-fetch-site: none<br>sec-fetch-user: ?1<br>upgrade-insecure-requests: 1<br>user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36</p>
-<p>不同浏览器似乎有些不同  有兴趣的可以拿firefox重做一下上面的实验</p>
-<h2 id="请求数据"><a href="#请求数据" class="headerlink" title="请求数据"></a>请求数据</h2><p>chrome浏览器按下F12打开开发者工具<br>点击Network，找到过滤器<br>筛选XHR，Method那一列会显示POST GET；</p>
-<p>如果是firefox 点击params即可查看参数</p>
-<h2 id="空行"><a href="#空行" class="headerlink" title="空行"></a>空行</h2><p>就是用来分割请求头部和请求数据的一个空行，为了让代码的可读性更高，没什么别的作用</p>
-<h1 id="http响应协议"><a href="#http响应协议" class="headerlink" title="http响应协议"></a>http响应协议</h1><p>响应信息由状态行，消息报头，响应正文组成</p>
-<h2 id="状态行"><a href="#状态行" class="headerlink" title="状态行"></a>状态行</h2><p>即上图中的status code:304</p>
-<h2 id="消息报头"><a href="#消息报头" class="headerlink" title="消息报头"></a>消息报头</h2><p>access-control-allow-origin: *<br>access-control-expose-headers: ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, Deprecation, Sunset<br>cache-control: public, max-age=60, s-maxage=60<br>content-encoding: gzip<br>content-security-policy: default-src ‘none’<br>content-type: application/json; charset=utf-8<br>date: Tue, 26 Jan 2021 02:43:40 GMT<br>etag: W/“c7340e60358dad2cd2ad65e18507edea2289a7da7668d915368d9ae2423d111a”<br>referrer-policy: origin-when-cross-origin, strict-origin-when-cross-origin<br>server: <img src="file:///C:\Users\LIQIQI~1\AppData\Local\Temp%W@GJ$ACOF(TYDYECOKVDYB.png" alt="img">GitHub.com<br>status: 200 OK<br>strict-transport-security: max-age=31536000; includeSubdomains; preload<br>vary: Accept<br>vary: Accept-Encoding, Accept, X-Requested-With<br>vary: Accept-Encoding<br>x-content-type-options: nosniff<br>x-frame-options: deny<br>x-github-media-type: github.v3; param=full; format=json<br>x-github-request-id: 1D01:418C:2FB72:37D77:600F81DB<br>x-ratelimit-limit: 5000<br>x-ratelimit-remaining: 4998<br>x-ratelimit-reset: 1611632619<br>x-ratelimit-used: 2<br>x-xss-protection: 1; mode=block<br>:authority: <img src="file:///C:\Users\LIQIQI~1\AppData\Local\Temp%W@GJ$ACOF(TYDYECOKVDYB.png" alt="img">api.github.com<br>:method: GET<br>:path: /repos/baijianruoliorz/<img src="file:///C:\Users\LIQIQI~1\AppData\Local\Temp%W@GJ$ACOF(TYDYECOKVDYB.png" alt="img">liqiqi.github.io/issues/24/comments?per_page=10&amp;page=1<br>:scheme: https<br>accept: application/vnd.github.v3.full+json<br>accept-encoding: gzip, deflate, br<br>accept-language: zh-CN,zh;q=0.9,ja;q=0.8<br>authorization: Basic YWE5NmY3NmE2ZmQ1OTRlOTM2ZDI6MDIzYjdkNzU3ODZkODExYzJiOTI5OTU2NTYzMzUwN2Y4YjBhNDlkMg==<br>origin: <img src="file:///C:\Users\LIQIQI~1\AppData\Local\Temp%W@GJ$ACOF(TYDYECOKVDYB.png" alt="img"><a target="_blank" rel="noopener" href="https://yangxiangrui.site/">https://yangxiangrui.site</a><br>referer: <img src="file:///C:\Users\LIQIQI~1\AppData\Local\Temp%W@GJ$ACOF(TYDYECOKVDYB.png" alt="img"><a target="_blank" rel="noopener" href="https://yangxiangrui.site/">https://yangxiangrui.site/</a><br>sec-fetch-dest: empty<br>sec-fetch-mode: cors<br>sec-fetch-site: cross-site<br>user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36</p>
-<p>消息报头中提供如下信息：<br>Content-Length: 表示长度<br>Content-Type: 内容格式<br>Date: 日期<br>Server: 服务器类型</p>
-<h2 id="响应正文"><a href="#响应正文" class="headerlink" title="响应正文"></a>响应正文</h2><p>仍然可以通过network 查看response得到:</p>
-<p>[<br>  {<br>    “url”: “<a target="_blank" rel="noopener" href="https://api.github.com/repos/baijianruoliorz/liqiqi.github.io/issues/comments/747424488&quot;">https://api.github.com/repos/baijianruoliorz/liqiqi.github.io/issues/comments/747424488&quot;</a>,<br>    “html_url”: “<a target="_blank" rel="noopener" href="https://github.com/baijianruoliorz/liqiqi.github.io/issues/24#issuecomment-747424488&quot;">https://github.com/baijianruoliorz/liqiqi.github.io/issues/24#issuecomment-747424488&quot;</a>,<br>    “issue_url”: “<a target="_blank" rel="noopener" href="https://api.github.com/repos/baijianruoliorz/liqiqi.github.io/issues/24&quot;">https://api.github.com/repos/baijianruoliorz/liqiqi.github.io/issues/24&quot;</a>,<br>    “id”: 747424488,<br>    “node_id”: “MDEyOklzc3VlQ29tbWVudDc0NzQyNDQ4OA==”,<br>    “user”: {<br>      “login”: “baijianruoliorz”,<br>      “id”: 61620491,<br>      “node_id”: “MDQ6VXNlcjYxNjIwNDkx”,<br>      “avatar_url”: “<a target="_blank" rel="noopener" href="https://avatars.githubusercontent.com/u/61620491?v=4&quot;">https://avatars.githubusercontent.com/u/61620491?v=4&quot;</a>,<br>      “gravatar_id”: “”,<br>      “url”: “<a target="_blank" rel="noopener" href="https://api.github.com/users/baijianruoliorz&quot;">https://api.github.com/users/baijianruoliorz&quot;</a>,<br>      “html_url”: “<a target="_blank" rel="noopener" href="https://github.com/baijianruoliorz&quot;">https://github.com/baijianruoliorz&quot;</a>,<br>      “followers_url”: “<a target="_blank" rel="noopener" href="https://api.github.com/users/baijianruoliorz/followers&quot;">https://api.github.com/users/baijianruoliorz/followers&quot;</a>,<br>      “following_url”: “<a target="_blank" rel="noopener" href="https://api.github.com/users/baijianruoliorz/following%7B/other_user%7D&quot;">https://api.github.com/users/baijianruoliorz/following{/other_user}&quot;</a>,<br>      “gists_url”: “<a target="_blank" rel="noopener" href="https://api.github.com/users/baijianruoliorz/gists%7B/gist_id%7D&quot;">https://api.github.com/users/baijianruoliorz/gists{/gist_id}&quot;</a>,<br>      “starred_url”: “<a target="_blank" rel="noopener" href="https://api.github.com/users/baijianruoliorz/starred%7B/owner%7D%7B/repo%7D&quot;">https://api.github.com/users/baijianruoliorz/starred{/owner}{/repo}&quot;</a>,<br>      “subscriptions_url”: “<a target="_blank" rel="noopener" href="https://api.github.com/users/baijianruoliorz/subscriptions&quot;">https://api.github.com/users/baijianruoliorz/subscriptions&quot;</a>,<br>      “organizations_url”: “<a target="_blank" rel="noopener" href="https://api.github.com/users/baijianruoliorz/orgs&quot;">https://api.github.com/users/baijianruoliorz/orgs&quot;</a>,<br>      “repos_url”: “<a target="_blank" rel="noopener" href="https://api.github.com/users/baijianruoliorz/repos&quot;">https://api.github.com/users/baijianruoliorz/repos&quot;</a>,<br>      “events_url”: “<a target="_blank" rel="noopener" href="https://api.github.com/users/baijianruoliorz/events%7B/privacy%7D&quot;">https://api.github.com/users/baijianruoliorz/events{/privacy}&quot;</a>,<br>      “received_events_url”: “<a target="_blank" rel="noopener" href="https://api.github.com/users/baijianruoliorz/received_events&quot;">https://api.github.com/users/baijianruoliorz/received_events&quot;</a>,<br>      “type”: “User”,<br>      “site_admin”: false<br>    },<br>    “created_at”: “2020-12-17T12:59:48Z”,<br>    “updated_at”: “2020-12-17T12:59:48Z”,<br>    “author_association”: “OWNER”,<br>    “body_html”: “<p>kkkkk</p>“,<br>    “body_text”: “kkkkk”,<br>    “body”: “kkkkk”,<br>    “performed_via_github_app”: null<br>  }<br>]</p>
-<p>当然访问不同的页面，就不一定是html，有可能是css, js,甚至图片了。</p>
-<h1 id="一些常用的状态码"><a href="#一些常用的状态码" class="headerlink" title="一些常用的状态码"></a>一些常用的状态码</h1><p>身为一名合格的后端开发 我们不应该只知道404是个啥…</p>
-<p>这样就和嘛都不知道其实是一样的…</p>
-<p>200 表示响应成功了，比如打开页面, 就会看到200响应码</p>
-<p>301 表示客户端跳转，永久性的跳转</p>
-<p>302 客户端跳转，临时性的跳转</p>
-<p>304 表示资源未被修改。</p>
-<p>当不是第一次访问一个静态页面或者图片的时候，就会得到这么一个提示。这是服务端提示浏览器，这个<strong>资源没有发生改变</strong>，你直接使用上一次下载的就行了，不需要重新下载。 这样就节约了带宽，并且浏览器的加载速度也更快。</p>
-<p>404表示访问的页面不存在</p>
-<p>这是一个不存在的页面，就会得到404响应码<br>这表示一个浏览器的错误，就是服务端没提供这个服务，但是你却去访问。 这个锅要算到浏览器头上，不能算在服务器头上。</p>
-<p>500 表示服务端的错误</p>
-<p>更多…:</p>
-<p><img src="https://stepimagewm.how2j.cn/7019.png" alt="更多代码一一览。。。"></p>
-<h1 id="一道面试题"><a href="#一道面试题" class="headerlink" title="一道面试题"></a>一道面试题</h1><p>你说你的网站现在用的是https协议,那么说一说http与https的区别</p>
-<h2 id="与试题无关的内容"><a href="#与试题无关的内容" class="headerlink" title="与试题无关的内容:"></a>与试题无关的内容:</h2><p>http要变成https就得上ssl证书</p>
-<p>要能够相对安全地上路驾驶，就必须要有驾驶证，这个证书最好是被广泛认可的权威机构颁发的，这样大家才信任它。</p>
-<p>同样地道理：</p>
-<p>要进行ssl 认证，就需要 ssl 证书。 这个证书最好是被广泛认可的权威机构颁发的，这样大家才信任它。</p>
-<p>ssl 证书就是这么个意思~</p>
-<p><del>当然像我这种非常贫穷的人一般都是去阿里云申请免费证书</del></p>
-<h2 id="与试题有关的内容"><a href="#与试题有关的内容" class="headerlink" title="与试题有关的内容:"></a>与试题有关的内容:</h2><p>1、https协议需要到ca申请证书，一般免费证书较少，因而需要一定费用。</p>
-<p>2、http是超文本传输协议，信息是明文传输，https则是具有安全性的ssl加密传输协议。</p>
-<p>3、http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</p>
-<p>4、http的连接很简单，是无状态的；HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，比http协议安全。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/26/%E8%A1%A5%E5%85%85%E5%B0%8F%E7%9F%A5%E8%AF%86%20http%E4%B8%8Ehttps/">展开全文 >></a>
         </p>
       
 

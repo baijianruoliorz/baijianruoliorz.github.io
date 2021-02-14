@@ -162,6 +162,177 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-MYSQL语法初探" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/16/MYSQL%E8%AF%AD%E6%B3%95%E5%88%9D%E6%8E%A2/">MYSQL-01</a>
+    </h1>
+  
+
+        
+        <a href="/2021/01/16/MYSQL%E8%AF%AD%E6%B3%95%E5%88%9D%E6%8E%A2/" class="archive-article-date">
+  	<time datetime="2021-01-16T15:34:59.734Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MYSQL语法初探"><a href="#MYSQL语法初探" class="headerlink" title="MYSQL语法初探"></a>MYSQL语法初探</h1><p>不会有人看到标题不是JavaSe就以为Se部分完结了吧?</p>
+<p>其实是博主更麻了 想换换方向 </p>
+<p>所以今天我们来康康开发crud的直接对象 mysql的一些语法</p>
+<p>默认你已经安装了mysql 推荐一下最好是5.7版本的</p>
+<p>如果没有 正好又可以锻炼你上网查阅资料的能力<del>太懒了</del></p>
+<p>为什么呢 只能说血的教训</p>
+<p>我当初学习的时候恰逢8.15版本出</p>
+<p>心想肯定得用新的 当时很快啊 安装了8版本的mysql</p>
+<p>结果mysql8用几天都得重新调一下时区</p>
+<p>有时候就离谱到上午可以跑的项目下午不能跑了(因为那天下午™正好要演示 我直</p>
+<p>接现场debug)</p>
+<p>诶换了5.7之后啊 没上面那么多事了 一直平安的用到了现在</p>
+<p>而且 5.7是5的最新版本 官方还有在做补丁迭代  适配了8的jar包 何乐而不为呢!</p>
+<p>没想到到这里已经BB这么多了</p>
+<p>那么现在开始进入真正的学习</p>
+<p>对了 <del>不会有人想学原生的JDBC吧</del> 如果真的很想很想 请自己Google</p>
+<p>想写全一些 如果大家以后有需要的语法突然忘记了 能够想到去我们冬令营这里查</p>
+<p>查资料就是我最大的荣幸了</p>
+<p>注意:mysql语法不区分大小写的</p>
+<p>命令行登录到mysql: mysql -u root -p</p>
+<p>Enter password:yourPassword</p>
+<h2 id="操作数据库"><a href="#操作数据库" class="headerlink" title="操作数据库:"></a>操作数据库:</h2><p>创建数据库: create datebase yourDataBaseName;</p>
+<p>删除数据库: drop database yourDataBaseName;</p>
+<h2 id="操作数据表"><a href="#操作数据表" class="headerlink" title="操作数据表:"></a>操作数据表:</h2><p>创建表:create table tableName(columnName columnType);</p>
+<p>虽然现在很多工具都可以自动创建出生成表的语句了</p>
+<p>但是为了学习性 我们这里还是举例了一个:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE IF NOT EXISTS &#96;czrnbTb&#96;(</span><br><span class="line">   &#96;czr_id&#96; INT UNSIGNED AUTO_INCREMENT,</span><br><span class="line">   &#96;czr_title&#96; VARCHAR(100) NOT NULL,</span><br><span class="line">   &#96;czr_author&#96; VARCHAR(40) NOT NULL,</span><br><span class="line">   &#96;czr_date&#96; DATE,</span><br><span class="line">   PRIMARY KEY ( &#96;czr_id&#96; )</span><br><span class="line">)ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8;</span><br></pre></td></tr></table></figure>
+<p>删除表: drop table tableName</p>
+<h2 id="CRUD"><a href="#CRUD" class="headerlink" title="CRUD:"></a>CRUD:</h2><p>C:insert into tableName(field1,field2…) values(value1,value2…)</p>
+<p>如果省略了 field这部分括号的内容 那么默认是全部字段都要传值</p>
+<p>R:select columnName1,columnName2 from tableName</p>
+<ul>
+<li>查询语句中你可以使用一个或者多个表，表之间使用逗号(,)分割，并使用WHERE语句来设定查询条件。</li>
+<li>SELECT 命令可以读取一条或者多条记录。</li>
+<li>你可以使用星号（*）来代替其他字段，SELECT语句会返回表的所有字段数据</li>
+<li>你可以使用 WHERE 语句来包含任何条件。</li>
+<li>你可以使用 LIMIT 属性来设定返回的记录数。</li>
+<li>你可以通过OFFSET指定SELECT语句开始查询的数据偏移量。默认情况下偏移量为0。</li>
+</ul>
+<p>以上常用的有where子句:select columnName1,columnName2 from tableName where condition1 and/or condition2 (不加and/or的话表示单条件查询)</p>
+<table>
+<thead>
+<tr>
+<th>=</th>
+<th>等号，检测两个值是否相等，如果相等返回true</th>
+<th>(A = B) 返回false。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&lt;&gt;, !=</td>
+<td>不等于，检测两个值是否相等，如果不相等返回true</td>
+<td>(A != B) 返回 true。</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>大于号，检测左边的值是否大于右边的值, 如果左边的值大于右边的值返回true</td>
+<td>(A &gt; B) 返回false。</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>小于号，检测左边的值是否小于右边的值, 如果左边的值小于右边的值返回true</td>
+<td>(A &lt; B) 返回 true。</td>
+</tr>
+<tr>
+<td>&gt;=</td>
+<td>大于等于号，检测左边的值是否大于或等于右边的值, 如果左边的值大于或等于右边的值返回true</td>
+<td>(A &gt;= B) 返回false。</td>
+</tr>
+<tr>
+<td>&lt;=</td>
+<td>小于等于号，检测左边的值是否小于或等于右边的值, 如果左边的值小于或等于右边的值返回true</td>
+<td>(A &lt;= B) 返回 true。</td>
+</tr>
+</tbody></table>
+<p>U:update tableName set field1=newValue1,field2=newValue2 where…</p>
+<p>D:delete from tableName where…</p>
+<p>Like子句:</p>
+<p>SQL LIKE 子句中使用百分号 *<em>%<strong>字符来表示任意字符，类似于UNIX或正则表达式中的星号 **</strong></em>。</p>
+<p>如果没有使用百分号 <strong>%</strong>, LIKE 子句与等号 <strong>=</strong> 的效果是一样的。</p>
+<p>这个语句其实文字没代码好说明</p>
+<p>下面之间上代码大家肯定就会用了</p>
+<p>select * from tableName where field1 like ‘%czr%’; 查询所有field1带czr的</p>
+<p>select * from tableName where field2 like ‘%czr’; 查询以czr结尾的</p>
+<p>select * from tableName where field3 like ‘czr%’; 查询以czr开头的</p>
+<p>union操作符:</p>
+<p>这个语句我用的不是很多 但是根据网上来的例子可以</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT country FROM Websites</span><br><span class="line">UNION</span><br><span class="line">SELECT country FROM apps</span><br><span class="line">ORDER BY country;</span><br></pre></td></tr></table></figure>
+<p>这样可以获取两表中不同的country值 比如一个表有多个CN(China) 查出来的时候只会打印一个</p>
+<p>如果想要答应多个 将union改为 union all 即可.</p>
+<p>带有where的union all</p>
+<p>下面的 SQL 语句使用 UNION ALL 从 “Websites” 和 “apps” 表中选取<strong>所有的</strong>中国(CN)的数据（也有重复的值）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT country, name FROM Websites</span><br><span class="line">WHERE country&#x3D;&#39;CN&#39;</span><br><span class="line">UNION ALL</span><br><span class="line">SELECT country, app_name FROM apps</span><br><span class="line">WHERE country&#x3D;&#39;CN&#39;</span><br><span class="line">ORDER BY country;</span><br></pre></td></tr></table></figure>
+<p>order by 排序语句</p>
+<ul>
+<li>你可以使用任何字段来作为排序的条件，从而返回排序后的查询结果。</li>
+<li>你可以设定多个字段来排序。</li>
+<li>你可以使用 ASC 或 DESC 关键字来设置查询结果是按升序或降序排列。 默认情况下，它是按升序排列。</li>
+<li>你可以添加 WHERE…LIKE 子句来设置条件。</li>
+</ul>
+<p>默认asc升序排序 当然你也可以加上asc desc是降序排列</p>
+<p>select * from czrTb order by czr_id <del>asc</del></p>
+<p>select * from czrTb order by czr_id desc  –&gt;降序</p>
+<p>group by 分组语句:</p>
+<p>GROUP BY 语句根据一个或多个列对结果集进行分组。</p>
+<p>在分组的列上我们可以使用 COUNT, SUM, AVG,等函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT column_name, function(column_name)</span><br><span class="line">FROM table_name</span><br><span class="line">WHERE column_name operator value</span><br><span class="line">GROUP BY column_name;</span><br></pre></td></tr></table></figure>
+<h1 id="END"><a href="#END" class="headerlink" title="END"></a>END</h1><p>太困了 我决定睡觉</p>
+<p>明天继续把后面的语句更完…</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/01/16/MYSQL%E8%AF%AD%E6%B3%95%E5%88%9D%E6%8E%A2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
     <article id="post-wizz-WinterCamp JavaSe-04" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
