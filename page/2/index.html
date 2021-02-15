@@ -162,6 +162,144 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-结果映射" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/04/%E7%BB%93%E6%9E%9C%E6%98%A0%E5%B0%84/">深入了解resultmap</a>
+    </h1>
+  
+
+        
+        <a href="/2021/02/04/%E7%BB%93%E6%9E%9C%E6%98%A0%E5%B0%84/" class="archive-article-date">
+  	<time datetime="2021-02-04T15:16:06.525Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>说说Mybatis的resultmap</p>
+<p>有时候我们数据库的表设计的不是那么理所当然</p>
+<p>我们就不能使用mybatis的默认映射规则 而是自己定制映射规则</p>
+<h3 id="结果映射"><a href="#结果映射" class="headerlink" title="结果映射"></a>结果映射</h3><p><code>resultMap</code> 元素是 MyBatis 中最重要最强大的元素。它可以让你从 90% 的 JDBC <code>ResultSets</code> 数据提取代码中解放出来，并在一些情形下允许你进行一些 JDBC 不支持的操作。实际上，在为一些比如连接的复杂语句编写映射代码的时候，一份 <code>resultMap</code> 能够代替实现同等功能的数千行代码。ResultMap 的设计思想是，对简单的语句做到零配置，对于复杂一点的语句，只需要描述语句之间的关系就行了。</p>
+<p>之前你已经见过简单映射语句的示例，它们没有显式指定 <code>resultMap</code>。比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id&#x3D;&quot;selectUsers&quot; resultType&#x3D;&quot;map&quot;&gt;</span><br><span class="line">  select id, username, hashedPassword</span><br><span class="line">  from some_table</span><br><span class="line">  where id &#x3D; #&#123;id&#125;</span><br><span class="line">&lt;&#x2F;select&gt;</span><br></pre></td></tr></table></figure>
+<p>上述语句只是简单地将所有的列映射到 <code>HashMap</code> 的键上，这由 <code>resultType</code> 属性指定。虽然在大部分情况下都够用，但是 HashMap 并不是一个很好的领域模型。你的程序更可能会使用 JavaBean 或 POJO（Plain Old Java Objects，普通老式 Java 对象）作为领域模型。MyBatis 对两者都提供了支持。看看下面这个 JavaBean：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">package com.someapp.model;</span><br><span class="line">public class User &#123;</span><br><span class="line">  private int id;</span><br><span class="line">  private String username;</span><br><span class="line">  private String hashedPassword;</span><br><span class="line"></span><br><span class="line">  public int getId() &#123;</span><br><span class="line">    return id;</span><br><span class="line">  &#125;</span><br><span class="line">  public void setId(int id) &#123;</span><br><span class="line">    this.id &#x3D; id;</span><br><span class="line">  &#125;</span><br><span class="line">  public String getUsername() &#123;</span><br><span class="line">    return username;</span><br><span class="line">  &#125;</span><br><span class="line">  public void setUsername(String username) &#123;</span><br><span class="line">    this.username &#x3D; username;</span><br><span class="line">  &#125;</span><br><span class="line">  public String getHashedPassword() &#123;</span><br><span class="line">    return hashedPassword;</span><br><span class="line">  &#125;</span><br><span class="line">  public void setHashedPassword(String hashedPassword) &#123;</span><br><span class="line">    this.hashedPassword &#x3D; hashedPassword;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>基于 JavaBean 的规范，上面这个类有 3 个属性：id，username 和 hashedPassword。这些属性会对应到 select 语句中的列名。</p>
+<p>这样的一个 JavaBean 可以被映射到 <code>ResultSet</code>，就像映射到 <code>HashMap</code> 一样简单。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id&#x3D;&quot;selectUsers&quot; resultType&#x3D;&quot;com.someapp.model.User&quot;&gt;</span><br><span class="line">  select id, username, hashedPassword</span><br><span class="line">  from some_table</span><br><span class="line">  where id &#x3D; #&#123;id&#125;</span><br><span class="line">&lt;&#x2F;select&gt;</span><br></pre></td></tr></table></figure>
+<p>类型别名是你的好帮手。使用它们，你就可以不用输入类的全限定名了。比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- mybatis-config.xml 中 --&gt;</span><br><span class="line">&lt;typeAlias type&#x3D;&quot;com.someapp.model.User&quot; alias&#x3D;&quot;User&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- SQL 映射 XML 中 --&gt;</span><br><span class="line">&lt;select id&#x3D;&quot;selectUsers&quot; resultType&#x3D;&quot;User&quot;&gt;</span><br><span class="line">  select id, username, hashedPassword</span><br><span class="line">  from some_table</span><br><span class="line">  where id &#x3D; #&#123;id&#125;</span><br><span class="line">&lt;&#x2F;select&gt;</span><br></pre></td></tr></table></figure>
+<p>在这些情况下，MyBatis 会在幕后自动创建一个 <code>ResultMap</code>，再根据属性名来映射列到 JavaBean 的属性上。如果列名和属性名不能匹配上，可以在 SELECT 语句中设置列别名（这是一个基本的 SQL 特性）来完成匹配。比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id&#x3D;&quot;selectUsers&quot; resultType&#x3D;&quot;User&quot;&gt;</span><br><span class="line">  select</span><br><span class="line">    user_id             as &quot;id&quot;,</span><br><span class="line">    user_name           as &quot;userName&quot;,</span><br><span class="line">    hashed_password     as &quot;hashedPassword&quot;</span><br><span class="line">  from some_table</span><br><span class="line">  where id &#x3D; #&#123;id&#125;</span><br><span class="line">&lt;&#x2F;select&gt;</span><br></pre></td></tr></table></figure>
+<p>在学习了上面的知识后，你会发现上面的例子没有一个需要显式配置 <code>ResultMap</code>，这就是 <code>ResultMap</code> 的优秀之处——你完全可以不用显式地配置它们。 虽然上面的例子不用显式配置 <code>ResultMap</code>。 但为了讲解，我们来看看如果在刚刚的示例中，显式使用外部的 <code>resultMap</code> 会怎样，这也是解决列名不匹配的另外一种方式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;resultMap id&#x3D;&quot;userResultMap&quot; type&#x3D;&quot;User&quot;&gt;</span><br><span class="line">  &lt;id property&#x3D;&quot;id&quot; column&#x3D;&quot;user_id&quot; &#x2F;&gt;</span><br><span class="line">  &lt;result property&#x3D;&quot;username&quot; column&#x3D;&quot;user_name&quot;&#x2F;&gt;</span><br><span class="line">  &lt;result property&#x3D;&quot;password&quot; column&#x3D;&quot;hashed_password&quot;&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;resultMap&gt;</span><br></pre></td></tr></table></figure>
+<p>然后在引用它的语句中设置 <code>resultMap</code> 属性就行了（注意我们去掉了 <code>resultType</code> 属性）。比如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id&#x3D;&quot;selectUsers&quot; resultMap&#x3D;&quot;userResultMap&quot;&gt;</span><br><span class="line">  select user_id, user_name, hashed_password</span><br><span class="line">  from some_table</span><br><span class="line">  where id &#x3D; #&#123;id&#125;</span><br><span class="line">&lt;&#x2F;select&gt;</span><br></pre></td></tr></table></figure>
+<p>如果这个世界总是这么简单就好了。</p>
+<h4 id="高级结果映射"><a href="#高级结果映射" class="headerlink" title="高级结果映射"></a>高级结果映射</h4><p>MyBatis 创建时的一个思想是：数据库不可能永远是你所想或所需的那个样子。 我们希望每个数据库都具备良好的第三范式或 BCNF 范式，可惜它们并不都是那样。 如果能有一种数据库映射模式，完美适配所有的应用程序，那就太好了，但可惜也没有。 而 ResultMap 就是 MyBatis 对这个问题的答案。</p>
+<p>比如，我们如何映射下面这个语句？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 非常复杂的语句 --&gt;</span><br><span class="line">&lt;select id&#x3D;&quot;selectBlogDetails&quot; resultMap&#x3D;&quot;detailedBlogResultMap&quot;&gt;</span><br><span class="line">  select</span><br><span class="line">       B.id as blog_id,</span><br><span class="line">       B.title as blog_title,</span><br><span class="line">       B.author_id as blog_author_id,</span><br><span class="line">       A.id as author_id,</span><br><span class="line">       A.username as author_username,</span><br><span class="line">       A.password as author_password,</span><br><span class="line">       A.email as author_email,</span><br><span class="line">       A.bio as author_bio,</span><br><span class="line">       A.favourite_section as author_favourite_section,</span><br><span class="line">       P.id as post_id,</span><br><span class="line">       P.blog_id as post_blog_id,</span><br><span class="line">       P.author_id as post_author_id,</span><br><span class="line">       P.created_on as post_created_on,</span><br><span class="line">       P.section as post_section,</span><br><span class="line">       P.subject as post_subject,</span><br><span class="line">       P.draft as draft,</span><br><span class="line">       P.body as post_body,</span><br><span class="line">       C.id as comment_id,</span><br><span class="line">       C.post_id as comment_post_id,</span><br><span class="line">       C.name as comment_name,</span><br><span class="line">       C.comment as comment_text,</span><br><span class="line">       T.id as tag_id,</span><br><span class="line">       T.name as tag_name</span><br><span class="line">  from Blog B</span><br><span class="line">       left outer join Author A on B.author_id &#x3D; A.id</span><br><span class="line">       left outer join Post P on B.id &#x3D; P.blog_id</span><br><span class="line">       left outer join Comment C on P.id &#x3D; C.post_id</span><br><span class="line">       left outer join Post_Tag PT on PT.post_id &#x3D; P.id</span><br><span class="line">       left outer join Tag T on PT.tag_id &#x3D; T.id</span><br><span class="line">  where B.id &#x3D; #&#123;id&#125;</span><br><span class="line">&lt;&#x2F;select&gt;</span><br></pre></td></tr></table></figure>
+<p>你可能想把它映射到一个智能的对象模型，这个对象表示了一篇博客，它由某位作者所写，有很多的博文，每篇博文有零或多条的评论和标签。 我们先来看看下面这个完整的例子，它是一个非常复杂的结果映射（假设作者，博客，博文，评论和标签都是类型别名）。 不用紧张，我们会一步一步地来说明。虽然它看起来令人望而生畏，但其实非常简单。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 非常复杂的结果映射 --&gt;</span><br><span class="line">&lt;resultMap id&#x3D;&quot;detailedBlogResultMap&quot; type&#x3D;&quot;Blog&quot;&gt;</span><br><span class="line">  &lt;constructor&gt;</span><br><span class="line">    &lt;idArg column&#x3D;&quot;blog_id&quot; javaType&#x3D;&quot;int&quot;&#x2F;&gt;</span><br><span class="line">  &lt;&#x2F;constructor&gt;</span><br><span class="line">  &lt;result property&#x3D;&quot;title&quot; column&#x3D;&quot;blog_title&quot;&#x2F;&gt;</span><br><span class="line">  &lt;association property&#x3D;&quot;author&quot; javaType&#x3D;&quot;Author&quot;&gt;</span><br><span class="line">    &lt;id property&#x3D;&quot;id&quot; column&#x3D;&quot;author_id&quot;&#x2F;&gt;</span><br><span class="line">    &lt;result property&#x3D;&quot;username&quot; column&#x3D;&quot;author_username&quot;&#x2F;&gt;</span><br><span class="line">    &lt;result property&#x3D;&quot;password&quot; column&#x3D;&quot;author_password&quot;&#x2F;&gt;</span><br><span class="line">    &lt;result property&#x3D;&quot;email&quot; column&#x3D;&quot;author_email&quot;&#x2F;&gt;</span><br><span class="line">    &lt;result property&#x3D;&quot;bio&quot; column&#x3D;&quot;author_bio&quot;&#x2F;&gt;</span><br><span class="line">    &lt;result property&#x3D;&quot;favouriteSection&quot; column&#x3D;&quot;author_favourite_section&quot;&#x2F;&gt;</span><br><span class="line">  &lt;&#x2F;association&gt;</span><br><span class="line">  &lt;collection property&#x3D;&quot;posts&quot; ofType&#x3D;&quot;Post&quot;&gt;</span><br><span class="line">    &lt;id property&#x3D;&quot;id&quot; column&#x3D;&quot;post_id&quot;&#x2F;&gt;</span><br><span class="line">    &lt;result property&#x3D;&quot;subject&quot; column&#x3D;&quot;post_subject&quot;&#x2F;&gt;</span><br><span class="line">    &lt;association property&#x3D;&quot;author&quot; javaType&#x3D;&quot;Author&quot;&#x2F;&gt;</span><br><span class="line">    &lt;collection property&#x3D;&quot;comments&quot; ofType&#x3D;&quot;Comment&quot;&gt;</span><br><span class="line">      &lt;id property&#x3D;&quot;id&quot; column&#x3D;&quot;comment_id&quot;&#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;collection&gt;</span><br><span class="line">    &lt;collection property&#x3D;&quot;tags&quot; ofType&#x3D;&quot;Tag&quot; &gt;</span><br><span class="line">      &lt;id property&#x3D;&quot;id&quot; column&#x3D;&quot;tag_id&quot;&#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;collection&gt;</span><br><span class="line">    &lt;discriminator javaType&#x3D;&quot;int&quot; column&#x3D;&quot;draft&quot;&gt;</span><br><span class="line">      &lt;case value&#x3D;&quot;1&quot; resultType&#x3D;&quot;DraftPost&quot;&#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;discriminator&gt;</span><br><span class="line">  &lt;&#x2F;collection&gt;</span><br><span class="line">&lt;&#x2F;resultMap&gt;</span><br></pre></td></tr></table></figure>
+<p><code>resultMap</code> 元素有很多子元素和一个值得深入探讨的结构。 下面是<code>resultMap</code> 元素的概念视图。</p>
+<h4 id="结果映射（resultMap）"><a href="#结果映射（resultMap）" class="headerlink" title="结果映射（resultMap）"></a>结果映射（resultMap）</h4><ul>
+<li><pre><code>constructor
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   </span><br><span class="line"></span><br><span class="line">  \- 用于在实例化类时，注入结果到构造方法中</span><br><span class="line"></span><br><span class="line">  - &#96;idArg&#96; - ID 参数；标记出作为 ID 的结果可以帮助提高整体性能</span><br><span class="line">  - &#96;arg&#96; - 将被注入到构造方法的一个普通结果</span><br><span class="line"></span><br><span class="line">- &#96;id&#96; – 一个 ID 结果；标记出作为 ID 的结果可以帮助提高整体性能</span><br><span class="line"></span><br><span class="line">- &#96;result&#96; – 注入到字段或 JavaBean 属性的普通结果</span><br><span class="line"></span><br><span class="line">- &#96;&#96;&#96;</span><br><span class="line">  association</span><br></pre></td></tr></table></figure>
+
+</code></pre>
+</li>
+</ul>
+<p>  – 一个复杂类型的关联；许多结果将包装成这种类型</p>
+<ul>
+<li><p>嵌套结果映射 – 关联可以是 <code>resultMap</code> 元素，或是对其它结果映射的引用</p>
+</li>
+<li><pre><code>collection
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   </span><br><span class="line"></span><br><span class="line">  – 一个复杂类型的集合</span><br><span class="line"></span><br><span class="line">  - 嵌套结果映射 – 集合可以是 &#96;resultMap&#96; 元素，或是对其它结果映射的引用</span><br><span class="line"></span><br><span class="line">- &#96;&#96;&#96;</span><br><span class="line">  discriminator</span><br></pre></td></tr></table></figure>
+
+</code></pre>
+</li>
+</ul>
+<p>  – 使用结果值来决定使用哪个</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">resultMap</span><br></pre></td></tr></table></figure>
+<ul>
+<li><pre><code>case</code></pre>
+</li>
+</ul>
+<pre><code>– 基于某些值的结果映射
+
+- 嵌套结果映射 – `case` 也是一个结果映射，因此具有相同的结构和元素；或者引用其它的结果映射</code></pre>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left">当前命名空间中的一个唯一标识，用于标识一个结果映射。</td>
+</tr>
+<tr>
+<td align="left"><code>type</code></td>
+<td align="left">类的完全限定名, 或者一个类型别名（关于内置的类型别名，可以参考上面的表格）。</td>
+</tr>
+<tr>
+<td align="left"><code>autoMapping</code></td>
+<td align="left">如果设置这个属性，MyBatis 将会为本结果映射开启或者关闭自动映射。 这个属性会覆盖全局的属性 autoMappingBehavior。默认值：未设置（unset）。</td>
+</tr>
+</tbody></table>
+<p><strong>最佳实践</strong> 最好逐步建立结果映射。单元测试可以在这个过程中起到很大帮助。 如果你尝试一次性创建像上面示例那么巨大的结果映射，不仅容易出错，难度也会直线上升。 所以，从最简单的形态开始，逐步迭代。而且别忘了单元测试！ 有时候，框架的行为像是一个黑盒子（无论是否开源）。因此，为了确保实现的行为与你的期望相一致，最好编写单元测试。 并且单元测试在提交 bug 时也能起到很大的作用。</p>
+<h1 id="END"><a href="#END" class="headerlink" title="END"></a>END</h1><p>这个建议大家自己为难一下自己 设计一些鬼畜的数据库的字段名</p>
+<p>然后试一试resultmap~</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/02/04/%E7%BB%93%E6%9E%9C%E6%98%A0%E5%B0%84/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
     <article id="post-一、JWT认证流程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1054,112 +1192,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2021/01/28/%E8%BF%87%E6%B8%A1%E6%96%87%E7%AB%A0%E4%BA%8C/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-一些过渡知识(请看完再Springboot)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/27/%E4%B8%80%E4%BA%9B%E8%BF%87%E6%B8%A1%E7%9F%A5%E8%AF%86(%E8%AF%B7%E7%9C%8B%E5%AE%8C%E5%86%8DSpringboot)/">因为进度太快了所以过渡文章出现了-01!!!</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/27/%E4%B8%80%E4%BA%9B%E8%BF%87%E6%B8%A1%E7%9F%A5%E8%AF%86(%E8%AF%B7%E7%9C%8B%E5%AE%8C%E5%86%8DSpringboot)/" class="archive-article-date">
-  	<time datetime="2021-01-27T12:39:58.307Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="一些过渡知识-请看完再Springboot"><a href="#一些过渡知识-请看完再Springboot" class="headerlink" title="一些过渡知识(请看完再Springboot)"></a>一些过渡知识(请看完再Springboot)</h1><p>感觉目前这个进度确实有点快了 </p>
-<p>所以打算拿一到两期写一下我略过的知识</p>
-<p>希望大家看完这些再过渡到SpringBoot的学习阶段</p>
-<h1 id="LAMBDA表达式"><a href="#LAMBDA表达式" class="headerlink" title="LAMBDA表达式"></a>LAMBDA表达式</h1><p>案例一:</p>
-<p>创建线程的方式:</p>
-<p>JDK7:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable()&#123;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">sout(<span class="string">&quot;Thread running...&quot;</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;).start();</span><br></pre></td></tr></table></figure>
-<p>JDK8 lambda表达式</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Thread(</span><br><span class="line"></span><br><span class="line">()-&gt; sout(<span class="string">&quot;Thread running...&quot;</span>)</span><br><span class="line"></span><br><span class="line">).start();</span><br></pre></td></tr></table></figure>
-<p>or</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Thread(</span><br><span class="line"></span><br><span class="line">()-&gt;&#123;</span><br><span class="line"></span><br><span class="line">sout(<span class="string">&quot;thread running&quot;</span>);</span><br><span class="line"></span><br><span class="line">sout(<span class="string">&quot;QAQ&quot;</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">).start();</span><br></pre></td></tr></table></figure>
-<p>总之lambda是Java8开始使冗杂的Java代码大幅简化的良好方案(不过我自己也不太</p>
-<p>会用)我这边贴出例子大家实际体会一下 可以到下面这篇文章进行更系统的学习~</p>
-<p><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/1252599548343744/1305158055100449">贴一篇很成熟的文章</a></p>
-<h1 id="JDBC"><a href="#JDBC" class="headerlink" title="JDBC"></a>JDBC</h1><p><strong>JDBC</strong> (<strong>J</strong>ava <strong>D</strong>ata<strong>B</strong>ase <strong>C</strong>onnection) 是通过JAVA访问数据库</p>
-<p>所以到这里你一定要先安装好MySQL 或者其他主流的数据库</p>
-<p>我们以MySQL为例讲解</p>
-<p>JDBC需要导入jar包==</p>
-<p>mysql-connector-java.jar  版本的话选择自己MySQL适用的版本</p>
-<p>(5.7的适配8版本的jar的)</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_26525215/article/details/53239123">idea怎么导入jar包啊</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c1d0e080aba5">eclipse怎么导入jar包啊</a></p>
-<h2 id="JDBC初始化驱动"><a href="#JDBC初始化驱动" class="headerlink" title="JDBC初始化驱动"></a>JDBC初始化驱动</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> jdbc;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestJDBC</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">          </span><br><span class="line"></span><br><span class="line">        <span class="comment">//初始化驱动</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//驱动类com.mysql.jdbc.Driver</span></span><br><span class="line">            <span class="comment">//如果忘记了第一个步骤的导包，就会抛出ClassNotFoundException</span></span><br><span class="line">            Class.forName(<span class="string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>);</span><br><span class="line">             <span class="comment">//如果MySQL版本较低的话 上面这行代码要改成</span></span><br><span class="line">             <span class="comment">//com.mysql.jdbc.Driver(去掉了cj)</span></span><br><span class="line">            System.out.println(<span class="string">&quot;数据库驱动加载成功 ！&quot;</span>);</span><br><span class="line">      </span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            <span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">          </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> jdbc;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.DriverManager;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestJDBC</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class.forName(<span class="string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>);</span><br><span class="line">     </span><br><span class="line">            <span class="comment">// 建立与数据库的Connection连接</span></span><br><span class="line">            <span class="comment">// 这里需要提供：</span></span><br><span class="line">            <span class="comment">// 数据库所处于的ip:127.0.0.1 (本机)</span></span><br><span class="line">            <span class="comment">// 数据库的端口号： 3306 （mysql专用端口号）</span></span><br><span class="line">            <span class="comment">// 数据库名称 czrorz</span></span><br><span class="line">            <span class="comment">// 编码方式 UTF-8</span></span><br><span class="line">            <span class="comment">// 账号 root</span></span><br><span class="line">            <span class="comment">// 密码 admin</span></span><br><span class="line">     </span><br><span class="line">            Connection c = DriverManager</span><br><span class="line">                    .getConnection(</span><br><span class="line">                            <span class="string">&quot;jdbc:mysql://127.0.0.1:3306/czrorz?characterEncoding=UTF-8&quot;</span>,</span><br><span class="line">                            <span class="string">&quot;root&quot;</span>, <span class="string">&quot;admin&quot;</span>);</span><br><span class="line">     </span><br><span class="line">            System.out.println(<span class="string">&quot;连接成功，获取连接对象： &quot;</span> + c);</span><br><span class="line">     </span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            <span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">            <span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">     </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>作业:查询JDBC如何执行SQL语句</p>
-<p>提示keyword:   Statement</p>
-<h1 id="作业"><a href="#作业" class="headerlink" title="作业"></a>作业</h1><p>设计一个数据库 叫wizz</p>
-<p>里面有member表  memeber表的字段有 </p>
-<p>age gender name  career  四个字段(思考一下该用什么数据类型~)</p>
-<p>在这张表中用JDBC完成 增删改查操作  </p>
-<p><strong>要求提交增删改查代码以及创建数据库的SQL语句脚本</strong></p>
-<p>查询 JDBC 事务</p>
-<p>JDBC如何使用事务</p>
-<h1 id="TOMCAT"><a href="#TOMCAT" class="headerlink" title="TOMCAT"></a>TOMCAT</h1><p>Tomcat是常见的免费的web服务器.<br>Tomcat 这个名字的来历，Tomcat是一种野外的猫科动物，不依赖人类，独立生活。 Tomcat的作者，取这个名字的初衷是希望，这一款服务器可以自力更生，自给自足，像Tomcat这样一种野生动物一般，不依赖其他插件，而可以独立达到提供web 服务的效果。</p>
-<p>tomcat也是一个踩坑点</p>
-<p>笔者最近有打算做一个diytomcat的计划  当然是玩具级的tomcat(</p>
-<h1 id="作业-1"><a href="#作业-1" class="headerlink" title="作业"></a>作业</h1><p>配置好tomcat也是每个后端er应该接触过的经验 所以接下来的作业出现乐!</p>
-<p>把自己电脑配置好的tomcat启动 成功访问默认页面的截图就当成作业!</p>
-<p>建议8版本以及以上</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/gyshun/article/details/80920227?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control">一篇参考文章(坏笑)</a></p>
-<h1 id="END"><a href="#END" class="headerlink" title="END"></a>END</h1><p>这次的end只有(坏笑</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/27/%E4%B8%80%E4%BA%9B%E8%BF%87%E6%B8%A1%E7%9F%A5%E8%AF%86(%E8%AF%B7%E7%9C%8B%E5%AE%8C%E5%86%8DSpringboot)/">展开全文 >></a>
         </p>
       
 

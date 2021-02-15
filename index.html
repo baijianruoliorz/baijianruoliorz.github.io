@@ -162,6 +162,97 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-实现 MyBatis 流式查询的方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/15/%E5%AE%9E%E7%8E%B0%20MyBatis%20%E6%B5%81%E5%BC%8F%E6%9F%A5%E8%AF%A2%E7%9A%84%E6%96%B9%E6%B3%95/">mybatis流式查询</a>
+    </h1>
+  
+
+        
+        <a href="/2021/02/15/%E5%AE%9E%E7%8E%B0%20MyBatis%20%E6%B5%81%E5%BC%8F%E6%9F%A5%E8%AF%A2%E7%9A%84%E6%96%B9%E6%B3%95/" class="archive-article-date">
+  	<time datetime="2021-02-15T05:54:39.958Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="mybatis流式查询"><a href="#mybatis流式查询" class="headerlink" title="mybatis流式查询"></a>mybatis流式查询</h1><p>基本概念<br>流式查询指的是查询成功后不是返回一个集合而是返回一个迭代器，应用每次从迭代器取一条查询结果。流式查询的好处是能够降低内存使用。</p>
+<p>如果没有流式查询，我们想要从数据库取 1000 万条记录而又没有足够的内存时，就不得不分页查询，而分页查询效率取决于表设计，如果设计的不好，就无法执行高效的分页查询。因此流式查询是一个数据库访问框架必须具备的功能。</p>
+<p>流式查询的过程当中，数据库连接是保持打开状态的，因此要注意的是：执行一个流式查询后，数据库访问框架就不负责关闭数据库连接了，需要应用在取完数据后自己关闭。</p>
+<p>MyBatis 流式查询接口<br>MyBatis 提供了一个叫 org.apache.ibatis.cursor.Cursor 的接口类用于流式查询，这个接口继承了 java.io.Closeable 和 java.lang.Iterable 接口，由此可知：</p>
+<p>1、Cursor 是可关闭的；<br>2、Cursor 是可遍历的。<br>除此之外，Cursor 还提供了三个方法：</p>
+<p>1、isOpen()：用于在取数据之前判断 Cursor 对象是否是打开状态。只有当打开时 Cursor 才能取数据；</p>
+<p>2、isConsumed()：用于判断查询结果是否全部取完。</p>
+<p>3、getCurrentIndex()：返回已经获取了多少条数据</p>
+<p>因为 Cursor 实现了迭代器接口，因此在实际使用当中，从 Cursor 取数据非常简单：</p>
+<p>cursor.forEach(rowObject -&gt; {…});<br>但构建 Cursor 的过程不简单<br>我们举个实际例子。下面是一个 Mapper 类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">FooMapper</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Select(&quot;select * from foo limit #&#123;limit&#125;&quot;)</span></span><br><span class="line">    <span class="function">Cursor&lt;Foo&gt; <span class="title">scan</span><span class="params">(<span class="meta">@Param(&quot;limit&quot;)</span> <span class="keyword">int</span> limit)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>方法 scan() 是一个非常简单的查询。通过指定 Mapper 方法的返回值为 Cursor 类型，MyBatis 就知道这个查询方法一个流式查询。</p>
+<p>然后我们再写一个 SpringMVC Controller 方法来调用 Mapper（无关的代码已经省略）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;foo/scan/0/&#123;limit&#125;&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scanFoo0</span><span class="params">(<span class="meta">@PathVariable(&quot;limit&quot;)</span> <span class="keyword">int</span> limit)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> (Cursor&lt;Foo&gt; cursor = fooMapper.scan(limit)) &#123; </span><br><span class="line">        cursor.forEach(foo -&gt; &#123;&#125;);                     </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码中，fooMapper 是 @Autowired 进来的。注释 1 处调用 scan 方法，得到 Cursor 对象并保证它能最后关闭；2 处则是从 cursor 中取数据。</p>
+<p>上面的代码看上去没什么问题，但是执行 scanFoo0() 时会报错：</p>
+<p>java.lang.IllegalStateException: A Cursor is already closed.<br>这是因为我们前面说了在取数据的过程中需要保持数据库连接，而 Mapper 方法通常在执行完后连接就关闭了，因此 Cusor 也一并关闭了。</p>
+<p>所以，解决这个问题的思路不复杂，保持数据库连接打开即可。我们至少有三种方案可选。</p>
+<p>方案一：SqlSessionFactory<br>我们可以用 SqlSessionFactory 来手工打开数据库连接，将 Controller 方法修改如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;foo/scan/1/&#123;limit&#125;&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scanFoo1</span><span class="params">(<span class="meta">@PathVariable(&quot;limit&quot;)</span> <span class="keyword">int</span> limit)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> (</span><br><span class="line">        SqlSession sqlSession = sqlSessionFactory.openSession(); </span><br><span class="line">        Cursor&lt;Foo&gt; cursor =</span><br><span class="line">              sqlSession.getMapper(FooMapper.class).scan(limit)  </span><br><span class="line">    ) &#123;</span><br><span class="line">        cursor.forEach(foo -&gt; &#123; &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码中，1 处我们开启了一个 SqlSession （实际上也代表了一个数据库连接），并保证它最后能关闭；2 处我们使用 SqlSession 来获得 Mapper 对象。这样才能保证得到的 Cursor 对象是打开状态的。</p>
+<p>方案二：TransactionTemplate<br>在 Spring 中，我们可以用 TransactionTemplate 来执行一个数据库事务，这个过程中数据库连接同样是打开的。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;foo/scan/2/&#123;limit&#125;&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scanFoo2</span><span class="params">(<span class="meta">@PathVariable(&quot;limit&quot;)</span> <span class="keyword">int</span> limit)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    TransactionTemplate transactionTemplate =</span><br><span class="line">            <span class="keyword">new</span> TransactionTemplate(transactionManager); </span><br><span class="line"> </span><br><span class="line">    transactionTemplate.execute(status -&gt; &#123;              </span><br><span class="line">        <span class="keyword">try</span> (Cursor&lt;Foo&gt; cursor = fooMapper.scan(limit)) &#123;</span><br><span class="line">            cursor.forEach(foo -&gt; &#123; &#125;);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码中，1 处我们创建了一个 TransactionTemplate 对象（此处 transactionManager 是怎么来的不用多解释，本文假设读者对 Spring 数据库事务的使用比较熟悉了），2 处执行数据库事务，而数据库事务的内容则是调用 Mapper 对象的流式查询。注意这里的 Mapper 对象无需通过 SqlSession 创建。</p>
+<p>方案三：@Transactional 注解<br>这个本质上和方案二一样，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;foo/scan/3/&#123;limit&#125;&quot;)</span></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scanFoo3</span><span class="params">(<span class="meta">@PathVariable(&quot;limit&quot;)</span> <span class="keyword">int</span> limit)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> (Cursor&lt;Foo&gt; cursor = fooMapper.scan(limit)) &#123;</span><br><span class="line">        cursor.forEach(foo -&gt; &#123; &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它仅仅是在原来方法上面加了个 @Transactional 注解。这个方案看上去最简洁，但请注意 Spring 框架当中注解使用的坑：只在外部调用时生效。在当前类中调用这个方法，依旧会报错。</p>
+<p>以上是三种实现 MyBatis 流式查询的方法。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/02/15/%E5%AE%9E%E7%8E%B0%20MyBatis%20%E6%B5%81%E5%BC%8F%E6%9F%A5%E8%AF%A2%E7%9A%84%E6%96%B9%E6%B3%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
     <article id="post-session机制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1050,144 +1141,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2021/02/06/MyBatis-Plus%E4%B8%8D%E5%86%99%E4%BB%BB%E4%BD%95resultMap%E5%92%8CSQL%E6%89%A7%E8%A1%8C%E4%B8%80%E5%AF%B9%E4%B8%80%E3%80%81%E4%B8%80%E5%AF%B9%E5%A4%9A%E3%80%81%E5%A4%9A%E5%AF%B9%E5%A4%9A%E5%85%B3%E8%81%94%E6%9F%A5%E8%AF%A2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-结果映射" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/04/%E7%BB%93%E6%9E%9C%E6%98%A0%E5%B0%84/">深入了解resultmap</a>
-    </h1>
-  
-
-        
-        <a href="/2021/02/04/%E7%BB%93%E6%9E%9C%E6%98%A0%E5%B0%84/" class="archive-article-date">
-  	<time datetime="2021-02-04T15:16:06.525Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>说说Mybatis的resultmap</p>
-<p>有时候我们数据库的表设计的不是那么理所当然</p>
-<p>我们就不能使用mybatis的默认映射规则 而是自己定制映射规则</p>
-<h3 id="结果映射"><a href="#结果映射" class="headerlink" title="结果映射"></a>结果映射</h3><p><code>resultMap</code> 元素是 MyBatis 中最重要最强大的元素。它可以让你从 90% 的 JDBC <code>ResultSets</code> 数据提取代码中解放出来，并在一些情形下允许你进行一些 JDBC 不支持的操作。实际上，在为一些比如连接的复杂语句编写映射代码的时候，一份 <code>resultMap</code> 能够代替实现同等功能的数千行代码。ResultMap 的设计思想是，对简单的语句做到零配置，对于复杂一点的语句，只需要描述语句之间的关系就行了。</p>
-<p>之前你已经见过简单映射语句的示例，它们没有显式指定 <code>resultMap</code>。比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id&#x3D;&quot;selectUsers&quot; resultType&#x3D;&quot;map&quot;&gt;</span><br><span class="line">  select id, username, hashedPassword</span><br><span class="line">  from some_table</span><br><span class="line">  where id &#x3D; #&#123;id&#125;</span><br><span class="line">&lt;&#x2F;select&gt;</span><br></pre></td></tr></table></figure>
-<p>上述语句只是简单地将所有的列映射到 <code>HashMap</code> 的键上，这由 <code>resultType</code> 属性指定。虽然在大部分情况下都够用，但是 HashMap 并不是一个很好的领域模型。你的程序更可能会使用 JavaBean 或 POJO（Plain Old Java Objects，普通老式 Java 对象）作为领域模型。MyBatis 对两者都提供了支持。看看下面这个 JavaBean：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">package com.someapp.model;</span><br><span class="line">public class User &#123;</span><br><span class="line">  private int id;</span><br><span class="line">  private String username;</span><br><span class="line">  private String hashedPassword;</span><br><span class="line"></span><br><span class="line">  public int getId() &#123;</span><br><span class="line">    return id;</span><br><span class="line">  &#125;</span><br><span class="line">  public void setId(int id) &#123;</span><br><span class="line">    this.id &#x3D; id;</span><br><span class="line">  &#125;</span><br><span class="line">  public String getUsername() &#123;</span><br><span class="line">    return username;</span><br><span class="line">  &#125;</span><br><span class="line">  public void setUsername(String username) &#123;</span><br><span class="line">    this.username &#x3D; username;</span><br><span class="line">  &#125;</span><br><span class="line">  public String getHashedPassword() &#123;</span><br><span class="line">    return hashedPassword;</span><br><span class="line">  &#125;</span><br><span class="line">  public void setHashedPassword(String hashedPassword) &#123;</span><br><span class="line">    this.hashedPassword &#x3D; hashedPassword;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>基于 JavaBean 的规范，上面这个类有 3 个属性：id，username 和 hashedPassword。这些属性会对应到 select 语句中的列名。</p>
-<p>这样的一个 JavaBean 可以被映射到 <code>ResultSet</code>，就像映射到 <code>HashMap</code> 一样简单。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id&#x3D;&quot;selectUsers&quot; resultType&#x3D;&quot;com.someapp.model.User&quot;&gt;</span><br><span class="line">  select id, username, hashedPassword</span><br><span class="line">  from some_table</span><br><span class="line">  where id &#x3D; #&#123;id&#125;</span><br><span class="line">&lt;&#x2F;select&gt;</span><br></pre></td></tr></table></figure>
-<p>类型别名是你的好帮手。使用它们，你就可以不用输入类的全限定名了。比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- mybatis-config.xml 中 --&gt;</span><br><span class="line">&lt;typeAlias type&#x3D;&quot;com.someapp.model.User&quot; alias&#x3D;&quot;User&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- SQL 映射 XML 中 --&gt;</span><br><span class="line">&lt;select id&#x3D;&quot;selectUsers&quot; resultType&#x3D;&quot;User&quot;&gt;</span><br><span class="line">  select id, username, hashedPassword</span><br><span class="line">  from some_table</span><br><span class="line">  where id &#x3D; #&#123;id&#125;</span><br><span class="line">&lt;&#x2F;select&gt;</span><br></pre></td></tr></table></figure>
-<p>在这些情况下，MyBatis 会在幕后自动创建一个 <code>ResultMap</code>，再根据属性名来映射列到 JavaBean 的属性上。如果列名和属性名不能匹配上，可以在 SELECT 语句中设置列别名（这是一个基本的 SQL 特性）来完成匹配。比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id&#x3D;&quot;selectUsers&quot; resultType&#x3D;&quot;User&quot;&gt;</span><br><span class="line">  select</span><br><span class="line">    user_id             as &quot;id&quot;,</span><br><span class="line">    user_name           as &quot;userName&quot;,</span><br><span class="line">    hashed_password     as &quot;hashedPassword&quot;</span><br><span class="line">  from some_table</span><br><span class="line">  where id &#x3D; #&#123;id&#125;</span><br><span class="line">&lt;&#x2F;select&gt;</span><br></pre></td></tr></table></figure>
-<p>在学习了上面的知识后，你会发现上面的例子没有一个需要显式配置 <code>ResultMap</code>，这就是 <code>ResultMap</code> 的优秀之处——你完全可以不用显式地配置它们。 虽然上面的例子不用显式配置 <code>ResultMap</code>。 但为了讲解，我们来看看如果在刚刚的示例中，显式使用外部的 <code>resultMap</code> 会怎样，这也是解决列名不匹配的另外一种方式。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;resultMap id&#x3D;&quot;userResultMap&quot; type&#x3D;&quot;User&quot;&gt;</span><br><span class="line">  &lt;id property&#x3D;&quot;id&quot; column&#x3D;&quot;user_id&quot; &#x2F;&gt;</span><br><span class="line">  &lt;result property&#x3D;&quot;username&quot; column&#x3D;&quot;user_name&quot;&#x2F;&gt;</span><br><span class="line">  &lt;result property&#x3D;&quot;password&quot; column&#x3D;&quot;hashed_password&quot;&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;resultMap&gt;</span><br></pre></td></tr></table></figure>
-<p>然后在引用它的语句中设置 <code>resultMap</code> 属性就行了（注意我们去掉了 <code>resultType</code> 属性）。比如:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id&#x3D;&quot;selectUsers&quot; resultMap&#x3D;&quot;userResultMap&quot;&gt;</span><br><span class="line">  select user_id, user_name, hashed_password</span><br><span class="line">  from some_table</span><br><span class="line">  where id &#x3D; #&#123;id&#125;</span><br><span class="line">&lt;&#x2F;select&gt;</span><br></pre></td></tr></table></figure>
-<p>如果这个世界总是这么简单就好了。</p>
-<h4 id="高级结果映射"><a href="#高级结果映射" class="headerlink" title="高级结果映射"></a>高级结果映射</h4><p>MyBatis 创建时的一个思想是：数据库不可能永远是你所想或所需的那个样子。 我们希望每个数据库都具备良好的第三范式或 BCNF 范式，可惜它们并不都是那样。 如果能有一种数据库映射模式，完美适配所有的应用程序，那就太好了，但可惜也没有。 而 ResultMap 就是 MyBatis 对这个问题的答案。</p>
-<p>比如，我们如何映射下面这个语句？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 非常复杂的语句 --&gt;</span><br><span class="line">&lt;select id&#x3D;&quot;selectBlogDetails&quot; resultMap&#x3D;&quot;detailedBlogResultMap&quot;&gt;</span><br><span class="line">  select</span><br><span class="line">       B.id as blog_id,</span><br><span class="line">       B.title as blog_title,</span><br><span class="line">       B.author_id as blog_author_id,</span><br><span class="line">       A.id as author_id,</span><br><span class="line">       A.username as author_username,</span><br><span class="line">       A.password as author_password,</span><br><span class="line">       A.email as author_email,</span><br><span class="line">       A.bio as author_bio,</span><br><span class="line">       A.favourite_section as author_favourite_section,</span><br><span class="line">       P.id as post_id,</span><br><span class="line">       P.blog_id as post_blog_id,</span><br><span class="line">       P.author_id as post_author_id,</span><br><span class="line">       P.created_on as post_created_on,</span><br><span class="line">       P.section as post_section,</span><br><span class="line">       P.subject as post_subject,</span><br><span class="line">       P.draft as draft,</span><br><span class="line">       P.body as post_body,</span><br><span class="line">       C.id as comment_id,</span><br><span class="line">       C.post_id as comment_post_id,</span><br><span class="line">       C.name as comment_name,</span><br><span class="line">       C.comment as comment_text,</span><br><span class="line">       T.id as tag_id,</span><br><span class="line">       T.name as tag_name</span><br><span class="line">  from Blog B</span><br><span class="line">       left outer join Author A on B.author_id &#x3D; A.id</span><br><span class="line">       left outer join Post P on B.id &#x3D; P.blog_id</span><br><span class="line">       left outer join Comment C on P.id &#x3D; C.post_id</span><br><span class="line">       left outer join Post_Tag PT on PT.post_id &#x3D; P.id</span><br><span class="line">       left outer join Tag T on PT.tag_id &#x3D; T.id</span><br><span class="line">  where B.id &#x3D; #&#123;id&#125;</span><br><span class="line">&lt;&#x2F;select&gt;</span><br></pre></td></tr></table></figure>
-<p>你可能想把它映射到一个智能的对象模型，这个对象表示了一篇博客，它由某位作者所写，有很多的博文，每篇博文有零或多条的评论和标签。 我们先来看看下面这个完整的例子，它是一个非常复杂的结果映射（假设作者，博客，博文，评论和标签都是类型别名）。 不用紧张，我们会一步一步地来说明。虽然它看起来令人望而生畏，但其实非常简单。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 非常复杂的结果映射 --&gt;</span><br><span class="line">&lt;resultMap id&#x3D;&quot;detailedBlogResultMap&quot; type&#x3D;&quot;Blog&quot;&gt;</span><br><span class="line">  &lt;constructor&gt;</span><br><span class="line">    &lt;idArg column&#x3D;&quot;blog_id&quot; javaType&#x3D;&quot;int&quot;&#x2F;&gt;</span><br><span class="line">  &lt;&#x2F;constructor&gt;</span><br><span class="line">  &lt;result property&#x3D;&quot;title&quot; column&#x3D;&quot;blog_title&quot;&#x2F;&gt;</span><br><span class="line">  &lt;association property&#x3D;&quot;author&quot; javaType&#x3D;&quot;Author&quot;&gt;</span><br><span class="line">    &lt;id property&#x3D;&quot;id&quot; column&#x3D;&quot;author_id&quot;&#x2F;&gt;</span><br><span class="line">    &lt;result property&#x3D;&quot;username&quot; column&#x3D;&quot;author_username&quot;&#x2F;&gt;</span><br><span class="line">    &lt;result property&#x3D;&quot;password&quot; column&#x3D;&quot;author_password&quot;&#x2F;&gt;</span><br><span class="line">    &lt;result property&#x3D;&quot;email&quot; column&#x3D;&quot;author_email&quot;&#x2F;&gt;</span><br><span class="line">    &lt;result property&#x3D;&quot;bio&quot; column&#x3D;&quot;author_bio&quot;&#x2F;&gt;</span><br><span class="line">    &lt;result property&#x3D;&quot;favouriteSection&quot; column&#x3D;&quot;author_favourite_section&quot;&#x2F;&gt;</span><br><span class="line">  &lt;&#x2F;association&gt;</span><br><span class="line">  &lt;collection property&#x3D;&quot;posts&quot; ofType&#x3D;&quot;Post&quot;&gt;</span><br><span class="line">    &lt;id property&#x3D;&quot;id&quot; column&#x3D;&quot;post_id&quot;&#x2F;&gt;</span><br><span class="line">    &lt;result property&#x3D;&quot;subject&quot; column&#x3D;&quot;post_subject&quot;&#x2F;&gt;</span><br><span class="line">    &lt;association property&#x3D;&quot;author&quot; javaType&#x3D;&quot;Author&quot;&#x2F;&gt;</span><br><span class="line">    &lt;collection property&#x3D;&quot;comments&quot; ofType&#x3D;&quot;Comment&quot;&gt;</span><br><span class="line">      &lt;id property&#x3D;&quot;id&quot; column&#x3D;&quot;comment_id&quot;&#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;collection&gt;</span><br><span class="line">    &lt;collection property&#x3D;&quot;tags&quot; ofType&#x3D;&quot;Tag&quot; &gt;</span><br><span class="line">      &lt;id property&#x3D;&quot;id&quot; column&#x3D;&quot;tag_id&quot;&#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;collection&gt;</span><br><span class="line">    &lt;discriminator javaType&#x3D;&quot;int&quot; column&#x3D;&quot;draft&quot;&gt;</span><br><span class="line">      &lt;case value&#x3D;&quot;1&quot; resultType&#x3D;&quot;DraftPost&quot;&#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;discriminator&gt;</span><br><span class="line">  &lt;&#x2F;collection&gt;</span><br><span class="line">&lt;&#x2F;resultMap&gt;</span><br></pre></td></tr></table></figure>
-<p><code>resultMap</code> 元素有很多子元素和一个值得深入探讨的结构。 下面是<code>resultMap</code> 元素的概念视图。</p>
-<h4 id="结果映射（resultMap）"><a href="#结果映射（resultMap）" class="headerlink" title="结果映射（resultMap）"></a>结果映射（resultMap）</h4><ul>
-<li><pre><code>constructor
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   </span><br><span class="line"></span><br><span class="line">  \- 用于在实例化类时，注入结果到构造方法中</span><br><span class="line"></span><br><span class="line">  - &#96;idArg&#96; - ID 参数；标记出作为 ID 的结果可以帮助提高整体性能</span><br><span class="line">  - &#96;arg&#96; - 将被注入到构造方法的一个普通结果</span><br><span class="line"></span><br><span class="line">- &#96;id&#96; – 一个 ID 结果；标记出作为 ID 的结果可以帮助提高整体性能</span><br><span class="line"></span><br><span class="line">- &#96;result&#96; – 注入到字段或 JavaBean 属性的普通结果</span><br><span class="line"></span><br><span class="line">- &#96;&#96;&#96;</span><br><span class="line">  association</span><br></pre></td></tr></table></figure>
-
-</code></pre>
-</li>
-</ul>
-<p>  – 一个复杂类型的关联；许多结果将包装成这种类型</p>
-<ul>
-<li><p>嵌套结果映射 – 关联可以是 <code>resultMap</code> 元素，或是对其它结果映射的引用</p>
-</li>
-<li><pre><code>collection
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   </span><br><span class="line"></span><br><span class="line">  – 一个复杂类型的集合</span><br><span class="line"></span><br><span class="line">  - 嵌套结果映射 – 集合可以是 &#96;resultMap&#96; 元素，或是对其它结果映射的引用</span><br><span class="line"></span><br><span class="line">- &#96;&#96;&#96;</span><br><span class="line">  discriminator</span><br></pre></td></tr></table></figure>
-
-</code></pre>
-</li>
-</ul>
-<p>  – 使用结果值来决定使用哪个</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">resultMap</span><br></pre></td></tr></table></figure>
-<ul>
-<li><pre><code>case</code></pre>
-</li>
-</ul>
-<pre><code>– 基于某些值的结果映射
-
-- 嵌套结果映射 – `case` 也是一个结果映射，因此具有相同的结构和元素；或者引用其它的结果映射</code></pre>
-<table>
-<thead>
-<tr>
-<th align="left">属性</th>
-<th align="left">描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>id</code></td>
-<td align="left">当前命名空间中的一个唯一标识，用于标识一个结果映射。</td>
-</tr>
-<tr>
-<td align="left"><code>type</code></td>
-<td align="left">类的完全限定名, 或者一个类型别名（关于内置的类型别名，可以参考上面的表格）。</td>
-</tr>
-<tr>
-<td align="left"><code>autoMapping</code></td>
-<td align="left">如果设置这个属性，MyBatis 将会为本结果映射开启或者关闭自动映射。 这个属性会覆盖全局的属性 autoMappingBehavior。默认值：未设置（unset）。</td>
-</tr>
-</tbody></table>
-<p><strong>最佳实践</strong> 最好逐步建立结果映射。单元测试可以在这个过程中起到很大帮助。 如果你尝试一次性创建像上面示例那么巨大的结果映射，不仅容易出错，难度也会直线上升。 所以，从最简单的形态开始，逐步迭代。而且别忘了单元测试！ 有时候，框架的行为像是一个黑盒子（无论是否开源）。因此，为了确保实现的行为与你的期望相一致，最好编写单元测试。 并且单元测试在提交 bug 时也能起到很大的作用。</p>
-<h1 id="END"><a href="#END" class="headerlink" title="END"></a>END</h1><p>这个建议大家自己为难一下自己 设计一些鬼畜的数据库的字段名</p>
-<p>然后试一试resultmap~</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/02/04/%E7%BB%93%E6%9E%9C%E6%98%A0%E5%B0%84/">展开全文 >></a>
         </p>
       
 

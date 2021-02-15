@@ -6,15 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives: 2021/2 | Blog-WIZZBEWINTERCAMP</title>
+  <title>mybatis流式查询 | Blog-WIZZBEWINTERCAMP</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="just a gopher">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Blog-WIZZBEWINTERCAMP">
-<meta property="og:url" content="http://example.com/archives/2021/02/index.html">
+  <meta name="description" content="mybatis流式查询基本概念流式查询指的是查询成功后不是返回一个集合而是返回一个迭代器，应用每次从迭代器取一条查询结果。流式查询的好处是能够降低内存使用。 如果没有流式查询，我们想要从数据库取 1000 万条记录而又没有足够的内存时，就不得不分页查询，而分页查询效率取决于表设计，如果设计的不好，就无法执行高效的分页查询。因此流式查询是一个数据库访问框架必须具备的功能。 流式查询的过程当中，数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mybatis流式查询">
+<meta property="og:url" content="http://example.com/2021/02/15/%E5%AE%9E%E7%8E%B0%20MyBatis%20%E6%B5%81%E5%BC%8F%E6%9F%A5%E8%AF%A2%E7%9A%84%E6%96%B9%E6%B3%95/index.html">
 <meta property="og:site_name" content="Blog-WIZZBEWINTERCAMP">
-<meta property="og:description" content="just a gopher">
+<meta property="og:description" content="mybatis流式查询基本概念流式查询指的是查询成功后不是返回一个集合而是返回一个迭代器，应用每次从迭代器取一条查询结果。流式查询的好处是能够降低内存使用。 如果没有流式查询，我们想要从数据库取 1000 万条记录而又没有足够的内存时，就不得不分页查询，而分页查询效率取决于表设计，如果设计的不好，就无法执行高效的分页查询。因此流式查询是一个数据库访问框架必须具备的功能。 流式查询的过程当中，数据库">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-02-15T05:54:39.958Z">
+<meta property="article:modified_time" content="2021-02-15T05:58:09.868Z">
 <meta property="article:author" content="baijianruoliorz">
 <meta property="article:tag" content="Vue">
 <meta property="article:tag" content="github">
@@ -160,296 +162,207 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-实现 MyBatis 流式查询的方法" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      mybatis流式查询
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/15/%E5%AE%9E%E7%8E%B0%20MyBatis%20%E6%B5%81%E5%BC%8F%E6%9F%A5%E8%AF%A2%E7%9A%84%E6%96%B9%E6%B3%95/" class="archive-article-date">
+
+        
+        <a href="/2021/02/15/%E5%AE%9E%E7%8E%B0%20MyBatis%20%E6%B5%81%E5%BC%8F%E6%9F%A5%E8%AF%A2%E7%9A%84%E6%96%B9%E6%B3%95/" class="archive-article-date">
   	<time datetime="2021-02-15T05:54:39.958Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-15</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/15/%E5%AE%9E%E7%8E%B0%20MyBatis%20%E6%B5%81%E5%BC%8F%E6%9F%A5%E8%AF%A2%E7%9A%84%E6%96%B9%E6%B3%95/">mybatis流式查询</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="mybatis流式查询"><a href="#mybatis流式查询" class="headerlink" title="mybatis流式查询"></a>mybatis流式查询</h1><p>基本概念<br>流式查询指的是查询成功后不是返回一个集合而是返回一个迭代器，应用每次从迭代器取一条查询结果。流式查询的好处是能够降低内存使用。</p>
+<p>如果没有流式查询，我们想要从数据库取 1000 万条记录而又没有足够的内存时，就不得不分页查询，而分页查询效率取决于表设计，如果设计的不好，就无法执行高效的分页查询。因此流式查询是一个数据库访问框架必须具备的功能。</p>
+<p>流式查询的过程当中，数据库连接是保持打开状态的，因此要注意的是：执行一个流式查询后，数据库访问框架就不负责关闭数据库连接了，需要应用在取完数据后自己关闭。</p>
+<p>MyBatis 流式查询接口<br>MyBatis 提供了一个叫 org.apache.ibatis.cursor.Cursor 的接口类用于流式查询，这个接口继承了 java.io.Closeable 和 java.lang.Iterable 接口，由此可知：</p>
+<p>1、Cursor 是可关闭的；<br>2、Cursor 是可遍历的。<br>除此之外，Cursor 还提供了三个方法：</p>
+<p>1、isOpen()：用于在取数据之前判断 Cursor 对象是否是打开状态。只有当打开时 Cursor 才能取数据；</p>
+<p>2、isConsumed()：用于判断查询结果是否全部取完。</p>
+<p>3、getCurrentIndex()：返回已经获取了多少条数据</p>
+<p>因为 Cursor 实现了迭代器接口，因此在实际使用当中，从 Cursor 取数据非常简单：</p>
+<p>cursor.forEach(rowObject -&gt; {…});<br>但构建 Cursor 的过程不简单<br>我们举个实际例子。下面是一个 Mapper 类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">FooMapper</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Select(&quot;select * from foo limit #&#123;limit&#125;&quot;)</span></span><br><span class="line">    <span class="function">Cursor&lt;Foo&gt; <span class="title">scan</span><span class="params">(<span class="meta">@Param(&quot;limit&quot;)</span> <span class="keyword">int</span> limit)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>方法 scan() 是一个非常简单的查询。通过指定 Mapper 方法的返回值为 Cursor 类型，MyBatis 就知道这个查询方法一个流式查询。</p>
+<p>然后我们再写一个 SpringMVC Controller 方法来调用 Mapper（无关的代码已经省略）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;foo/scan/0/&#123;limit&#125;&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scanFoo0</span><span class="params">(<span class="meta">@PathVariable(&quot;limit&quot;)</span> <span class="keyword">int</span> limit)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> (Cursor&lt;Foo&gt; cursor = fooMapper.scan(limit)) &#123; </span><br><span class="line">        cursor.forEach(foo -&gt; &#123;&#125;);                     </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码中，fooMapper 是 @Autowired 进来的。注释 1 处调用 scan 方法，得到 Cursor 对象并保证它能最后关闭；2 处则是从 cursor 中取数据。</p>
+<p>上面的代码看上去没什么问题，但是执行 scanFoo0() 时会报错：</p>
+<p>java.lang.IllegalStateException: A Cursor is already closed.<br>这是因为我们前面说了在取数据的过程中需要保持数据库连接，而 Mapper 方法通常在执行完后连接就关闭了，因此 Cusor 也一并关闭了。</p>
+<p>所以，解决这个问题的思路不复杂，保持数据库连接打开即可。我们至少有三种方案可选。</p>
+<p>方案一：SqlSessionFactory<br>我们可以用 SqlSessionFactory 来手工打开数据库连接，将 Controller 方法修改如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;foo/scan/1/&#123;limit&#125;&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scanFoo1</span><span class="params">(<span class="meta">@PathVariable(&quot;limit&quot;)</span> <span class="keyword">int</span> limit)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> (</span><br><span class="line">        SqlSession sqlSession = sqlSessionFactory.openSession(); </span><br><span class="line">        Cursor&lt;Foo&gt; cursor =</span><br><span class="line">              sqlSession.getMapper(FooMapper.class).scan(limit)  </span><br><span class="line">    ) &#123;</span><br><span class="line">        cursor.forEach(foo -&gt; &#123; &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码中，1 处我们开启了一个 SqlSession （实际上也代表了一个数据库连接），并保证它最后能关闭；2 处我们使用 SqlSession 来获得 Mapper 对象。这样才能保证得到的 Cursor 对象是打开状态的。</p>
+<p>方案二：TransactionTemplate<br>在 Spring 中，我们可以用 TransactionTemplate 来执行一个数据库事务，这个过程中数据库连接同样是打开的。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;foo/scan/2/&#123;limit&#125;&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scanFoo2</span><span class="params">(<span class="meta">@PathVariable(&quot;limit&quot;)</span> <span class="keyword">int</span> limit)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    TransactionTemplate transactionTemplate =</span><br><span class="line">            <span class="keyword">new</span> TransactionTemplate(transactionManager); </span><br><span class="line"> </span><br><span class="line">    transactionTemplate.execute(status -&gt; &#123;              </span><br><span class="line">        <span class="keyword">try</span> (Cursor&lt;Foo&gt; cursor = fooMapper.scan(limit)) &#123;</span><br><span class="line">            cursor.forEach(foo -&gt; &#123; &#125;);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码中，1 处我们创建了一个 TransactionTemplate 对象（此处 transactionManager 是怎么来的不用多解释，本文假设读者对 Spring 数据库事务的使用比较熟悉了），2 处执行数据库事务，而数据库事务的内容则是调用 Mapper 对象的流式查询。注意这里的 Mapper 对象无需通过 SqlSession 创建。</p>
+<p>方案三：@Transactional 注解<br>这个本质上和方案二一样，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;foo/scan/3/&#123;limit&#125;&quot;)</span></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scanFoo3</span><span class="params">(<span class="meta">@PathVariable(&quot;limit&quot;)</span> <span class="keyword">int</span> limit)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> (Cursor&lt;Foo&gt; cursor = fooMapper.scan(limit)) &#123;</span><br><span class="line">        cursor.forEach(foo -&gt; &#123; &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它仅仅是在原来方法上面加了个 @Transactional 注解。这个方案看上去最简洁，但请注意 Spring 框架当中注解使用的坑：只在外部调用时生效。在当前类中调用这个方法，依旧会报错。</p>
+<p>以上是三种实现 MyBatis 流式查询的方法。</p>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/02/15/%E5%AE%9E%E7%8E%B0%20MyBatis%20%E6%B5%81%E5%BC%8F%E6%9F%A5%E8%AF%A2%E7%9A%84%E6%96%B9%E6%B3%95/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/14/session%E6%9C%BA%E5%88%B6/" class="archive-article-date">
-  	<time datetime="2021-02-14T03:04:08.305Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-14</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/02/14/session%E6%9C%BA%E5%88%B6/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">cookie与session的区别大家一定要知道</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/14/session%E6%9C%BA%E5%88%B6/">cookie与session的区别大家一定要知道</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/13/%E4%BB%8A%E5%A4%A9%E7%9C%8B%E5%88%B0%E4%B8%80%E9%81%93%E6%8C%BA%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E9%9D%A2%E8%AF%95%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2021-02-13T15:27:57.260Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/13/%E4%BB%8A%E5%A4%A9%E7%9C%8B%E5%88%B0%E4%B8%80%E9%81%93%E6%8C%BA%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E9%9D%A2%E8%AF%95%E9%A2%98/">cv工程师应该了解这个</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/12/GC%E9%97%AE%E9%A2%98%E6%8E%A2%E8%AE%A8/" class="archive-article-date">
-  	<time datetime="2021-02-12T03:00:24.737Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/12/GC%E9%97%AE%E9%A2%98%E6%8E%A2%E8%AE%A8/">大年初一GC清理垃圾</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
+  <div id="gitalk-container" style="padding: 0px 30px 0px 30px;"></div> 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/11/%E4%B8%BA%E4%B9%8B%E7%A5%9D%E5%A4%A7%E5%AE%B6%E6%96%B0%E5%B9%B4%E5%BF%AB%E4%B9%90/" class="archive-article-date">
-  	<time datetime="2021-02-11T12:49:47.539Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/11/%E4%B8%BA%E4%B9%8B%E7%A5%9D%E5%A4%A7%E5%AE%B6%E6%96%B0%E5%B9%B4%E5%BF%AB%E4%B9%90/">转账为之祝大家新年快乐</a>
-    </h1>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+
+if(true){
+	var gitalk = new Gitalk({
+  	clientID: 'cfddc77ae887330d8ee1',
+  	clientSecret: '92b203d0a5537b91fa82e3b67c882d0c2bdd1743',
+  	repo: 'baijianruoliorz.github.io',
+  	owner: 'baijianruoliorz',
+  	admin: ['baijianruoliorz'],
+  	id: 'Mon Feb 15 2021 13:54:39 GMT+0800',
+  	distractionFreeMode: 'true'
+})
+gitalk.render('gitalk-container') 
+}
+</script>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/10/%E5%BF%AB%E9%80%9F%E7%90%86%E8%A7%A3%E8%84%8F%E8%AF%BB%E3%80%81%E4%B8%8D%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB%E3%80%81%E5%B9%BB%E8%AF%BB%E5%92%8CMVCC/" class="archive-article-date">
-  	<time datetime="2021-02-10T11:31:06.531Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/10/%E5%BF%AB%E9%80%9F%E7%90%86%E8%A7%A3%E8%84%8F%E8%AF%BB%E3%80%81%E4%B8%8D%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB%E3%80%81%E5%B9%BB%E8%AF%BB%E5%92%8CMVCC/">快速理解脏读、不可重复读、幻读和MVCC</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/09/%E5%89%8D%E8%A8%80/" class="archive-article-date">
-  	<time datetime="2021-02-09T14:52:43.771Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/09/%E5%89%8D%E8%A8%80/">省略的IO还是得谈谈</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/08/AQS%E6%98%AF%E4%BB%80%E4%B9%88/" class="archive-article-date">
-  	<time datetime="2021-02-08T12:05:15.188Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/08/AQS%E6%98%AF%E4%BB%80%E4%B9%88/">所以AQS是什么呢</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/07/JUC%E5%B7%A9%E5%9B%BA%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2021-02-07T07:09:15.557Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/07/JUC%E5%B7%A9%E5%9B%BA%E9%A2%98/">十道JUC</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/06/MyBatis-Plus%E4%B8%8D%E5%86%99%E4%BB%BB%E4%BD%95resultMap%E5%92%8CSQL%E6%89%A7%E8%A1%8C%E4%B8%80%E5%AF%B9%E4%B8%80%E3%80%81%E4%B8%80%E5%AF%B9%E5%A4%9A%E3%80%81%E5%A4%9A%E5%AF%B9%E5%A4%9A%E5%85%B3%E8%81%94%E6%9F%A5%E8%AF%A2/" class="archive-article-date">
-  	<time datetime="2021-02-06T15:45:37.450Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/06/MyBatis-Plus%E4%B8%8D%E5%86%99%E4%BB%BB%E4%BD%95resultMap%E5%92%8CSQL%E6%89%A7%E8%A1%8C%E4%B8%80%E5%AF%B9%E4%B8%80%E3%80%81%E4%B8%80%E5%AF%B9%E5%A4%9A%E3%80%81%E5%A4%9A%E5%AF%B9%E5%A4%9A%E5%85%B3%E8%81%94%E6%9F%A5%E8%AF%A2/">MybatisPlus-03</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2021/02/page/2/">2</a><a class="extend next" rel="next" href="/archives/2021/02/page/2/">Next &amp;raquo;</a>
-    </nav>
-  
 
 
           </div>
@@ -472,8 +385,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
