@@ -162,6 +162,186 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-MyBatis-Plus不写任何resultMap和SQL执行一对一、一对多、多对多关联查询" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/06/MyBatis-Plus%E4%B8%8D%E5%86%99%E4%BB%BB%E4%BD%95resultMap%E5%92%8CSQL%E6%89%A7%E8%A1%8C%E4%B8%80%E5%AF%B9%E4%B8%80%E3%80%81%E4%B8%80%E5%AF%B9%E5%A4%9A%E3%80%81%E5%A4%9A%E5%AF%B9%E5%A4%9A%E5%85%B3%E8%81%94%E6%9F%A5%E8%AF%A2/">MybatisPlus-03</a>
+    </h1>
+  
+
+        
+        <a href="/2021/02/06/MyBatis-Plus%E4%B8%8D%E5%86%99%E4%BB%BB%E4%BD%95resultMap%E5%92%8CSQL%E6%89%A7%E8%A1%8C%E4%B8%80%E5%AF%B9%E4%B8%80%E3%80%81%E4%B8%80%E5%AF%B9%E5%A4%9A%E3%80%81%E5%A4%9A%E5%AF%B9%E5%A4%9A%E5%85%B3%E8%81%94%E6%9F%A5%E8%AF%A2/" class="archive-article-date">
+  	<time datetime="2021-02-06T15:45:37.450Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MyBatis-Plus不写任何resultMap和SQL执行一对一、一对多、多对多关联查询"><a href="#MyBatis-Plus不写任何resultMap和SQL执行一对一、一对多、多对多关联查询" class="headerlink" title="MyBatis-Plus不写任何resultMap和SQL执行一对一、一对多、多对多关联查询"></a>MyBatis-Plus不写任何resultMap和SQL执行一对一、一对多、多对多关联查询</h1><p>对于一对一，一对多，多对一，多对多的关联查询，<strong>Mybatis-Plus</strong> 在处理时，需要编写关联查询方法及配置resultMap，并且书写SQL。</p>
+<p>为了简化这种操作，可以注解来简化。</p>
+<p>POM引用 ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;com.github.dreamyoung&lt;&#x2F;groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;mprelation&lt;&#x2F;artifactId&gt;</span><br><span class="line">     &lt;version&gt;0.0.3.2-RELEASE&lt;&#x2F;version&gt; </span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>注解工具使用优缺点：</strong></p>
+<p>优点：</p>
+<p>​    使用简单，通过在实体类上添加**@OneToOne** / <strong>@OneToMany</strong> / <strong>@ManyToOne</strong> / <strong>@ManyToMany</strong> 等注解即可。</p>
+<p>​    注解命名参考了Hibernate命名，如果使用过Hibernate则即刻可上手。</p>
+<p>​    1对1、1对多、多对1、多对多映射时，可以不再写SQL及XML配置文件，免去配置冗长的**<resultMap>**的麻烦。</p>
+<p>​    Service层及Mapper层不需要再添加 <strong>getLinkById</strong> 、 <strong>selectLinkById</strong>  之类的方法来关联映射</p>
+<p>​    重写过的<strong>ServiceImpl</strong>各种内置的查询方法都自动关联查询，非内置方法可以调用<strong>autoMapper</strong>相关方法进行自动或手动关联</p>
+<p>​    所有执行采用<strong>非join</strong>方式查询，同时解决关联处理的<strong>1+n</strong>问题</p>
+<p>缺点：</p>
+<p>​    目前只针对SqlSession/Mappe形式有效（ActiveRecord形式暂未涉及修改，也没有测试）</p>
+<p>​    非事务下， 1个连接（1个SqlSession）只执行一条SQL，而自动获取每个关联属性的sql都会创建1<del>2个SqlSession（并执行1</del>2条SQL)。如果需要使用非内置方法（即除ServiceImpl外的方法）,必须配置只读事务来减少SqlSession创建。</p>
+<p>​    如果有多个延迟加载的关联属性，类上可注解@AutoLazy(false)或没有标注该注解（默认），之后通过initialize方法在事务范围内的一个SqlSession中同时加载需要的多个延迟加载的属性。</p>
+<p>使用注意点：</p>
+<p>​    非<strong>ServiceImpl</strong>内置的业务查询，配置事务管理，减少SqlSession的创建。</p>
+<p>​    实体上可用注解@AutoLazy(true/false)来标注是否自动触发延迟加载，该注解只针对需要延迟的属性。</p>
+<p>​        ★ <strong>true</strong>或无值的话，则获取延迟的关联属性时自动关联。但每一个延迟属性的获取都消耗一个SqlSession。适合于只有一个延迟属性的情况。</p>
+<p>​        ★ false或者不标注该注解的话，需要手动通过initialize()方法对延迟的关联属性进行获取，否则不会自动关联获取，此时关联为空。适合于有多个延迟属性的情况。</p>
+<p>​    如果可以，不使用延迟加载（延迟加载的使用是在SqlSession关闭后执行的，需要重新创建SqlSession）。</p>
+<p>​    如果确实需要延迟加载，可使用<strong>ServiceImpl</strong> 或 <strong>AutoMapper</strong> 相关的<strong>initialize</strong>方法一次性加载所有需要的被延迟的属性(只需要创建额外的一个SqlSession，毕竟SqlSession之前已经关闭）</p>
+<p><strong>注解使用：</strong></p>
+<p> <strong>一对多(多对一) ：</strong></p>
+<p><strong>Company</strong>实体类中配置：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class Company &#123;</span><br><span class="line">    @TableId(value &#x3D; &quot;company_id&quot;)</span><br><span class="line">    private Long id;</span><br><span class="line">    private String name;</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F;一对多</span><br><span class="line">    @TableField(exist &#x3D; false)</span><br><span class="line">    @OneToMany &#x2F;&#x2F;一对多默认为延迟加载,即@Lazy&#x2F;@Lazy(true)&#x2F;或此时不标注</span><br><span class="line">    @JoinColumn(name&#x3D;&quot;company_id&quot;,referencedColumnName &#x3D; &quot;company_id&quot;)&#x2F;&#x2F;@TableId与一方相关属性中@TableField名称保持一致时@JoinColumn可省略</span><br><span class="line">    private Set&lt;Man&gt; employees;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p> <strong>Man</strong>实体类中配置：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class Man &#123;</span><br><span class="line"></span><br><span class="line">    @TableId(value &#x3D; &quot;man_id&quot;)</span><br><span class="line">    private Long id;</span><br><span class="line">    private String name;    &#x2F;&#x2F;多对一</span><br><span class="line">    @TableField(&quot;company_id&quot;)</span><br><span class="line">    private Long companyId;</span><br><span class="line">    </span><br><span class="line">    @TableField(exist &#x3D; false)</span><br><span class="line">    @ManyToOne &#x2F;&#x2F;多对一默认为立即加载，即@Lazy(false)或此时不标注</span><br><span class="line">    @JoinColumn(name &#x3D; &quot;company_id&quot;, referencedColumnName &#x3D; &quot;company_id&quot;) &#x2F;&#x2F;相关的@TableField与多方的@TableId名称一致时@JoinColumn可省略</span><br><span class="line">    private Company company;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p> 一对多（多对一）表结构： <strong>company</strong>: (<strong>compnay_id</strong>,  name)      <strong>man</strong>: (man_id,  name,  <strong>company_id</strong>)</p>
+<p><strong>一对一：</strong></p>
+<p><strong>Woman</strong>实体类配置：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class Woman &#123;</span><br><span class="line">    @TableId(value &#x3D; &quot;woman_id&quot;)</span><br><span class="line">    private Long id;</span><br><span class="line">    private String name;</span><br><span class="line">        &#x2F;&#x2F;一对一    @TableField(&quot;lao_gong_id&quot;)</span><br><span class="line">    private Long laoGongId;</span><br><span class="line">    </span><br><span class="line">    @TableField(exist &#x3D; false)</span><br><span class="line">    @OneToOne &#x2F;&#x2F;一对一默认为立即加载，即@Lazy(false)或此时不标注</span><br><span class="line">    @JoinColumn(name &#x3D; &quot;lao_gong_id&quot;, referencedColumnName &#x3D; &quot;man_id&quot;)    private Man laoGong;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><strong>Man</strong>实体类配置：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class Man &#123;</span><br><span class="line">    @TableId(value &#x3D; &quot;man_id&quot;)</span><br><span class="line">    private Long id;</span><br><span class="line">    private String name;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;一对一    @TableField(&quot;lao_po_id&quot;)</span><br><span class="line">    private Long laoPoId;</span><br><span class="line">    </span><br><span class="line">    @TableField(exist &#x3D; false)</span><br><span class="line">    @OneToOne</span><br><span class="line">    @JoinColumn(name &#x3D; &quot;lao_po_id&quot;, referencedColumnName &#x3D; &quot;woman_id&quot;)</span><br><span class="line">    private Woman laoPo;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p> 一对一表结构：（实际可以减少一方） <strong>woman</strong>: (woman_id, name,  <strong>lao_gong_id</strong>)      <strong>man</strong>: (man_id,  name,  <strong>lao_po_id</strong>)</p>
+<p><strong>多对多：</strong></p>
+<p><strong>Course</strong>实体类配置：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class Course &#123;</span><br><span class="line">    @TableId(value &#x3D; &quot;course_id&quot;)</span><br><span class="line">    private Long id;</span><br><span class="line">    private String name;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;多对多</span><br><span class="line">    @TableField(exist &#x3D; false)</span><br><span class="line">    @ManyToMany &#x2F;&#x2F;多对多默认为延迟加载，即@Lazy(true)或此时不标注</span><br><span class="line">    @JoinTable(targetMapper &#x3D; StudentCourseMapper.class) &#x2F;&#x2F;第三方命名为StudentCourseMapper或CourseStudentMapper时@JoinTable注解一般可省略</span><br><span class="line">    @JoinColumn(name &#x3D; &quot;course_id&quot;, referencedColumnName &#x3D; &quot;course_id&quot;)</span><br><span class="line">    @InverseJoinColumn(name &#x3D; &quot;child_id&quot;, referencedColumnName &#x3D; &quot;student_id&quot;)</span><br><span class="line">    private List&lt;Child&gt; students;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><strong>Child</strong>实体类配置：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class Child &#123;</span><br><span class="line">    @TableId(&quot;child_id&quot;)</span><br><span class="line">    private Long id;</span><br><span class="line">    private String name;     &#x2F;&#x2F;多对多</span><br><span class="line">    @TableField(exist &#x3D; false)</span><br><span class="line">    @ManyToMany</span><br><span class="line">    @JoinTable(targetMapper&#x3D;StudentCourseMapper.class)</span><br><span class="line">    @JoinColumn(name &#x3D; &quot;child_id&quot;, referencedColumnName &#x3D; &quot;student_id&quot;)</span><br><span class="line">    @InverseJoinColumn(name &#x3D; &quot;course_id&quot;, referencedColumnName &#x3D; &quot;course_id&quot;)    private List&lt;Course&gt; courses;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><strong>StudenCourse</strong>中间类（多对多必须要有，如果命名为StudentCourse或CourseStudent，则上边的@JoinTable可省略）：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class StudentCourse &#123;</span><br><span class="line">    &#x2F;&#x2F;可以有也可以无此ID</span><br><span class="line">    private Long id;</span><br><span class="line">    </span><br><span class="line">    @TableField(&quot;student_id&quot;)</span><br><span class="line">    private Long studentId;</span><br><span class="line">    </span><br><span class="line">    @TableField(&quot;course_id&quot;)</span><br><span class="line">    private Long courseId;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p> 多对多表结构：<strong>course</strong>: (course_id, name)     <strong>child</strong>: (child_id,  name)    <strong>student_course</strong>:(id,  <strong>student_id</strong>,  <strong>course_id</strong>)</p>
+<p><strong>mprelation 关联查询，使用过程：</strong>  </p>
+<p>\1.  POM中引入mprelation：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;com.github.dreamyoung&lt;&#x2F;groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;mprelation&lt;&#x2F;artifactId&gt;</span><br><span class="line">     &lt;version&gt;0.0.3.2-RELEASE&lt;&#x2F;version&gt; </span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+<p>配置 <strong><em>AutoMapper\</em></strong> （只要是扫描被注解的实体类）</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class AutoMapperConfig &#123;</span><br><span class="line">    @Bean</span><br><span class="line">    public AutoMapper autoMapper() &#123;</span><br><span class="line">        return new AutoMapper(new String[] &#123; &quot;demo.entity&quot;,&quot;demo.bean&quot; &#125;); &#x2F;&#x2F;配置实体类所在目录（可多个,暂时不支持通过符*号配置）</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>\2.  在实体类中配置注解（更多的注解配置见上边注解部分，这里只列出其中一个）</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">@AutoLazy  &#x2F;&#x2F;不需要手动触发加载延迟属性，当延迟属性被调用时自动创建Session进行获取。可见如果有多个延迟属性需要被使用时，会造成多次创建Session，此时可以标注为AutoLazy(false)或不标注，然后采用initialze方法手动一次性加载需要的属性</span><br><span class="line">public class Man &#123; </span><br><span class="line">    @TableId(value &#x3D; &quot;man_id&quot;)</span><br><span class="line">    private Long id;</span><br><span class="line">    private String name;</span><br><span class="line"></span><br><span class="line">    private Long laoPoId;</span><br><span class="line">    @TableField(exist &#x3D; false)</span><br><span class="line">    @OneToOne</span><br><span class="line">    @JoinColumn(name &#x3D; &quot;lao_po_id&quot;, referencedColumnName &#x3D; &quot;woman_id&quot;)</span><br><span class="line">    private Woman laoPo;</span><br><span class="line"></span><br><span class="line">    @TableField(&quot;company_id&quot;)</span><br><span class="line">    private Long companyId;</span><br><span class="line"></span><br><span class="line">    @TableField(exist &#x3D; false)</span><br><span class="line">    @ManyToOne</span><br><span class="line">    @JoinColumn(name &#x3D; &quot;company_id&quot;, referencedColumnName &#x3D; &quot;company_id&quot;)    private Company company;</span><br><span class="line"></span><br><span class="line">    @TableField(exist &#x3D; false)</span><br><span class="line">    @OneToMany</span><br><span class="line">    @JoinColumn(name &#x3D; &quot;man_id&quot;, referencedColumnName &#x3D; &quot;lao_han_id&quot;)    @Lazy(false)    private List&lt;Child&gt; waWa;</span><br><span class="line">    @TableField(exist &#x3D; false)</span><br><span class="line">    @OneToMany</span><br><span class="line">    @JoinColumn(name &#x3D; &quot;man_id&quot;, referencedColumnName &#x3D; &quot;man_id&quot;)</span><br><span class="line">    @Lazy(false)</span><br><span class="line">    private Set&lt;Tel&gt; tels;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>\3.  在Service层、Mapper层的使用，见下面：</p>
+<p><strong>以下是基于Mybatis-Plus官方示例修改而来的测试程序：</strong> </p>
+<p> 通过继承工具类重写过的<strong>IService / ServiceImpl</strong>  会自动执行关联映射, 无须再写gettLinkById之类的方法（可以使得各实现类没有任何方法）：</p>
+<p> mapper接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public interface ManMapper extends BaseMapper&lt;Man&gt; &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p> service接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public interface IManService extends IService&lt;Man&gt; &#123;&#125;  &#x2F;&#x2F; IService为重写过的同名接口</span><br></pre></td></tr></table></figure>
+<p> Service实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public class ManServiceImpl extends ServiceImpl&lt;ManMapper, Man&gt; implements IManService &#123;&#125;  &#x2F;&#x2F; ServiceImpl为重写过的同名接口</span><br></pre></td></tr></table></figure>
+
+
+<p>测试调用：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class ServiceTest &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    ManService manService;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void t_man_serviceImpl() &#123;</span><br><span class="line">        Man man &#x3D; manService.getById(1); &#x2F;&#x2F; 原Mybatis-Plus的ServiceImpl的各种查询，被重写过后，都可以自动关联,        System.out.println(man);        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>结果输出:</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Man(</span><br><span class="line">    id&#x3D;1, </span><br><span class="line">    name&#x3D;程序猿小明, </span><br><span class="line">    laoPoId&#x3D;1, </span><br><span class="line">    laoPo&#x3D;Woman(id&#x3D;1, name&#x3D;程序猿小明老婆, laoGongId&#x3D;1, laoGong&#x3D;null, waWa&#x3D;null), </span><br><span class="line">    companyId&#x3D;1, </span><br><span class="line">    company&#x3D;Company(id&#x3D;1, name&#x3D;百度, employees&#x3D;null), </span><br><span class="line">    waWa&#x3D;[ </span><br><span class="line">        Child(id&#x3D;1,name&#x3D;xxx1,lao_han_id&#x3D;null, laoHan&#x3D;null, lao_ma_id&#x3D;null, laoMa&#x3D;null, courses&#x3D;null), </span><br><span class="line">        Child(id&#x3D;2,name&#x3D;xxxx2, lao_han_id&#x3D;null, laoHan&#x3D;null, lao_ma_id&#x3D;null, laoMa&#x3D;null, courses&#x3D;null)  </span><br><span class="line">    ], </span><br><span class="line">    tels&#x3D;[</span><br><span class="line">        Tel(id&#x3D;1, tel&#x3D;139xxxxxx, manId&#x3D;1, laoHan&#x3D;null), </span><br><span class="line">        Tel(id&#x3D;4, tel&#x3D;159xxxxxx, manId&#x3D;1, laoHan&#x3D;null), </span><br><span class="line">        Tel(id&#x3D;2, tel&#x3D;137xxxxxx, manId&#x3D;1, laoHan&#x3D;null)</span><br><span class="line">    ]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>如需需要对其关联属性对象的关联属性进行自动加载，可以继续使用AutoMapper对象的mapperEntity、mapperEntityList、mapperEntitySet、mapperEntityPage来操作：</p>
+<p>比如想获取（填充）<strong>waWas</strong> 的关联，则：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List waWas&#x3D;man.getWaWas();</span><br><span class="line">autoMapper.mapperEntityList(waWas); </span><br></pre></td></tr></table></figure>
+
+
+<p>**AutoMapper类中的几个常用方法说明：<br>**</p>
+<p>​    mapperEntity(entity)                      可以对一个实体类，实现自动关联。</p>
+<p>​    mapperEntityList(entity_list)                可以对一个实体类List，实现自动关联。</p>
+<p>​    mapperEntitySet(entity_set)                可以对一个实体类Set，实现自动关联。</p>
+<p>​    mapperEntityCollection(entity_list_or_set)     可以对一个实体类Set或List，实现自动关联。</p>
+<p>​    mapperEntityPage(entity_page)             可以对一个实体类Page，实现自动关联。</p>
+<p>​    mapper(entity_entityListOrSet_entityPage)     统一上边的各种方法，直接对实体类，列表，分页都可以实现自动关联。</p>
+<pre><code>**initialize**(entity/entityList/entitySet/entityPage,  OneOrMoreLazyPropertyName **...**)          </code></pre>
+<p>​    可以对一个实体类/实体类List/实体类Set/实体类Page，在事务范围内，手动立即触发其各个被@Lazy(true)标注的关联属性。</p>
+<p>   该方法在重写过的ServiceImpl内也存在(供Controller层调用来加载延迟关联的属性）。</p>
+<p>​    </p>
+<p><strong>AutoMapper</strong>在重写过的<strong>ServiceImpl</strong>类中已经自动注入可用(名为<strong>autoMapper</strong>)，其它情况也可以手动注入：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class MPRTest2 &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    AutoMapper autoMapper;</span><br><span class="line"></span><br><span class="line">    @Resource</span><br><span class="line">    private ManMapper manMapper;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void t_man() &#123;</span><br><span class="line">        Man man &#x3D; manMapper.selectById(1L);</span><br><span class="line">        autoMapper.mapperEntity(man);</span><br><span class="line">        System.out.println(man);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p> <strong>最新版本POM：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;com.github.dreamyoung&lt;&#x2F;groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;mprelation&lt;&#x2F;artifactId&gt;</span><br><span class="line">     &lt;version&gt;0.0.3.2-RELEASE&lt;&#x2F;version&gt; </span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/02/06/MyBatis-Plus%E4%B8%8D%E5%86%99%E4%BB%BB%E4%BD%95resultMap%E5%92%8CSQL%E6%89%A7%E8%A1%8C%E4%B8%80%E5%AF%B9%E4%B8%80%E3%80%81%E4%B8%80%E5%AF%B9%E5%A4%9A%E3%80%81%E5%A4%9A%E5%AF%B9%E5%A4%9A%E5%85%B3%E8%81%94%E6%9F%A5%E8%AF%A2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
     <article id="post-结果映射" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1080,118 +1260,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2021/01/29/%E8%A1%A5%E5%AE%8C%E7%9A%84Java%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-过渡文章二" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/28/%E8%BF%87%E6%B8%A1%E6%96%87%E7%AB%A0%E4%BA%8C/">过渡文章二</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/28/%E8%BF%87%E6%B8%A1%E6%96%87%E7%AB%A0%E4%BA%8C/" class="archive-article-date">
-  	<time datetime="2021-01-28T15:34:12.352Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="过渡文章二"><a href="#过渡文章二" class="headerlink" title="过渡文章二"></a>过渡文章二</h1><h1 id="Java中的private、protected、public和default的区别"><a href="#Java中的private、protected、public和default的区别" class="headerlink" title="Java中的private、protected、public和default的区别"></a>Java中的private、protected、public和default的区别</h1><ul>
-<li>(1）对于public修饰符，它具有最大的访问权限，可以访问任何一个在CLASSPATH下的类、接口、异常等。它往往用于对外的情况，也就是对象或类对外的一种接口的形式。</li>
-<li>（2）对于protected修饰符，它主要的作用就是用来保护子类的。它的含义在于子类可以用它修饰的成员，其他的不可以，它相当于传递给子类的一种继承的东西。</li>
-<li>（3）对于default来说，有点的时候也成为friendly（友员），它是针对本包访问而设计的，任何处于本包下的类、接口、异常等，都可以相互访问，即使是父类没有用protected修饰的成员也可以。</li>
-<li>（4）对于private来说，它的访问权限仅限于类的内部，是一种封装的体现，例如，大多数的成员变量都是修饰符为private的，它们不希望被其他任何外部的类访问。</li>
-</ul>
-<p>具体可以用下图来总结:</p>
-<p><img src="https://edu-1014.oss-cn-beijing.aliyuncs.com/2021/image-20210128225137800.png"></p>
-<h1 id="MYSQL的主键与外键"><a href="#MYSQL的主键与外键" class="headerlink" title="MYSQL的主键与外键"></a>MYSQL的主键与外键</h1><p><strong>主键</strong>：<strong>表中经常有一个列或多列的组合，其值能唯一地标识表中的每一行</strong>这样的一列或多列称为表的主键，通过它可强制表的实体完整性。当创建或更改表时可通过定义 PRIMARY KEY 约束来创建主键。一个表只能有一个 PRIMARY KEY 约束，而且 PRIMARY KEY 约束中的列不能接受空值。由于 PRIMARY KEY 约束确保唯一数据，所以经常用来定义标识列。</p>
-<h2 id="外键"><a href="#外键" class="headerlink" title="外键"></a>外键</h2><p><strong>外键的定义</strong></p>
-<p>如果公共关键字在一个关系中是主关键字，那么这个公共关键字被称为另一个关系的外键。由此可见，外键表示了两个关系之间的相关联系。以另一个关系的外键作主关键字的表被称为主表，具有此外键的表被称为主表的从表。外键又称作外关键字。</p>
-<p>定义一个外键时，需要遵守下列规则：</p>
-<ul>
-<li>父表必须已经存在于数据库中，或者是当前正在创建的表。如果是后一种情况，则父表与子表是同一个表，这样的表称为自参照表，这种结构称为自参照完整性。</li>
-<li>必须为父表定义主键。</li>
-<li>主键不能包含空值，但允许在外键中出现空值。也就是说，只要外键的每个非空值出现在指定的主键中，这个外键的内容就是正确的。</li>
-<li>在父表的表名后面指定列名或列名的组合。这个列或列的组合必须是父表的主键或候选键。</li>
-<li>外键中列的数目必须和父表的主键中列的数目相同。</li>
-<li>外键中列的数据类型必须和父表主键中对应列的数据类型相同。</li>
-</ul>
-<p><strong>外键约束的作用：<br>阻止执行</strong></p>
-<ul>
-<li>从表插入新行，其外键值不是主表的主键值便阻止插入；</li>
-<li>从表修改外键值，新值不是主表的主键值便阻止修改；</li>
-<li>主表删除行，其主键值在从表里存在便阻止删除(要想删除，必须先删除从表的相关行)；</li>
-<li>主表修改主键值，旧值在从表里存在便阻止修改(要想修改，必须先删除从表的相关行)。</li>
-</ul>
-<h1 id="JAVA的反射"><a href="#JAVA的反射" class="headerlink" title="JAVA的反射"></a>JAVA的反射</h1><p>类对象概念： 所有的类，都存在一个<strong>类对象</strong>，这个类对象用于提供<strong>类本身</strong>的信息，比如有几种构造方法， 有多少属性，有哪些普通方法。</p>
-<p>之后的概念 可以看看下面这篇文章:</p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chanshuyi/p/head_first_of_reflection.html">java中的反射</a></p>
-<p>学习了反射 可以继续深入了解一下Java的注解</p>
-<p>无论从上古框架 Hibernate还是现在流行的SpringBoot SpringCloud 其功能的强大</p>
-<p>都离不开各种各样的注解</p>
-<p>但是今天可能说不完了 暂时陈列这一些…</p>
-<h1 id="Java传统注解"><a href="#Java传统注解" class="headerlink" title="Java传统注解"></a>Java传统注解</h1><p>@Override 用在方法上，表示这个方法重写了父类的方法，如toString()。<br>如果父类没有这个方法，那么就无法编译通过</p>
-<p>@Deprecated 表示这个方法已经过期，不建议开发者使用。(暗示在将来某个不确定的版本，就有可能会取消掉)</p>
-<p>比如你要觉得自己这个方法写的太菜了但是不想删掉 你可以<del>装模作样</del>认认真真的</p>
-<p>在那个方法上加上@Deprecated注解</p>
-<p>然后别人看到了 就会觉得:卧槽 这么专业!!! …  <del>然后开始膜拜你</del></p>
-<p>@SuppressWarnings</p>
-<p>@SuppressWarnings Suppress英文的意思是抑制的意思，这个注解的用处是忽略警告信息。</p>
-<p>比如大家使用集合的时候，有时候为了偷懒，会不写泛型，像这样：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List czrorz = <span class="keyword">new</span> ArrayList();</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>那么就会导致编译器出现警告，而加上</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SuppressWarnings(&#123; &quot;rawtypes&quot;, &quot;unused&quot; &#125;)</span></span><br></pre></td></tr></table></figure>
-<p>就对这些警告进行了<strong>抑制</strong>，即忽略掉这些警告信息。<br>@SuppressWarnings 有常见的值，分别对应如下意思<br>1.deprecation：使用了不赞成使用的类或方法时的警告(使用@Deprecated使得编译器产生的警告)；<br>2.unchecked：执行了未检查的转换时的警告，例如当使用集合时没有用泛型 (Generics) 来指定集合保存的类型; 关闭编译器警告<br>3.fallthrough：当 Switch 程序块直接通往下一种情况而没有 Break 时的警告;<br>4.path：在类路径、源文件路径等中有不存在的路径时的警告;<br>5.serial：当在可序列化的类上缺少 serialVersionUID 定义时的警告;<br>6.finally：任何 finally 子句不能正常完成时的警告;<br>7.rawtypes 泛型类型未指明<br>8.unused 引用定义了，但是没有被使用<br>9.all：关于以上所有情况的警告。</p>
-<p>END</p>
-<p>太困了 我要<del>看会B站再</del>睡觉</p>
-<p>明天再说叭~~</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/28/%E8%BF%87%E6%B8%A1%E6%96%87%E7%AB%A0%E4%BA%8C/">展开全文 >></a>
         </p>
       
 
