@@ -162,6 +162,129 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-这篇反射的文章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/18/%E8%BF%99%E7%AF%87%E5%8F%8D%E5%B0%84%E7%9A%84%E6%96%87%E7%AB%A0/">反射的加深理解</a>
+    </h1>
+  
+
+        
+        <a href="/2021/02/18/%E8%BF%99%E7%AF%87%E5%8F%8D%E5%B0%84%E7%9A%84%E6%96%87%E7%AB%A0/" class="archive-article-date">
+  	<time datetime="2021-02-18T15:31:21.314Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这篇反射的文章 </p>
+<p>可以加深对反射的理解</p>
+<p>有反射就有正射，直接new对象就叫正射，如下</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, String&gt; <span class="built_in">map</span> = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"><span class="built_in">map</span>.put(<span class="string">&quot;蔡徐鸡&quot;</span>,<span class="string">&quot;唱跳rap篮球&quot;</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>那反射是啥？我先不说反射是啥，概念啥的太虚幻我就不说了，把你绕蒙你这篇文章就白看了，直接举例吧</p>
+<p>接着看上面的正射，如果哪天你发现用LinkedHashMap效果更好，然后你噗呲噗呲修改代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, String&gt; <span class="built_in">map</span> = <span class="keyword">new</span> LinkedHashMap&lt;&gt;();</span><br><span class="line"><span class="built_in">map</span>.put(<span class="string">&quot;蔡徐鸡&quot;</span>,<span class="string">&quot;唱跳rap篮球&quot;</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>改完了编译运行没有bug，漂亮，老板可以上线了，噗呲噗呲打包上线；然而过了两天你发现用LinkedHashMap会有隐患，还是得改回去用HashMap，成年人的崩溃如此简单，但是聪明的你想到可以加个判断，根据传入的条件来决定用HashMap还是LinkedHashMap，于是…</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public Map&lt;String, String&gt; getMap(String param) &#123;</span><br><span class="line">    Map&lt;String, String&gt; <span class="built_in">map</span> = null;</span><br><span class="line">    <span class="keyword">if</span> (param.equals(<span class="string">&quot;HashMap&quot;</span>)) &#123;</span><br><span class="line">        <span class="built_in">map</span> = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (param.equals(<span class="string">&quot;LinkedHashMap&quot;</span>)) &#123;</span><br><span class="line">        <span class="built_in">map</span> = <span class="keyword">new</span> LinkedHashMap&lt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">map</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>大功告成，这么难的逻辑都被你实现了，你现在很膨胀，甚至内心隐隐觉得这破公司已经容不下你这尊大佛了</p>
+<p>但是某天老大看了你的代码说：小张啊，这里你得用TreeMap；你又要噗呲噗呲改代码，哦豁</p>
+<p>——————————————————正经的分割线——————————————————</p>
+<p>有没有一种办法可以让你不修改代码呢，of course、sure、必须~~滴</p>
+<p>这时候反射就派上用场了</p>
+<p><strong>概念：反射是Java的一种机制，让我们可以在运行时获取类的信息</strong></p>
+<p><strong>作用：通过反射，我们可以在程序运行时动态创建对象，还能获取到类的所有信息，比如它的属性、构造器、方法、注解等；</strong></p>
+<p>直接举例吧</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public Map&lt;String, String&gt; getMap(String className) &#123;</span><br><span class="line">    Class clazz = Class.forName(className);</span><br><span class="line">    Constructor constructor = clazz.getConstructor();</span><br><span class="line">    <span class="keyword">return</span> (Map&lt;String, String&gt;) constructor.newInstance();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这时候不管你需要什么Map，只要实现了Map接口，你都能通过getMap获得，只需要传入对应Map的全限定名，例如java.util.HashMap / java.util.LinkedHashMap</p>
+<p>懂了没，我问你懂了没，没懂的下面留言</p>
+<p>——————————————————不正经的分割线——————————————————</p>
+<p>java中反射的用法非常非常多，常见的有以下这几个：</p>
+<blockquote>
+<p>一、在运行时获取一个类的 Class 对象<br>二、在运行时构造一个类的实例化对象<br>三、在运行时获取一个类的所有信息：变量、方法、构造器、注解</p>
+</blockquote>
+<p><strong>一、获取class对象</strong><br>三种方法<br>1、类名.class：这种获取方式只有在编译前已经声明了该类的类型才能获取到 Class 对象</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;HashMap&gt; hashMap= HashMap.class;</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>2、实例.getClass()：通过实例化对象获取该实例的 Class 对象</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">        Map&lt;String, String&gt; hashMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        Class&lt;? extends Map&gt; hashMapClass = hashMap.getClass();</span><br><span class="line"><span class="number">12</span></span><br></pre></td></tr></table></figure>
+<p>3、Class.forName(“类的全限定名”)：通过类的全限定名获取该类的 Class 对象</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;?&gt; hashMap= Class.forName(<span class="string">&quot;java.util.HashMap&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>拿到 Class对象就可以对它为所欲为了：剥开它的皮（获取类信息）、指挥它做事（调用它的方法），看透它的一切（获取属性），总之它在你面前就没有隐私了，好羞羞，嘤~。</p>
+<p><strong>二、构造类的实例化对象</strong><br>通过反射构造一个类的实例方式有2种：<br>1、Class 对象调用newInstance()方法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;?&gt; hashMapClass = Class.forName(<span class="string">&quot;java.util.HashMap&quot;</span>);</span><br><span class="line">HashMap hashMapInstance = (HashMap) hashMapClass.newInstance();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>注意：即使 HashMap已经显式定义了构造方法，通过 newInstance() 创建的实例中，所有属性值都是对应类型的初始值，因为 newInstance() 构造实例会调用默认无参构造器。</p>
+<p>2、Constructor 构造器调用newInstance()方法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;?&gt; hashMapClass = Class.forName(<span class="string">&quot;java.util.HashMap&quot;</span>);</span><br><span class="line">Constructor&lt;?&gt; constructor = hashMapClass.getConstructor();</span><br><span class="line">constructor.setAccessible(<span class="literal">true</span>);</span><br><span class="line">HashMap newInstance = (HashMap) constructor.newInstance();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>通过 getConstructor(Object… paramTypes) 方法指定获取指定参数类型的 Constructor， Constructor 调用 newInstance(Object… paramValues) 时传入构造方法参数的值，同样可以构造一个实例，且内部属性已经被赋值。</p>
+<p>通过Class对象调用 newInstance() 会走默认无参构造方法，如果想通过显式构造方法构造实例，需要提前从Class中调用getConstructor()方法获取对应的构造器，通过构造器去实例化对象。</p>
+<p><strong>三、获取类的所有信息</strong><br><img src="https://img-blog.csdnimg.cn/20210202143749298.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMzNzA5NTgy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>1、获取类中的变量（Field）</p>
+<blockquote>
+<p>Field[] getFields()：获取类中所有被public修饰的所有变量 Field getField(String<br>name)：根据变量名获取类中的一个变量，该变量必须被public修饰 Field[]<br>getDeclaredFields()：获取类中所有的变量，但无法获取继承下来的变量 Field<br>getDeclaredField(String name)：根据姓名获取类中的某个变量，无法获取继承下来的变量</p>
+</blockquote>
+<p>2、获取类中的方法（Method）</p>
+<blockquote>
+<p>Method[] getMethods()：获取类中被public修饰的所有方法<br>Method getMethod(String name, Class…<?>
+paramTypes)：根据名字和参数类型获取对应方法，该方法必须被public修饰
+Method[] getDeclaredMethods()：获取所有方法，但无法获取继承下来的方法
+Method getDeclaredMethod(String name, Class…<?><br>paramTypes)：根据名字和参数类型获取对应方法，无法获取继承下来的方法</p>
+</blockquote>
+<p>3、获取类的构造器（Constructor）</p>
+<blockquote>
+<p>Constuctor[] getConstructors()：获取类中所有被public修饰的构造器 Constructor<br>getConstructor(Class…<?> paramTypes)：根据参数类型获取类中某个构造器，该构造器必须被public修饰
+Constructor[] getDeclaredConstructors()：获取类中所有构造器 Constructor
+getDeclaredConstructor(class…<?> paramTypes)：根据参数类型获取对应的构造器</p>
+</blockquote>
+<p><strong>反射的应用场景</strong></p>
+<blockquote>
+<p>1、Spring 实例化对象：当程序启动时，Spring 会读取配置文件applicationContext.xml并解析出里面所有的标签实例化到IOC容器中。<br>2、反射 + 工厂模式：通过反射消除工厂中的多个分支，如果需要生产新的类，无需关注工厂类，工厂类可以应对各种新增的类，反射可以使得程序更加健壮。<br>3、JDBC连接数据库：使用JDBC连接数据库时，指定连接数据库的驱动类时用到反射加载驱动类</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/02/18/%E8%BF%99%E7%AF%87%E5%8F%8D%E5%B0%84%E7%9A%84%E6%96%87%E7%AB%A0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
     <article id="post-布隆过滤器demo" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -994,78 +1117,9 @@
 
 
   
-    <article id="post-AQS是什么" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/08/AQS%E6%98%AF%E4%BB%80%E4%B9%88/">所以AQS是什么呢</a>
-    </h1>
-  
-
-        
-        <a href="/2021/02/08/AQS%E6%98%AF%E4%BB%80%E4%B9%88/" class="archive-article-date">
-  	<time datetime="2021-02-08T12:05:15.188Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>大家面试的时候经常被问到AQS是什么,想必大家一定有自己的理解AQS是什么,所以AQS是什么呢</p>
-<p>AQS是什么是怎么回事呢？AQS相信大家都很熟悉，<br>但是AQS是什么是怎么回事呢？下面就让小编带大家一起了解吧。<br>AQS是什么，其实就是AQS是什么了。 大家可能会感到很惊讶，AQS怎么会是什么呢？…<br>但事实就是这样，小编也感到非常惊讶。 那么这就是关于AQS是什么的事情了，</p>
-<p>大家有什么想法呢？欢迎在评论区告诉小编一起讨论哦</p>
-<p>AQS是什么:</p>
-<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1710145">毕竟我也不是很熟悉所以拿来一篇大佬的文章</a></p>
-<p>大家有个印象即可 面试之前背一背(</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/02/08/AQS%E6%98%AF%E4%BB%80%E4%B9%88/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
     </nav>
   
 
