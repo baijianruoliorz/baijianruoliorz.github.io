@@ -6,18 +6,29 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>推荐项目(试图灌水 | Blog-WIZZBEWINTERCAMP</title>
+  <title>第一次使用Git的配置 | Blog-WIZZBEWINTERCAMP</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="看情况再补充些Java知识的细节 下面是一个作业 大家可以先看看顺便做一做~ 当然 也可以直接小程序搜索 从心优选 体验一下&#x3D;&#x3D; 后端的写的接口目前小程序还没有实现完全 但是作为大家体验使用的平台 还算够用 但是不影响我们直接学习整个后端项目~ 冬令营的毕业项目:          END">
+  <meta name="description" content="这篇文章是我去年三四月的时候写的 主要教如果你是第一次使用Git如何在电脑上配置好~ git的规范提交 这边就以一个博客前端的项目介绍如何更好使用GIT 参考：廖雪峰大佬的GIT教学Git：第一步：我们需要先创建一个本地的版本库（其实也就是一个文件夹）。你可以直接右击新建文件夹，也可以右击打开Git bash命令行窗口通过命令来创建。现在用命令行在桌面新建一个TEST文件夹 123mkdir TE">
 <meta property="og:type" content="article">
-<meta property="og:title" content="推荐项目(试图灌水">
-<meta property="og:url" content="http://example.com/2021/02/02/END/index.html">
+<meta property="og:title" content="第一次使用Git的配置">
+<meta property="og:url" content="http://example.com/2021/02/19/git%E7%9A%84%E8%A7%84%E8%8C%83%E6%8F%90%E4%BA%A4/index.html">
 <meta property="og:site_name" content="Blog-WIZZBEWINTERCAMP">
-<meta property="og:description" content="看情况再补充些Java知识的细节 下面是一个作业 大家可以先看看顺便做一做~ 当然 也可以直接小程序搜索 从心优选 体验一下&#x3D;&#x3D; 后端的写的接口目前小程序还没有实现完全 但是作为大家体验使用的平台 还算够用 但是不影响我们直接学习整个后端项目~ 冬令营的毕业项目:          END">
+<meta property="og:description" content="这篇文章是我去年三四月的时候写的 主要教如果你是第一次使用Git如何在电脑上配置好~ git的规范提交 这边就以一个博客前端的项目介绍如何更好使用GIT 参考：廖雪峰大佬的GIT教学Git：第一步：我们需要先创建一个本地的版本库（其实也就是一个文件夹）。你可以直接右击新建文件夹，也可以右击打开Git bash命令行窗口通过命令来创建。现在用命令行在桌面新建一个TEST文件夹 123mkdir TE">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://github-readme-stats.vercel.app/api/pin/?username=baijianruoliorz&repo=gift">
-<meta property="article:published_time" content="2021-02-02T06:52:14.220Z">
-<meta property="article:modified_time" content="2021-02-02T07:00:19.654Z">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200410102622254.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200410102810215.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200410102938953.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTk2MTg0MQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020041010305965.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200410103352634.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200410103443538.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTk2MTg0MQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200410104050873.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTk2MTg0MQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200410104239836.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTk2MTg0MQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200410104613372.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020041010465936.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTk2MTg0MQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200410105027567.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTk2MTg0MQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200410105215326.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTk2MTg0MQ==,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2021-02-19T14:26:42.061Z">
+<meta property="article:modified_time" content="2021-02-19T14:29:16.827Z">
 <meta property="article:author" content="baijianruoliorz">
 <meta property="article:tag" content="Vue">
 <meta property="article:tag" content="github">
@@ -28,7 +39,7 @@
 <meta property="article:tag" content="Go">
 <meta property="article:tag" content="Grpc">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://github-readme-stats.vercel.app/api/pin/?username=baijianruoliorz&repo=gift">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200410102622254.png">
   
     <link rel="alternative" href="/atom.xml" title="Blog-WIZZBEWINTERCAMP" type="application/atom+xml">
   
@@ -164,34 +175,42 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-END" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-git的规范提交" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      推荐项目(试图灌水
+      第一次使用Git的配置
     </h1>
   
 
         
-        <a href="/2021/02/02/END/" class="archive-article-date">
-  	<time datetime="2021-02-02T06:52:14.220Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-02</time>
+        <a href="/2021/02/19/git%E7%9A%84%E8%A7%84%E8%8C%83%E6%8F%90%E4%BA%A4/" class="archive-article-date">
+  	<time datetime="2021-02-19T14:26:42.061Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>看情况再补充些Java知识的细节</p>
-<p>下面是一个作业 大家可以先看看顺便做一做~</p>
-<p>当然 也可以直接小程序搜索 从心优选 体验一下==</p>
-<p>后端的写的接口目前小程序还没有实现完全 但是作为大家体验使用的平台 还算够用</p>
-<p>但是不影响我们直接学习整个后端项目~</p>
-<p>冬令营的毕业项目:</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/baijianruoliorz/gift"><img src="https://github-readme-stats.vercel.app/api/pin/?username=baijianruoliorz&repo=gift" alt="ReadMe Card"></a>        </p>
-<h1 id="END"><a href="#END" class="headerlink" title="END"></a>END</h1>
+        <p>这篇文章是我去年三四月的时候写的</p>
+<p>主要教如果你是第一次使用Git如何在电脑上配置好~</p>
+<p>git的规范提交</p>
+<p>这边就以一个博客前端的项目介绍<br>如何更好使用GIT 参考：<a target="_blank" rel="noopener" href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/">廖雪峰大佬的GIT教学</a><br>Git：<br>第一步：我们需要先创建一个本地的版本库（其实也就是一个文件夹）。<br>你可以直接右击新建文件夹，也可以右击打开Git bash命令行窗口通过命令来创建。<br>现在用命令行在桌面新建一个TEST文件夹</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir TEST</span><br><span class="line">   注意是在GIT BASH 里面</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>再CD进去<br><img src="https://img-blog.csdnimg.cn/20200410102622254.png" alt="搜索"><br>第二步：通过命令git init把这个文件夹变成Git可管理的仓库<br><img src="https://img-blog.csdnimg.cn/20200410102810215.png" alt="在这里插入图片描述"><br><strong>这时你会发现TEST里面多了个.git文件夹，它是Git用来跟踪和管理版本库的。如果你看不到，是因为它默认是隐藏文件，那你就需要设置一下让隐藏文件可见。</strong><br><img src="https://img-blog.csdnimg.cn/20200410102938953.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTk2MTg0MQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>第三步：这时候你就可以把你的项目粘贴到这个本地Git仓库里面（粘贴后你可以通过git status来查看你当前的状态），然后通过git add把项目添加到仓库（或git add .把该目录下的所有文件添加到仓库，注意点是用空格隔开的）。在这个过程中你其实可以一直使用git status来查看你当前的状态。<br><img src="https://img-blog.csdnimg.cn/2020041010305965.png" alt="在这里插入图片描述"><br>这里提示你虽然把项目粘贴过来了，但还没有add到Git仓库上，然后我们通过git add .把刚才复制过来的项目全部添加到仓库上。<br><img src="https://img-blog.csdnimg.cn/20200410103352634.png" alt="在这里插入图片描述"><br>第四步：用git commit把项目提交到仓库。<br><img src="https://img-blog.csdnimg.cn/20200410103443538.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTk2MTg0MQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这个-m后面引号里面是本次提交的注释内容，这个可以不写，但最好写上，不然会报错，详情自行Google。 好了，我们本地Git仓库这边的工作做完了，下面就到了连接远程仓库（也就是连接Github）<br>由于本地Git仓库和Github仓库之间的传输是通过SSH加密的，所以连接时需要设置一下：<br>第五步：创建SSH KEY。先看一下你C盘用户目录下有没有.ssh目录，有的话看下里面有没有id_rsa和id_rsa.pub这两个文件，有就跳到下一步，没有就通过下面命令创建</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/.ssh  </span><br><span class="line">  配置全局的name和email，这里是的你github或者bitbucket的name和email</span><br><span class="line"><span class="number">1</span></span><br><span class="line">git config --global user.name <span class="string">&quot;yourname&quot;</span>  </span><br><span class="line">  </span><br><span class="line">git config --global user.email <span class="string">&quot;youremail@.com&quot;</span>  <span class="number">12</span></span><br></pre></td></tr></table></figure>
+<p>生成key<br>ssh-keygen -t rsa -C “<a href="mailto:&#x31;&#x30;&#57;&#x39;&#x34;&#54;&#50;&#48;&#x31;&#x31;&#64;&#113;&#x71;&#46;&#99;&#111;&#109;">&#x31;&#x30;&#57;&#x39;&#x34;&#54;&#50;&#48;&#x31;&#x31;&#64;&#113;&#x71;&#46;&#99;&#111;&#109;</a>”<br><strong>连续按三次回车</strong>，这里设置的密码就为空了，并且创建了key。<br>最后得到了两个文件：id_rsa和id_rsa.pub<br>注意这两个文件是在c盘uesr里面的 ，建议在这个位置直接搜索，反正我觉得不太好找呢！！！<br>第六步：<strong>登录Github</strong>,找到右上角的图标，打开点进里面的Settings，再选中里面的SSH and GPG KEYS，点击右上角的New SSH key，然后Title里面随便填，再把刚才id_rsa.pub里面的内容复制到Title下面的Key内容框里面，最后点击Add SSH key，这样就完成了SSH Key的加密。具体步骤也可看下面：<br><img src="https://img-blog.csdnimg.cn/20200410104050873.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTk2MTg0MQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>密钥就是刚才那个文件里面的，直接COPY即可<br>第七步：在Github上创建一个Git仓库。<br>你可以直接点New repository来创建，比如我创建了一个TEST的仓库<br><img src="https://img-blog.csdnimg.cn/20200410104239836.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTk2MTg0MQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>第八步：在Github上创建好Git仓库之后我们就可以和本地仓库进行关联了，根据创建好的Git仓库页面的提示，可以在本地TEST仓库的命令行输入：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add origin https:<span class="comment">//github.com/yourname/TEST.git</span></span><br></pre></td></tr></table></figure>
+<p>这个url就是这里~<br><img src="https://img-blog.csdnimg.cn/20200410104613372.png" alt="在这里插入图片描述"><br>第九步：关联好之后我们就可以把本地库的所有内容推送到远程仓库（也就是Github）上了，通过：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push -u origin master</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/2020041010465936.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTk2MTg0MQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>-u后面当然可以直接加你的uesrname,不过还是要输password 我两种都试了呢~<br>居然忘记截图了<br>由于新建的远程仓库是空的，所以要加上-u这个参数，等远程仓库里面有了内容之后，下次再从本地库上传内容的时候只需下面这样就可以了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin master</span><br></pre></td></tr></table></figure>
+<p>之后就是等待。。。<br><img src="https://img-blog.csdnimg.cn/20200410105027567.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTk2MTg0MQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>完成了呢~~<br><img src="https://img-blog.csdnimg.cn/20200410105215326.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTk2MTg0MQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+
       
 
       
@@ -270,7 +289,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/02/02/END/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/02/19/git%E7%9A%84%E8%A7%84%E8%8C%83%E6%8F%90%E4%BA%A4/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -284,18 +303,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2021/02/03/%E5%A4%B1%E8%B4%A5%E5%AD%A6%E8%A7%81%E4%B9%A0%E8%AF%AD%E5%BD%95/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          失败
-        
-      </div>
-    </a>
   
-  
-    <a href="/2021/02/01/@ResponseStatus%E6%B3%A8%E8%A7%A3/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">SpringBoot的开发细节总结-02</div>
+    <a href="/2021/02/19/%E4%B8%8D%E7%9F%A5%E4%B8%8D%E8%A7%89%E6%88%91%E4%BB%AC%E5%B7%B2%E7%BB%8F%E4%BB%8E%E9%9B%B6%E5%AD%A6%E4%B9%A0%E4%BA%86%E4%B8%80%E4%B8%AA%E5%A4%9A%E6%9C%88%E7%9A%84Java%E7%9F%A5%E8%AF%86%20%E5%AF%B9%E5%90%8E%E7%AB%AF%E4%B9%9F%E6%9C%89%E4%BA%86%E4%B8%80%E5%AE%9A%E7%9A%84%E4%BA%86%E8%A7%A3/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">END</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -342,7 +352,7 @@ if(true){
   	repo: 'baijianruoliorz.github.io',
   	owner: 'baijianruoliorz',
   	admin: ['baijianruoliorz'],
-  	id: 'Tue Feb 02 2021 14:52:14 GMT+0800',
+  	id: 'Fri Feb 19 2021 22:26:42 GMT+0800',
   	distractionFreeMode: 'true'
 })
 gitalk.render('gitalk-container') 
