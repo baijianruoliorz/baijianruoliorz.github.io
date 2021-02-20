@@ -162,6 +162,139 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Jsoup" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/30/Jsoup/">Jsoup-Json-MVC</a>
+    </h1>
+  
+
+        
+        <a href="/2021/01/30/Jsoup/" class="archive-article-date">
+  	<time datetime="2021-01-30T08:13:33.359Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Jsoup"><a href="#Jsoup" class="headerlink" title="Jsoup"></a>Jsoup</h1><p>Jsoup</p>
+<p>什么是xml</p>
+<p>xml 是<strong>可扩展标记语言</strong>的缩写： Extensible Markup Language。<br>举个例子就像下面这样：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">e1</span>&gt;</span> czr orz<span class="tag">&lt;/<span class="name">e1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>常见的 xml</p>
+<p>比如做 web 应用开发，需要配置 web.xml，就是个典型的 xml文件。<br>它里面就有这些元素： web-app, servlet, servlet-name, servlet-class 这些。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">web-app</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>HelloServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>HelloServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line">     </span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>HelloServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/hello<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>注：</strong> 什么是元素？ 像这样的格式就是一个元素 ： &lt;元素名称&gt; 元素内容 &lt;/元素名称&gt;。 比如： <servlet-name>HelloServlet</servlet-name> 就是 servlet-name 元素。</p>
+<p>什么是 html</p>
+<p><strong>html</strong> 是 <strong>HyperText Markup Language</strong>的缩写,<strong>超文本标记语言</strong>。<br>下面这段就是 一段 html。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello CZRORZ<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>html 可以简单看成是 xml 的一个子集。 html 用的都是一些预先定义的元素，如 <html>, <a>, <body>, <table> 。 而 xml 什么元素都可以自定义： 如 <a> , <b>, <aabb> 。</p>
+<p>既然 html 是 xml 的子集，那么解析起来就和 xml一样了，下面我们就来谈 xml的解析就可以了。</p>
+<p>首先还是需要直接在maven repo 里面找 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- https:&#x2F;&#x2F;mvnrepository.com&#x2F;artifact&#x2F;org.jsoup&#x2F;jsoup --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.jsoup&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;jsoup&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.13.1&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+
+
+<p>以下代码，就可以把 一段html：</p>
+<html><body><p>Hello HTML</p></body></html>
+
+
+
+
+<p>里的 p 元素的内容 Hello HTML 取出来了。</p>
+<p>\1. 把文本解析成 Document 对象， Document 对象就代表整个 xml 文档。</p>
+<p>Document doc = Jsoup.parse(html);</p>
+<p>\2. 获取所有的 p 元素。</p>
+<p>Elements as= doc.getElementsByTag(“p”);</p>
+<p>\3. 遍历 所有的 p 元素 （这里其实只有一个）， 打印其内容</p>
+<p>​    for (Element e : as) {</p>
+<p>​        System.out.println(e.text());</p>
+<p>​    }</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	String html = <span class="string">&quot;&lt;html&gt;&lt;body&gt;&lt;p&gt;Hello HTML&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;</span>;</span><br><span class="line">	Document doc = Jsoup.parse(html);</span><br><span class="line">	</span><br><span class="line">	Elements as= doc.getElementsByTag(<span class="string">&quot;p&quot;</span>);</span><br><span class="line">	<span class="keyword">for</span> (Element e : as) &#123;</span><br><span class="line">		System.out.println(e.text());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="Json"><a href="#Json" class="headerlink" title="Json"></a>Json</h1><p>开发中我们经常要传一些参数 这里json传参就占了很大一部分</p>
+<p>当然 有经验的开发者通常会选用query传参 这样可以让程序的易用性和可拓展性更</p>
+<p>加丰富 但是我们不能忘了初心 我们是后端er 所以json的了解可以不求甚解一些</p>
+<p>在这里 我们来了解一下Json的作用</p>
+<p>demo1:</p>
+<p>var gareen = {“name”:”czr”,”hp”:666};<br>这样就创建了一个JSON 对象<br>JSON对象由 <strong>名称/值对</strong>组成 名称和值之间用冒号:隔开<br>名称必须用<strong>双引号”</strong> 包含起来<br>值可以是任意javascript数据类型，字符串，布尔，数字 ，数组甚至是对象<br>不同的<strong>名称/值对</strong>之间用 逗号 <strong>,</strong> 隔开</p>
+<p>JSON数组</p>
+<p>通过方括号[] 创建JSON 数组</p>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/JSON"></a></p>
+<p>具体可以看看上面这篇文章 自备梯子</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h1 id="MVC设计模式"><a href="#MVC设计模式" class="headerlink" title="MVC设计模式"></a>MVC设计模式</h1><p>M 代表 模型（<strong>Model</strong>）<br>V 代表 视图（<strong>View</strong>）<br>C 代表 控制器（<strong>controller</strong>)</p>
+<p>具体看这篇文章</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/254e2478a4ca"></a></p>
+<p>今天能够了解这三个概念已经很不错了</p>
+<p>要多靠实践开发来掌握如何使用这些内容</p>
+<p>但是由于现在只有752字</p>
+<p>所以我决定还得加几道面试题(老私货达人了)</p>
+<p>1.面向对象的特征有哪些方面？</p>
+<p>封装<br>最常见的是把属性私有化封装在一个类里面，只能通过方法去访问<br>继承<br>子类继承父类，从而继承了父类的方法和属性<br>抽象<br>比如一个czr类，<strong>抽象</strong>出了name,age这些属性，使得开发过程中更加易于理解<br>多态<br>多态分操作符的多态和类的多态。 类的多态指父类引用指向子类对象，并且有继承，有重写。</p>
+<p>关于抽象 还可以具体举例:</p>
+<p>抽象类</p>
+<p>在类中声明一个方法，这个方法没有实现体，是一个“空”方法</p>
+<p>这样的方法就叫抽象方法，使用修饰符“abstract”</p>
+<p>当一个类有抽象方法的时候，该类必须被声明为抽象类</p>
+<p>当父类有抽象方法是 子类<strong>必须</strong>实现该方法</p>
+<p>抽象类和接口的区别</p>
+<p>区别1：<br>子类只能继承一个抽象类，不能继承多个<br>子类可以实现<strong>多个</strong>接口<br>区别2：<br>抽象类可以定义<br>public,protected,package,private<br>静态和非静态属性<br>final和非final属性<br>但是接口中声明的属性，只能是<br>public<br>静态<br>final的<br>即便没有显式的声明</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> charactor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AP</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> resistPhysic = <span class="number">100</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//resistMagic即便没有显式的声明为 public static final</span></span><br><span class="line">	<span class="comment">//但依然默认为public static final</span></span><br><span class="line">	<span class="keyword">int</span> resistMagic = <span class="number">0</span>; </span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">magicAttack</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一旦一个类被声明为抽象类，就不能够被直接实例化</p>
+<p>且抽象类可以没有抽象方法</p>
+<p>2.String是最基本的数据类型吗？</p>
+<p>String是类类型，不是基本类型。<br>基本类型 有八种<br>这八种基本类型分别是：<br>整型 （4种）<br>字符型 （1种）<br>浮点型 （2种）<br>布尔型（1种）</p>
+<p>3.Collection 和 Collections的区别。</p>
+<p>首先<strong>不要说成</strong>了一个是单数，一个是复数。。。<br>Collection是接口，是List和Set的父接口<br>Collentions是工具类，提供了排序，混淆等等很多实用方法</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/01/30/Jsoup/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
     <article id="post-日志与单元测试" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1608,84 +1741,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2021/01/22/Spring/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-咕咕鸟的糖果钟" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/21/%E5%92%95%E5%92%95%E9%B8%9F%E7%9A%84%E7%B3%96%E6%9E%9C%E9%92%9F/">咕咕鸟的糖果钟</a>
-    </h1>
-  
-
-        
-        <a href="/2021/01/21/%E5%92%95%E5%92%95%E9%B8%9F%E7%9A%84%E7%B3%96%E6%9E%9C%E9%92%9F/" class="archive-article-date">
-  	<time datetime="2021-01-21T15:36:01.484Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天已经很晚了 看到昨天的冬令营是关于网络编程的来留坑</p>
-<p>有点小沉思 那么接下来就是socket之类的内容了</p>
-<p>说不定还会给大家留一个做一个聊天室的作业</p>
-<p>后来觉得这部分内容可以交给有着优秀自学能力的大家</p>
-<p>所以一口气打算留<del>两</del>个作业<del>毫无逻辑的话语</del></p>
-<p>1.查询socket如何使用–&gt;如何建立连接,如何收发消息 这些API怎么使用</p>
-<p>2.<strong>了解</strong>一下如何设计多线程聊天</p>
-<p>单线程开发socket只能一个时间收消息 一个时间发消息</p>
-<p>为了实现同时收发消息 就需要使用多线程</p>
-<p>3.可以了解一下webSocket</p>
-<p>为了庆祝JavaSE部分终于<del>写完了    不排除突然加一些内容</del></p>
-<p>我决定</p>
-<p>咕咕</p>
-<p>明天开始SpringBoot.</p>
-<p><strong>更正::  JavaSe从今天起更正为JavaSE  后者更官方正式一些.</strong></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/21/%E5%92%95%E5%92%95%E9%B8%9F%E7%9A%84%E7%B3%96%E6%9E%9C%E9%92%9F/">展开全文 >></a>
         </p>
       
 
